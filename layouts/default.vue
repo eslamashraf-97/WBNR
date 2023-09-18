@@ -1,4 +1,5 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+</script>
 
 <template>
   <layouts-auth-navbar />
@@ -19,6 +20,11 @@
   <br />
   <br />
   <shared-cards-testimonial-card :user="{name: 'كريم حسن', title: 'صاحب  متجر: اسم متجر '}"/>
+  <br />
+  <br />
+  <br />
+  <shared-cards-category />
+  <br />
   <br />
   <br />
   <shared-cards-product />
