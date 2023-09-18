@@ -18,6 +18,12 @@
 
   <shared-buttons-secondary-button />
 
+  <br />
+  <br />
+  <shared-cards-testimonial-card :user="{name: 'كريم حسن', title: 'صاحب  متجر: اسم متجر '}"/>
+  <br />
+  <br />
+  <shared-cards-product />
   <slot />
 </template>
 

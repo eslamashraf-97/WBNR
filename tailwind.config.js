@@ -41,10 +41,14 @@ module.exports = {
       fontFamily: {
         Tajawal: [ "Tajawal", "sans-serif" ],
       },
-    },
-    borderRadius: {
-      'xs': '9px',
-      'sm': '13px',
+      boxShadow: {
+        'product': '0px 1px 3px 0px rgba(23, 102, 68, 0.03), 0px 10px 46px 0px rgba(23, 100, 67, 0.03)'
+      },
+      borderRadius: {
+        'xs': '9px',
+        'sm': '13px',
+        'md' : '16px'
+      }
     }
   },
   plugins: [],
