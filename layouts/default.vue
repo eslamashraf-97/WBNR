@@ -1,6 +1,4 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <layouts-auth-navbar />
@@ -31,6 +29,4 @@
   <slot />
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
