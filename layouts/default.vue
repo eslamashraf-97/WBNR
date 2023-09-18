@@ -33,6 +33,10 @@
   <br />
   <br />
   <br />
+  <shared-title title="وصل حديثا" url="/" />
+  <br />
+  <br />
+  <br />
   <layouts-main-footer />
   <slot />
 </template>
