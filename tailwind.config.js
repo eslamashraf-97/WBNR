@@ -10,7 +10,8 @@ const colors = {
     500: '#8F8F94',
     400: '#95969D',
     300: '#B1B1B5',
-    200: '#F9FAFA'
+    200: '#D8D8D8',
+    100: "#F9FAFA"
   }
 };
 module.exports = {
