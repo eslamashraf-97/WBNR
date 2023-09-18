@@ -30,3 +30,9 @@
 body {
   background-color: #F9FAFA;
 }
+
+input::placeholder {
+  font-size: 24px;
+  color: theme("colors.gray.200");
+  font-weight: 400;
+}
