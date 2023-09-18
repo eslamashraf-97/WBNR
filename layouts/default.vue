@@ -19,7 +19,9 @@
 
   <br />
   <br />
-  <shared-cards-testimonial-card :user="{name: 'كريم حسن', title: 'صاحب  متجر: اسم متجر '}"/>
+  <shared-cards-testimonial-card
+    :user="{ name: 'كريم حسن', title: 'صاحب  متجر: اسم متجر ' }"
+  />
   <br />
   <br />
   <br />
@@ -28,6 +30,12 @@
   <br />
   <br />
   <shared-cards-product />
+  <br />
+  <br />
+  <shared-cards-wallet />
+  <br />
+  <br />
+  <shared-cards-stats />
   <br />
   <br />
   <br />
