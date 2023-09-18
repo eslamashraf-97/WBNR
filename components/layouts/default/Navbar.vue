@@ -84,6 +84,21 @@
             </button>
           </template>
         </shared-menu>
+
+        <shared-menu
+          :items="[]"
+          :button-props="{
+            class:
+              'h-[57px] px-[32px] py-[6px] bg-primary-100 text-primary-300',
+          }"
+        >
+          <template #label>
+            <div class="flex items-center gap-[19px]">
+              <span>جميع الفئات</span>
+              <Icon name="iconamoon:arrow-down-2-duotone" />
+            </div>
+          </template>
+        </shared-menu>
       </div>
     </div>
   </div>
