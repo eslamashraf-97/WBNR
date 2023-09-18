@@ -24,6 +24,10 @@
   <br />
   <br />
   <shared-cards-product />
+  <br />
+  <br />
+  <br />
+  <layouts-main-footer />
   <slot />
 </template>
 
