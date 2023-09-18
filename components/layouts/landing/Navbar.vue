@@ -9,7 +9,9 @@ import MainButton from "~/components/shared/MainButton.vue";
       <img src="@/assets/images/logo.png" />
       <div class="flex gap-8 items-center">
         <nuxt-link class="text-primary-300 text-lg">إنشاء حساب جديد </nuxt-link>
-        <shared-buttons-secondary-button />
+        <shared-buttons-secondary-button>
+          إنشاء حساب
+        </shared-buttons-secondary-button>
       </div>
     </div>
   </div>
