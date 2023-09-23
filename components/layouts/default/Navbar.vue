@@ -46,13 +46,13 @@
           >الرئيسية</NuxtLink
         >
         <NuxtLink
-          to="/products"
+          to="/suggested-products"
           class="px-[36px] py-[6px] h-[57px] text-[24px] text-gray-500 font-semibold border-b border-b-transparent"
           >منتجات مرشحة لك</NuxtLink
         >
         <span class="h-[36px] w-[1px] bg-gray-200"></span>
         <NuxtLink
-          to="/admin-panel"
+          to="/dashboard"
           class="px-[36px] py-[6px] h-[57px] text-[24px] text-gray-500 font-semibold border-b border-b-transparent"
           >لوحة التحكم</NuxtLink
         >
