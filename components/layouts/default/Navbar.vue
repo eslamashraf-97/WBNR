@@ -38,7 +38,6 @@
         <shared-menu />
       </div>
     </div>
-
     <div class="container flex justify-between items-center">
       <nav class="flex items-center gap-[24px]">
         <NuxtLink

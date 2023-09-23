@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <div class="p-6	bg-white flex gap-8	items-center">
+    <div class="p-6	bg-white flex gap-8	items-center rounded-md">
       <img src="~/assets/images/computer.png">
       <p class="text-gray-500 text-xl">اكسسوارات كمبيوتر</p>
     </div>

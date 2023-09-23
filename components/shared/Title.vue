@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-between">
+  <div class="flex items-center justify-between mb-24">
     <h6 class="text-[30px] font-semibold text-gray-700">{{ title }}</h6>
     <NuxtLink
       v-if="url"

@@ -10,7 +10,7 @@ const colors = {
     500: "#8F8F94",
     400: "#95969D",
     300: "#B1B1B5",
-    200: "#D8D8D8",
+    200: "#D8D8DA",
     100: "#F9FAFA",
   },
   secondary: {
@@ -46,7 +46,7 @@ module.exports = {
         Tajawal: ["Tajawal", "sans-serif"],
       },
       boxShadow: {
-        product:
+        main:
           "0px 1px 3px 0px rgba(23, 102, 68, 0.03), 0px 10px 46px 0px rgba(23, 100, 67, 0.03)",
       },
       borderRadius: {
