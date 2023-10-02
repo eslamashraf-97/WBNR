@@ -6,8 +6,8 @@
   <div class="bg-primary">
     <shared-title title="لوحة التحكم"/>
     <div class="flex justify-start gap-36">
-      <div>filter</div>
-      <div>sss</div>
+      <div>ASIDE</div>
+     <nuxt-page />
     </div>
   </div>
 </template>

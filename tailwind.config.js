@@ -53,7 +53,11 @@ module.exports = {
         xs: "9px",
         sm: "13px",
         md: "16px",
+        lg: "1.5rem"
       },
+      listStyleType: {
+        square: 'square'
+      }
     },
   },
   plugins: [],
