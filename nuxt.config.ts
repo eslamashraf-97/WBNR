@@ -5,7 +5,7 @@ export default defineNuxtConfig({
     head: {
       title: "WBNR",
       htmlAttrs: {
-        dir: 'rtl',
+        dir: "rtl",
       },
     },
   },
@@ -16,5 +16,5 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-  modules: ["nuxt-icon"]
-})
+  modules: ["nuxt-icon", "nuxt-swiper"],
+});

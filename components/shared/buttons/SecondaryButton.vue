@@ -3,9 +3,9 @@ import LoaderButton from "~/components/shared/loders/LoaderButton.vue";
 defineProps({
   loading: {
     type: Boolean,
-    default: false
+    default: false,
   },
-  disabledClass :{
+  disabledClass: {
     type: String,
     default: "!bg-mutedColor",
   },
@@ -25,18 +25,18 @@ defineProps({
     type: Boolean,
     default: false,
   },
-})
+});
 </script>
 
 <template>
   <button
-      :class="[
+    :class="[
       'bg-primary-100 text-primary-300 rounded-xs w-[169px] h-[50px] font-normal text-lg',
-      disabled ? `${ disabledClass } cursor-not-allowed` : ''
+      disabled ? `${disabledClass} cursor-not-allowed` : '',
     ]"
-          :type="type"
-          :disabled="disabled"
-      v-bind="$attrs"
+    :type="type"
+    :disabled="disabled"
+    v-bind="$attrs"
   >
     <loader-button v-if="loading" />
     <slot v-else>
@@ -45,6 +45,4 @@ defineProps({
   </button>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

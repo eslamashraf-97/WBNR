@@ -8,13 +8,13 @@
         <div class="relative layout-navbar-search">
           <shared-form-input
             :input-props="{
-              type: 'text',
               placeholder: 'ما الذي تبحث عنه؟',
+              type: 'text',
               class: 'pe-[80px]',
             }"
           />
           <span
-            class="absolute top-0 left-0 bottom-0 rounded-tl-[11px] rounded-bl-[11px] bg-primary-100 text-primary-300 w-[75px] flex items-center justify-center border border-primary-100"
+            class="absolute top-0 left-0 bottom-0 rounded-tl-[11px] rounded-bl-[11px] bg-primary-100 text-primary-300 w-[75px] flex items-center justify-center border border-gray-200 border-s-0"
           >
             <icon name="system-uicons:search" class="text-4xl" />
           </span>
