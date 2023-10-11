@@ -164,19 +164,9 @@ const setThumbsSwiper = (swiper) => {
               class="flex flex-col justify-between rounded-lg overflow-hidden"
             >
               <img
-                src="~/assets/images/products/main-image.png"
-                class="w-32 h-32 object-cover"
-              />
-              <img
-                src="~/assets/images/products/main-image.png"
-                class="w-32 h-32 object-cover"
-              />
-              <img
-                src="~/assets/images/products/main-image.png"
-                class="w-32 h-32 object-cover"
-              />
-              <img
-                src="~/assets/images/products/main-image.png"
+                v-for="(productImage, index) in productData.images"
+                :alt="productImage.alt_image"
+                :src="productImage.url"
                 class="w-32 h-32 object-cover"
               />
             </div>
@@ -382,7 +372,7 @@ const setThumbsSwiper = (swiper) => {
                 <div class="relative w-[172px]">
                   <shared-form-input
                     type="text"
-                    class="w-[172px] h-[53px] bg-transparent text-xl"
+                    class="!w-[172px] h-[53px] bg-transparent text-xl"
                     v-model="productForm.price"
                     :disabled="true"
                   />
@@ -398,7 +388,7 @@ const setThumbsSwiper = (swiper) => {
                 </div>
               </div>
               <span
-                class="text-base text-gray-400 flex gap-[12px] mt-auto mb-4"
+                class="text-base text-gray-400 flex gap-[12px] mt-auto mb-3"
               >
                 <span>الربح من اجمالي السعر</span>
                 <span

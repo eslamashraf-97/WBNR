@@ -1,11 +1,11 @@
-<script setup lang="ts">
-  import LoaderButton from "~/components/shared/loders/LoaderButton.vue";
-  defineProps({
+<script setup>
+import LoaderButton from "~/components/shared/loders/LoaderButton.vue";
+defineProps({
   loading: {
     type: Boolean,
-    default: false
+    default: false,
   },
-  disabledClass :{
+  disabledClass: {
     type: String,
     default: "!bg-mutedColor",
   },
@@ -25,18 +25,18 @@
     type: Boolean,
     default: false,
   },
-})
+});
 </script>
 
 <template>
   <button
-      :class="[
-      'bg-primary-300 text-white rounded-sm min-w-[231px] min-h-[67px] font-semibold text-3xl',
-      disabled ? `${ disabledClass } cursor-not-allowed` : ''
+    :class="[
+      'bg-primary-300 text-white rounded-sm min-w-[12.5625rem] min-h-[4.1875rem] font-semibold text-3xl',
+      disabled ? `${disabledClass} cursor-not-allowed` : '',
     ]"
-          :type="type"
-          :disabled="disabled"
-          v-bind="$attrs"
+    :type="type"
+    :disabled="disabled"
+    v-bind="$attrs"
   >
     <loader-button v-if="loading" />
     <slot v-else>
@@ -45,6 +45,4 @@
   </button>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

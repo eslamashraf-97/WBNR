@@ -16,7 +16,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-7">
       <shared-cards-stats title="اجمالي المنتجات" value="546" />
       <shared-cards-stats title="اجمالي الأرباح" value="4,545" />
-      <shared-cards-stats title="اجمالي المنتجات" value="43" />
+      <shared-cards-stats title="طلبات ملغية" value="43" />
       <shared-cards-stats title="طلبات تحت التسليم" value="3645" />
       <shared-cards-stats title="طلبات معلقة" value="6536" />
       <shared-cards-stats title="منتجات مسلمة" value="4523" />

@@ -1,14 +1,13 @@
-<script setup lang="ts">
-
+<script setup>
+import ComputerImage from "@/assets/images/computer.png";
+defineProps(["details"]);
 </script>
 
 <template>
-    <div class="p-6	bg-white flex gap-8	items-center rounded-md">
-      <img src="~/assets/images/computer.png">
-      <p class="text-gray-500 text-xl">اكسسوارات كمبيوتر</p>
-    </div>
+  <div class="p-6 bg-white flex gap-8 items-center rounded-md">
+    <img :src="details?.image || ComputerImage" />
+    <p class="text-gray-500 text-xl" v-html="details.name"></p>
+  </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -7,7 +7,13 @@ export default defineNuxtRouteMiddleware((to, from) => {
 
   const inAuthPage = path.includes("auth");
 
+  const inLnadingPage = path === "/";
+
   const isAuthenticated = tokenCookies.value;
+
+  if (inLnadingPage) {
+    return;
+  }
 
   if (inAuthPage && isAuthenticated) {
     return navigateTo("/dashboard");

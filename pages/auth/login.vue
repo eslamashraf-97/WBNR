@@ -2,18 +2,22 @@
   <form @submit.prevent="handleSubmit">
     <social-media-login />
     <div class="my-16">
-      <shared-form-input
-        class="w-full mb-2 bg-transparent"
-        placeholder="البريد الالكترونى"
-        type="email"
-        v-model="form.user"
-      />
-      <shared-form-input
-        class="w-full mb-2 bg-transparent"
-        placeholder="كلمة المرور"
-        v-model="form.password"
-        type="password"
-      />
+      <div class="mb-7">
+        <shared-form-input
+          class="w-full bg-transparent"
+          placeholder="البريد الالكترونى"
+          type="email"
+          v-model="form.user"
+        />
+      </div>
+      <div>
+        <shared-form-input
+          class="w-full bg-transparent"
+          placeholder="كلمة المرور"
+          v-model="form.password"
+          type="password"
+        />
+      </div>
     </div>
     <div class="flex gap-4 items-center">
       <shared-buttons-primary-button

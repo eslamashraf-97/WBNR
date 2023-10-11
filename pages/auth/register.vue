@@ -2,50 +2,60 @@
   <form @submit.prevent="handleSubmit">
     <social-media-login />
     <div class="my-16">
-      <shared-form-input
-        class="w-full mb-2 bg-transparent"
-        placeholder="الاسم"
-        type="text"
-        v-model="form.name"
-      />
-      <div class="flex">
+      <div class="mb-7">
         <shared-form-input
-          class="w-full mb-2 bg-transparent"
+          class="w-full bg-transparent"
+          placeholder="الاسم"
+          type="text"
+          v-model="form.name"
+        />
+      </div>
+      <div class="flex mb-7 gap-4">
+        <shared-form-input
+          class="w-full bg-transparent max-w-[150px]"
           placeholder="كود الدولة"
           type="text"
           v-model="form.country_code"
         />
         <shared-form-input
-          class="w-full mb-2 bg-transparent"
+          class="w-full bg-transparent"
           placeholder="رقم التليفون"
           type="text"
           v-model="form.phone"
         />
       </div>
-      <shared-form-input
-        class="w-full mb-2 bg-transparent"
-        placeholder="العنوان"
-        type="text"
-        v-model="form.address"
-      />
-      <shared-form-input
-        class="w-full mb-2 bg-transparent"
-        placeholder="البريد الالكترونى"
-        type="email"
-        v-model="form.email"
-      />
-      <shared-form-input
-        class="w-full mb-2 bg-transparent"
-        placeholder="كلمة المرور"
-        type="password"
-        v-model="form.password"
-      />
-      <shared-form-input
-        class="w-full mb-2 bg-transparent"
-        placeholder="تأكيد كلمة المرور"
-        type="password"
-        v-model="form.confirm_password"
-      />
+      <div class="mb-7">
+        <shared-form-input
+          class="w-full bg-transparent"
+          placeholder="العنوان"
+          type="text"
+          v-model="form.address"
+        />
+      </div>
+      <div class="mb-7">
+        <shared-form-input
+          class="w-full bg-transparent"
+          placeholder="البريد الالكترونى"
+          type="email"
+          v-model="form.email"
+        />
+      </div>
+      <div class="mb-7">
+        <shared-form-input
+          class="w-full bg-transparent"
+          placeholder="كلمة المرور"
+          type="password"
+          v-model="form.password"
+        />
+      </div>
+      <div class="mb-7">
+        <shared-form-input
+          class="w-full bg-transparent"
+          placeholder="تأكيد كلمة المرور"
+          type="password"
+          v-model="form.confirm_password"
+        />
+      </div>
     </div>
     <div class="flex gap-4 items-center">
       <shared-buttons-primary-button
