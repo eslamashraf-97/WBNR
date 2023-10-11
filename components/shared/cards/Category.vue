@@ -6,7 +6,7 @@ defineProps(["details"]);
 <template>
   <div class="p-6 bg-white flex gap-8 items-center rounded-md">
     <img :src="details?.image || ComputerImage" />
-    <p class="text-gray-500 text-xl" v-html="details.name"></p>
+    <p class="text-gray-500 text-xl" v-html="details?.name"></p>
   </div>
 </template>
 
