@@ -7,6 +7,12 @@ export default defineNuxtConfig({
       htmlAttrs: {
         dir: "rtl",
       },
+      meta: [
+        {
+          "http-equiv": "Content-Security-Policy",
+          content: "upgrade-insecure-requests",
+        },
+      ],
     },
   },
   css: ["~/assets/styles/main.scss"],
