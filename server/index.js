@@ -21,3 +21,13 @@ export function api_products(params) {
     params,
   });
 }
+
+export const getSuggestedProductsUrl = "customer/products";
+
+export const getCateoriesUrl = "customer/product-category";
+
+export const getProductsMostSellUrl = "customer/products/most-ordered";
+
+export const getProductsUrl = "customer/products";
+
+export const getProductsNewArrivalsUrl = "customer/products/featured-products";

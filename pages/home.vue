@@ -1,34 +1,81 @@
-<script setup lang="ts">
+<script setup>
+import {
+  getCateoriesUrl,
+  getProductsMostSellUrl,
+  getProductsUrl,
+  getProductsNewArrivalsUrl,
+} from "@/server";
+// get categories
+const { data: categoriesData } = await useRequest({
+  url: getCateoriesUrl,
+});
 
+// get products new arrivals
+const { data: productsNewArrivals } = await useRequest({
+  url: getProductsNewArrivalsUrl,
+});
+
+// products most selles
+const { data: productsMostSell } = await useRequest({
+  url: getProductsMostSellUrl,
+});
+
+// products
+const { data: products } = await useRequest({
+  url: getProductsUrl,
+});
 </script>
 
 <template>
   <div class="bg-primary">
     <!-- category -->
-    <div class="grid grid-cols-3 gap-9 shadow-main mb-40">
-      <lazy-shared-cards-category v-for="(i, key) in 9" :key="key" />
+    <div
+      class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-9 mb-40"
+      v-if="categoriesData?.data && categoriesData.data.length"
+    >
+      <lazy-shared-cards-category
+        v-for="category in categoriesData.data"
+        :key="category.id"
+        :details="category"
+      />
     </div>
 
     <!-- new arrival -->
-    <shared-title title="وصل حديثا" url="/"/>
-    <div class="grid grid-cols-4 gap-9 shadow-main mb-40">
-      <lazy-shared-cards-product v-for="(i, key) in 4" :key="key"/>
+    <shared-title title="وصل حديثا" url="/suggested-products" />
+    <div class="mb-40">
+      <shared-product-swiper>
+        <swiper-slide
+          v-for="(product, key) in productsNewArrivals.data"
+          :key="key"
+        >
+          <lazy-shared-cards-product :details="product" />
+        </swiper-slide>
+      </shared-product-swiper>
     </div>
 
     <!-- more buy -->
-    <shared-title title="الأكثر مبيعا" url="/"/>
-    <div class="grid grid-cols-4 gap-9 shadow-main mb-40">
-      <lazy-shared-cards-product v-for="(i, key) in 4" :key="key"/>
+    <shared-title title="الأكثر مبيعا" url="/suggested-products" />
+    <div class="mb-40">
+      <shared-product-swiper>
+        <swiper-slide
+          v-for="(product, key) in productsMostSell.data"
+          :key="key"
+        >
+          <lazy-shared-cards-product :details="product" />
+        </swiper-slide>
+      </shared-product-swiper>
     </div>
 
     <!-- All Products -->
-    <shared-title title="كل المنتجات" url="/"/>
-    <div class="grid grid-cols-4 gap-9 shadow-main mb-40">
-      <lazy-shared-cards-product v-for="(i, key) in 4" :key="key"/>
+    <shared-title title="كل المنتجات" url="/suggested-products" />
+    <div class="">
+      <shared-product-swiper>
+        <swiper-slide v-for="(product, key) in products.data" :key="key">
+          <lazy-shared-cards-product :details="product" />
+        </swiper-slide>
+      </shared-product-swiper>
     </div>
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -1,29 +1,28 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+definePageMeta({
+  layout: "landing",
+});
+</script>
 
 <template>
   <div class="bg-primary">
+    <!-- landing section  -->
+    <landing-hero />
+
+    <!-- steps  -->
+    <landing-steps />
+
     <!-- category -->
-    <div class="grid grid-cols-3 gap-9 shadow-main mb-40">
-      <lazy-shared-cards-category v-for="(i, key) in 9" :key="key" />
-    </div>
+    <landing-categories />
 
-    <!-- new arrival -->
-    <shared-title title="وصل حديثا" url="/" />
-    <div class="grid grid-cols-4 gap-9 shadow-main mb-40">
-      <lazy-shared-cards-product v-for="(i, key) in 4" :key="key" />
-    </div>
+    <!-- features  -->
+    <landing-features />
 
-    <!-- more buy -->
-    <shared-title title="الأكثر مبيعا" url="/" />
-    <div class="grid grid-cols-4 gap-9 shadow-main mb-40">
-      <lazy-shared-cards-product v-for="(i, key) in 4" :key="key" />
-    </div>
+    <!-- app  -->
+    <landing-app />
 
-    <!-- All Products -->
-    <shared-title title="كل المنتجات" url="/" />
-    <div class="grid grid-cols-4 gap-9 shadow-main mb-40">
-      <lazy-shared-cards-product v-for="(i, key) in 4" :key="key" />
-    </div>
+    <!-- app  -->
+    <landing-subscribe />
   </div>
 </template>
 

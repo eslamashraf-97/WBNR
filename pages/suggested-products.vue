@@ -1,19 +1,20 @@
 <script setup>
-import { api_suggested_products } from "@/server";
+import { getSuggestedProductsUrl } from "@/server";
 
-const isLoading = ref(true);
+const route = useRoute();
 
-const productData = ref(null);
+const { data: productData, refresh } = await useRequest({
+  url: () => getSuggestedProductsUrl,
+  requetOptions: {
+    query: { page: route.query.page },
+    watch: [route.query],
+  },
+});
 
-(function getProducts() {
-  api_suggested_products()
-    .then((res) => {
-      productData.value = res.data.data;
-    })
-    .finally(() => {
-      isLoading.value = false;
-    });
-})();
+onBeforeRouteUpdate(() => {
+  console.log("hi");
+  refresh();
+});
 </script>
 
 <template>
@@ -27,18 +28,17 @@ const productData = ref(null);
       <template v-slot:left>تحديد</template>
     </shared-cards-filter>
 
-    <div v-if="isLoading"></div>
-
     <div
-      v-else-if="productData && productData.length"
       class="mt-24 grid lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-9 mb-40 grid-flow-row-dense"
     >
       <lazy-shared-cards-product
-        v-for="(product, key) in productData"
+        v-for="(product, key) in productData?.data"
         :key="key"
         :details="product"
       />
     </div>
+
+    <shared-pagination :meta="productData?.meta" />
   </div>
 </template>
 

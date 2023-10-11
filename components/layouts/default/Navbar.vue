@@ -41,7 +41,7 @@
     <div class="container flex justify-between items-center">
       <nav class="flex items-center gap-[24px]">
         <NuxtLink
-          to="/"
+          to="/home"
           class="px-[36px] py-[6px] h-[57px] text-[24px] text-gray-500 font-semibold border-b border-b-transparent"
           >الرئيسية</NuxtLink
         >

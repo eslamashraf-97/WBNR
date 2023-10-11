@@ -1,3 +1,5 @@
+const plugin = require("tailwindcss/plugin");
+
 const colors = {
   primary: {
     300: "#05BD6E",
@@ -57,7 +59,23 @@ module.exports = {
       listStyleType: {
         square: "square",
       },
+      lineHeight: {
+        normal: "2.813rem",
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ addBase }) {
+      addBase({
+        html: {
+          "@media (max-width: 1200px)": {
+            fontSize: "12px",
+          },
+          "@media (max-width: 991px)": {
+            fontSize: "10px",
+          },
+        },
+      });
+    }),
+  ],
 };

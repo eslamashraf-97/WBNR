@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import LoaderButton from "~/components/shared/loders/LoaderButton.vue";
 defineProps({
   loading: {
