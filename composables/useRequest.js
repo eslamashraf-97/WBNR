@@ -1,6 +1,6 @@
 export default async function ({ url, requetOptions = {} }) {
   const isServer = typeof window === "undefined";
-
+  console.log(isServer)
   const requestArgs = await useFetch(url, {
     // request
     onRequest({ request, options }) {
