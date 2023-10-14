@@ -2,7 +2,7 @@ import axios from "axios";
 
 import { toast } from "vue3-toastify";
 
-const baseURL = "http://85.31.238.244:3000/v1";
+const baseURL = "https://85.31.238.244:3000/v1";
 
 const isServer = typeof window === "undefined";
 
