@@ -27,7 +27,7 @@ export default async function ({ url, requetOptions = {} }) {
     onResponseError({ request, response, options }) {
       console.log("response error", response);
     },
-    baseURL: "http://85.31.238.244:3000/v1",
+    baseURL: "https://85.31.238.244:3000/v1",
     method: "get",
     ...requetOptions,
   });
