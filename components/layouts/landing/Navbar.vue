@@ -11,7 +11,7 @@ import MainButton from "~/components/shared/MainButton.vue";
           >إنشاء حساب جديد
         </nuxt-link>
         <shared-buttons-secondary-button @click="navigateTo('/auth/login')">
-          إنشاء حساب
+          تسحيل دخول
         </shared-buttons-secondary-button>
       </div>
     </div>

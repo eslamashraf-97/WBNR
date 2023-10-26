@@ -1,3 +1,43 @@
+<script setup>
+import { reactive, ref } from "vue";
+
+import SocialMediaLogin from "@/components/shared/SocialMediaLogin.vue";
+
+import { apiLoginUrl } from "@/server";
+
+const { setUserData } = useAuth();
+
+definePageMeta({
+  layout: "auth",
+});
+
+const isLoading = ref(false);
+
+const form = reactive({
+  user: "",
+  password: "",
+});
+
+const tokenCookies = useCookie("token");
+
+async function handleSubmit() {
+  isLoading.value = true;
+  await useRequest({
+    url: apiLoginUrl,
+    requetOptions: {
+      body: JSON.stringify(form),
+      method: "post",
+      onResponse: ({ response }) => {
+        const responseData = response._data;
+        setUserData(responseData.data.user, responseData.meta?.token);
+        navigateTo("/home");
+      },
+    },
+  });
+  isLoading.value = false;
+}
+</script>
+
 <template>
   <form @submit.prevent="handleSubmit">
     <social-media-login />
@@ -32,37 +72,5 @@
     </div>
   </form>
 </template>
-
-<script setup>
-import { reactive, ref } from "vue";
-
-import SocialMediaLogin from "@/components/shared/SocialMediaLogin.vue";
-import { api_login } from "@/server";
-
-definePageMeta({
-  layout: "auth",
-});
-
-const isLoading = ref(false);
-
-const form = reactive({
-  user: "",
-  password: "",
-});
-
-const tokenCookies = useCookie("token");
-
-function handleSubmit() {
-  isLoading.value = true;
-  api_login(form)
-    .then((res) => {
-      tokenCookies.value = res.data.meta?.token;
-      navigateTo("/dashboard");
-    })
-    .finally(() => {
-      isLoading.value = false;
-    });
-}
-</script>
 
 <style scoped></style>

@@ -21,7 +21,7 @@ const links = [
 
 <template>
   <aside
-    class="flex flex-col gap-5 w-[448px] py-9 px-16 bg-gray-100 border border-gray-200 rounded-sm dashboard-aside h-fit"
+    class="flex flex-col gap-5 w-[448px] py-9 px-16 bg-gray-100 border border-gray-200 rounded-sm dashboard-aside h-fit shadow-main"
   >
     <nuxt-link
       v-for="(link, index) in links"
@@ -36,11 +36,6 @@ const links = [
 </template>
 
 <style scoped>
-.dashboard-aside {
-  box-shadow: 0px 1px 3px 0px rgba(23, 102, 68, 0.03),
-    0px 10px 46px 0px rgba(23, 100, 67, 0.03);
-}
-
 .aside-link.router-link-exact-active {
   color: theme("colors.primary.300");
 }

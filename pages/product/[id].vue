@@ -1,277 +1,94 @@
 <script setup>
-import { api_single_product, api_products } from "@/server";
+import {
+  apiGetSingleProductUrl,
+  apiAddToCartUrl,
+  apiGetProductsUrl,
+} from "@/server";
 
-// // Import Swiper Vue.js components
-// import { Swiper, SwiperSlide } from "swiper/vue";
-
-// // Import Swiper styles
-// import "swiper/css";
-
-// import "swiper/css/free-mode";
-// import "swiper/css/navigation";
-// import "swiper/css/thumbs";
-
-// // import required modules
-// import { FreeMode, Navigation, Thumbs } from "swiper/modules";
+const { setCartLength, cartLength } = useCartLength();
 
 const route = useRoute();
 
-const isLoading = ref(true);
+const { fire } = useApi({
+  url: apiGetSingleProductUrl + "/" + route.params.id,
+});
 
-const productData = ref(null);
+const { data: productData } = await fire();
 
-const sliders = ref([
-  {
-    title: "asasas",
-    header: "assssssss",
-    description: "asasdasda",
-    image: "https://swiperjs.com/demos/images/nature-2.jpg",
+const { fire: fireGetByCategory } = useApi({
+  url: apiGetProductsUrl,
+  requestOptions: {
+    query: { category_id: productData.value?.data.category_id },
   },
-  {
-    title: "sdddddd",
-    header: "fffffffff",
-    description: "gggggg",
-    image: "https://swiperjs.com/demos/images/nature-3.jpg",
-  },
-]);
+});
 
-(function getProductData() {
-  console.log(route);
-  api_single_product(route.params.id)
-    .then((res) => {
-      productData.value = res.data.data;
-    })
-    .finally(() => {
-      isLoading.value = false;
-    });
-})();
+const { data: productDataByCategory } = await fireGetByCategory();
 
 const productForm = reactive({
   quantity: 1,
-  price: "",
+  price: productData.value?.data.price,
 });
 
-watch([productForm, productData], () => {
-  productForm.price = productForm.quantity * +productData.value?.price;
-});
+const isLoading = ref(false);
 
-const thumbsSwiper = ref(null);
+const addedToCartStatus = ref(false);
 
-const setThumbsSwiper = (swiper) => {
-  thumbsSwiper.value = swiper;
-};
+async function addToCart() {
+  isLoading.value = true;
+  const payload = {
+    product_id: productData.value?.data.id,
+    quantity: productForm.quantity, // must be 1 or more no 0,
+    final_price: productData.value?.data.price,
+  };
+  await useRequest({
+    url: apiAddToCartUrl,
+    requetOptions: {
+      body: JSON.stringify(payload),
+      method: "post",
+      onResponse: (response) => {
+        addedToCartStatus.value = true;
+        setCartLength(cartLength.value + productForm.quantity);
+      },
+    },
+  });
+  isLoading.value = false;
+}
+
+const commission = computed(
+  () =>
+    (productForm.price -
+      productData.value.data.price +
+      productData.value.data.minCommission) *
+    productForm.quantity,
+);
 </script>
 
 <template>
-  <!-- <swiper
-    :style="{
-      '--swiper-navigation-color': '#fff',
-      '--swiper-pagination-color': '#fff',
-    }"
-    :loop="true"
-    :spaceBetween="10"
-    :navigation="true"
-    :thumbs="{ swiper: thumbsSwiper.value }"
-    :modules="[SwiperNavigation, SwiperPagination, SwiperAutoplay, SwiperThumbs]"
-    class="mySwiper2"
-  >
-    <swiper-slide
-      ><img
-        src="https://swiperjs.com/demos/images/nature-1.jpg" /></swiper-slide
-    ><swiper-slide
-      ><img
-        src="https://swiperjs.com/demos/images/nature-2.jpg" /></swiper-slide
-    ><swiper-slide
-      ><img
-        src="https://swiperjs.com/demos/images/nature-3.jpg" /></swiper-slide
-    ><swiper-slide
-      ><img
-        src="https://swiperjs.com/demos/images/nature-4.jpg" /></swiper-slide
-    ><swiper-slide
-      ><img
-        src="https://swiperjs.com/demos/images/nature-5.jpg" /></swiper-slide
-    ><swiper-slide
-      ><img
-        src="https://swiperjs.com/demos/images/nature-6.jpg" /></swiper-slide
-    ><swiper-slide
-      ><img
-        src="https://swiperjs.com/demos/images/nature-7.jpg" /></swiper-slide
-    ><swiper-slide
-      ><img
-        src="https://swiperjs.com/demos/images/nature-8.jpg" /></swiper-slide
-    ><swiper-slide
-      ><img
-        src="https://swiperjs.com/demos/images/nature-9.jpg" /></swiper-slide
-    ><swiper-slide
-      ><img src="https://swiperjs.com/demos/images/nature-10.jpg"
-    /></swiper-slide>
-  </swiper>
-  <swiper
-    @swiper="setThumbsSwiper"
-    :loop="true"
-    :spaceBetween="10"
-    :slidesPerView="4"
-    :freeMode="true"
-    :watchSlidesProgress="true"
-    :modules="modules"
-    class="mySwiper"
-  >
-    <swiper-slide
-      ><img
-        src="https://swiperjs.com/demos/images/nature-1.jpg" /></swiper-slide
-    ><swiper-slide
-      ><img
-        src="https://swiperjs.com/demos/images/nature-2.jpg" /></swiper-slide
-    ><swiper-slide
-      ><img
-        src="https://swiperjs.com/demos/images/nature-3.jpg" /></swiper-slide
-    ><swiper-slide
-      ><img
-        src="https://swiperjs.com/demos/images/nature-4.jpg" /></swiper-slide
-    ><swiper-slide
-      ><img
-        src="https://swiperjs.com/demos/images/nature-5.jpg" /></swiper-slide
-    ><swiper-slide
-      ><img
-        src="https://swiperjs.com/demos/images/nature-6.jpg" /></swiper-slide
-    ><swiper-slide
-      ><img
-        src="https://swiperjs.com/demos/images/nature-7.jpg" /></swiper-slide
-    ><swiper-slide
-      ><img
-        src="https://swiperjs.com/demos/images/nature-8.jpg" /></swiper-slide
-    ><swiper-slide
-      ><img
-        src="https://swiperjs.com/demos/images/nature-9.jpg" /></swiper-slide
-    ><swiper-slide
-      ><img src="https://swiperjs.com/demos/images/nature-10.jpg"
-    /></swiper-slide>
-  </swiper> -->
   <div>
     <p class="text-gray-400 text-2xl mb-9">
       المنتجات / إلكترونيات/ اكسسوارات/ حوامل
     </p>
-    <template v-if="productData">
+    <template v-if="productData?.data">
       <div class="flex gap-16 mb-24">
         <!-- Gallery -->
         <div class="bg-white p-9 rounded-lg">
           <div class="gallery flex gap-2">
             <img
-              :src="productData.featured_image"
+              :src="productData.data.featured_image"
               class="w-[36rem] h-[36rem] object-cover"
             />
             <div
               class="flex flex-col justify-between rounded-lg overflow-hidden"
             >
               <img
-                v-for="(productImage, index) in productData.images"
+                v-for="(productImage, index) in productData.data.images"
                 :alt="productImage.alt_image"
                 :src="productImage.url"
-                class="w-32 h-32 object-cover"
+                class="w-32 h-32 object-cover cursor-pointer"
+                @click="productData.data.featured_image = productImage.url"
               />
             </div>
           </div>
-          <!-- <swiper
-            :spaceBetween="10"
-            :navigation="true"
-            :thumbs="{ swiper: thumbsSwiper }"
-            :modules="modules"
-            class="mySwiper2"
-          >
-            <swiper-slide
-              ><img
-                src="https://swiperjs.com/demos/images/nature-1.jpg" /></swiper-slide
-            ><swiper-slide
-              ><img
-                src="https://swiperjs.com/demos/images/nature-2.jpg" /></swiper-slide
-            ><swiper-slide
-              ><img
-                src="https://swiperjs.com/demos/images/nature-3.jpg" /></swiper-slide
-            ><swiper-slide
-              ><img
-                src="https://swiperjs.com/demos/images/nature-4.jpg" /></swiper-slide
-            ><swiper-slide
-              ><img
-                src="https://swiperjs.com/demos/images/nature-5.jpg" /></swiper-slide
-            ><swiper-slide
-              ><img
-                src="https://swiperjs.com/demos/images/nature-6.jpg" /></swiper-slide
-            ><swiper-slide
-              ><img
-                src="https://swiperjs.com/demos/images/nature-7.jpg" /></swiper-slide
-            ><swiper-slide
-              ><img
-                src="https://swiperjs.com/demos/images/nature-8.jpg" /></swiper-slide
-            ><swiper-slide
-              ><img
-                src="https://swiperjs.com/demos/images/nature-9.jpg" /></swiper-slide
-            ><swiper-slide
-              ><img src="https://swiperjs.com/demos/images/nature-10.jpg"
-            /></swiper-slide>
-          </swiper>
-          <swiper
-            @swiper="setThumbsSwiper"
-            :spaceBetween="10"
-            :slidesPerView="4"
-            :freeMode="true"
-            :watchSlidesProgress="true"
-            :modules="modules"
-            class="mySwiper"
-          >
-            <swiper-slide
-              ><img
-                src="https://swiperjs.com/demos/images/nature-1.jpg" /></swiper-slide
-            ><swiper-slide
-              ><img
-                src="https://swiperjs.com/demos/images/nature-2.jpg" /></swiper-slide
-            ><swiper-slide
-              ><img
-                src="https://swiperjs.com/demos/images/nature-3.jpg" /></swiper-slide
-            ><swiper-slide
-              ><img
-                src="https://swiperjs.com/demos/images/nature-4.jpg" /></swiper-slide
-            ><swiper-slide
-              ><img
-                src="https://swiperjs.com/demos/images/nature-5.jpg" /></swiper-slide
-            ><swiper-slide
-              ><img
-                src="https://swiperjs.com/demos/images/nature-6.jpg" /></swiper-slide
-            ><swiper-slide
-              ><img
-                src="https://swiperjs.com/demos/images/nature-7.jpg" /></swiper-slide
-            ><swiper-slide
-              ><img
-                src="https://swiperjs.com/demos/images/nature-8.jpg" /></swiper-slide
-            ><swiper-slide
-              ><img
-                src="https://swiperjs.com/demos/images/nature-9.jpg" /></swiper-slide
-            ><swiper-slide
-              ><img src="https://swiperjs.com/demos/images/nature-10.jpg"
-            /></swiper-slide>
-          </swiper> -->
-          <!-- <swiper
-            @swiper="setThumbsSwiper"
-            :spaceBetween="10"
-            :slides-per-view="3"
-            :freeMode="true"
-            :watchSlidesProgress="true"
-            :modules="[SwiperAutoplay, SwiperController]"
-          >
-            <swiper-slide>1</swiper-slide>
-            <swiper-slide>1</swiper-slide>
-            <swiper-slide>1</swiper-slide>
-            <swiper-slide>1</swiper-slide>
-            <swiper-slide
-              v-for="productImage in productData.images"
-              :key="productImage.id"
-            >
-              <img
-                :alt="productImage.alt_image"
-                :src="productImage.url"
-                class="w-32 h-32 object-cover"
-              />
-            </swiper-slide>
-          </swiper> -->
           <p class="text-primary-300 text-xl font-semibold mt-7">
             تحميل كل صور المنتج
             <span>
@@ -286,11 +103,11 @@ const setThumbsSwiper = (swiper) => {
           <div class="main-info">
             <p class="text-gray-700 text-2xl font-normal">اداء المنتج:</p>
             <h1 class="text-gray-800 text-5xl my-4">
-              {{ productData.title }}
+              {{ productData.data.title }}
             </h1>
             <p class="text-gray-400 text-2xl flex gap-3 items-center">
               <span>كود المنتج:</span>
-              <span>{{ productData.code }}</span>
+              <span>{{ productData.data.code }}</span>
             </p>
           </div>
 
@@ -300,7 +117,7 @@ const setThumbsSwiper = (swiper) => {
               <h6
                 class="mb-0 text-3xl text-gray-800 flex gap-[10px] items-center leading-[48px]"
               >
-                {{ productData.price }} <span>ج.م</span>
+                {{ productData.data.price }} <span>ج.م</span>
               </h6>
             </div>
 
@@ -313,7 +130,7 @@ const setThumbsSwiper = (swiper) => {
               <h6
                 class="mb-0 text-3xl text-gray-800 flex gap-[10px] items-center leading-[48px]"
               >
-                {{ productData.maxCommission }} <span>ج.م</span>
+                {{ productData.data.minCommission }} <span>ج.م</span>
               </h6>
             </div>
           </div>
@@ -325,7 +142,7 @@ const setThumbsSwiper = (swiper) => {
             <h6
               class="mb-0 text-3xl text-gray-800 flex gap-[10px] items-center leading-[48px]"
             >
-              {{ productData.orderCount }} <span>قطعة</span>
+              {{ productData.data.stock }} <span>قطعة</span>
             </h6>
           </div>
 
@@ -344,7 +161,7 @@ const setThumbsSwiper = (swiper) => {
                     v-model.number="productForm.quantity"
                   />
                   <div
-                    class="absolute top-[1px] left-[1px] h-full flex flex-col items-center bg-white rounded-[11px]"
+                    class="absolute top-[1px] left-[1px] bottom-[1px] flex flex-col items-center bg-white rounded-[11px]"
                   >
                     <button
                       type="button"
@@ -374,10 +191,9 @@ const setThumbsSwiper = (swiper) => {
                     type="text"
                     class="!w-[172px] h-[53px] bg-transparent text-xl"
                     v-model="productForm.price"
-                    :disabled="true"
                   />
                   <div
-                    class="absolute top-[1px] left-[1px] h-full flex flex-col bg-white rounded-[11px]"
+                    class="absolute top-[1px] left-[1px] bottom-[1px] flex flex-col bg-white rounded-[11px]"
                   >
                     <div
                       class="w-[57px] flex-1 border-s border-s-gray-200 flex items-center justify-center text-xl text-gray-300 font-bold"
@@ -393,7 +209,7 @@ const setThumbsSwiper = (swiper) => {
                 <span>الربح من اجمالي السعر</span>
                 <span
                   class="flex items-center gap-[10px] text-primary-300 text-xl"
-                  >455
+                  >{{ commission }}
                   <span>ج.م</span>
                 </span>
               </span>
@@ -403,11 +219,27 @@ const setThumbsSwiper = (swiper) => {
               <shared-buttons-primary-button
                 submit-title="اطلب الان"
                 class="w-[232px] h-[67px]"
+                @click="
+                  navigateTo(
+                    `/checkout-quick-order?product=${productData.data.id}&title=${productData.data.title}&price=${productData.data.price}&minCommission=${productData.data.minCommission}&commission=${commission}&qty=${productForm.quantity}&image=${productData.data.featured_image}`,
+                  )
+                "
               />
               <shared-buttons-secondary-button
                 class="w-[93px] h-[67px] flex items-center justify-center"
+                @click="addToCart"
+                :loading="isLoading"
+                v-if="!addedToCartStatus"
               >
                 <img src="@/assets/images/cart-icon.svg" />
+              </shared-buttons-secondary-button>
+              <shared-buttons-secondary-button
+                class="w-[232px h-[67px] flex items-center justify-center"
+                @click="navigateTo('/cart')"
+                v-else
+              >
+                اذهب الى العربة
+                <Icon name="iconamoon:arrow-left-2-duotone" class="text-2xl" />
               </shared-buttons-secondary-button>
             </div>
           </div>
@@ -419,16 +251,24 @@ const setThumbsSwiper = (swiper) => {
         <p class="text-gray-700 text-3xl font-normal mb-8">وصف المنتج</p>
         <div
           class="bg-white rounded-lg border p-9"
-          v-html="productData.description"
+          v-html="productData.data.description"
         ></div>
       </div>
-    </template>
 
-    <!-- All Products -->
-    <!-- <shared-title title="كل المنتجات" url="/" />
-    <div class="grid grid-cols-4 gap-9 shadow-main">
-      <lazy-shared-cards-product v-for="(i, key) in 4" :key="key" />
-    </div> -->
+      <shared-title
+        :title="productData.data.category?.name"
+        url="/suggested-products"
+      />
+
+      <shared-product-swiper>
+        <swiper-slide
+          v-for="(product, key) in productDataByCategory.data"
+          :key="key"
+        >
+          <lazy-shared-cards-product :details="product" />
+        </swiper-slide>
+      </shared-product-swiper>
+    </template>
   </div>
 </template>
 
