@@ -1,28 +1,28 @@
 <script setup>
 import {
-  getCateoriesUrl,
-  getProductsMostSellUrl,
-  getProductsUrl,
-  getProductsNewArrivalsUrl,
+  apiGetCateoriesUrl,
+  apiGetProductsMostSellUrl,
+  apiGetProductsUrl,
+  apiGetProductsNewArrivalsUrl,
 } from "@/server";
 // get categories
 const { data: categoriesData } = await useRequest({
-  url: getCateoriesUrl,
+  url: apiGetCateoriesUrl,
 });
 
 // get products new arrivals
 const { data: productsNewArrivals } = await useRequest({
-  url: getProductsNewArrivalsUrl,
+  url: apiGetProductsNewArrivalsUrl,
 });
 
 // products most selles
 const { data: productsMostSell } = await useRequest({
-  url: getProductsMostSellUrl,
+  url: apiGetProductsMostSellUrl,
 });
 
 // products
 const { data: products } = await useRequest({
-  url: getProductsUrl,
+  url: apiGetProductsUrl,
 });
 </script>
 

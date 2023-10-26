@@ -18,6 +18,14 @@ const colors = {
   secondary: {
     300: "#EEDC53",
   },
+  error: {
+    400: "#F85A40",
+  },
+  status: {
+    yellow400: "#EEDC53",
+    primary300: "#05BD6E",
+    error400: "#F85A40",
+  },
 };
 module.exports = {
   content: [

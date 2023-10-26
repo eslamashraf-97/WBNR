@@ -21,7 +21,7 @@
       leave-to-class="transform opacity-0 scale-95"
     >
       <MenuItems
-        class="absolute left-0 z-10 mt-2 w-[257px] border border-gray-200 rounded-[12px] px-[32px] py-[28px] bg-gray-100"
+        class="absolute left-0 z-10 mt-2 w-[257px] border border-gray-200 rounded-[12px] px-[32px] py-[28px] bg-gray-100 max-h-[303px] overflow-y-auto"
         v-bind="menuProps"
       >
         <div class="py-1">

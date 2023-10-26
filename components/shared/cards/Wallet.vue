@@ -1,5 +1,5 @@
 <script setup>
-defineProps(["title", "value", "flag", "expected"]);
+defineProps(["title", "value", "flag", "expected", "currency"]);
 </script>
 
 <template>
@@ -14,13 +14,13 @@ defineProps(["title", "value", "flag", "expected"]);
       <div>
         <h6 class="text-gray-400 text-[16px]">جاهز للسحب</h6>
         <h4 class="text-[24px] text-primary-300 font-semibold">
-          {{ value }} د.إ
+          {{ value }} {{ currency }}
         </h4>
       </div>
       <div>
         <h6 class="text-gray-400 text-[16px]">متوقع</h6>
         <h4 class="text-[24px] text-secondary-300 font-semibold">
-          {{ expected }} د.إ
+          {{ expected }} {{ currency }}
         </h4>
       </div>
     </div>

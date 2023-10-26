@@ -22,12 +22,51 @@ export function api_products(params) {
   });
 }
 
-export const getSuggestedProductsUrl = "customer/products";
+export const apiLoginUrl = "customer/login";
 
-export const getCateoriesUrl = "customer/product-category";
+export const apiRegisterUrl = "customer/signup";
 
-export const getProductsMostSellUrl = "customer/products/most-ordered";
+export const apiGetSuggestedProductsUrl = "customer/products";
 
-export const getProductsUrl = "customer/products";
+export const apiGetCateoriesUrl = "customer/product-category";
 
-export const getProductsNewArrivalsUrl = "customer/products/featured-products";
+export const apiGetProductsMostSellUrl = "customer/products/most-ordered";
+
+export const apiGetProductsUrl = "customer/products";
+
+export const apiGetProductsNewArrivalsUrl =
+  "customer/products/featured-products";
+
+export const apiGetSingleProductUrl = "customer/products";
+
+export const apiAddToCartUrl = "customer/cart";
+
+export const apiGetCartUrl = "customer/cart";
+
+export const apiGetCartLengthUrl = "customer/cart/length";
+
+export const apiGetCountriesUrl = "customer/countries";
+
+export const apiDeleteCartItem = "customer/cart/cart-item"; // /:id
+
+export const apiDeleteCart = "customer/cart"; // /:id
+
+export const apiGetGov = "customer/governorates"; // /:country_id
+
+export const apiPlaceOrderUrl = "customer/orders/place"; // :cart_id
+
+export const apiAddDestinationUrl = "customer/cart/apply-destination";
+
+export const apiGetSavedProductsUrl = "customer/favorite-products";
+
+export const apiGetOrdersUrl = "customer/orders"; // /:country_id
+
+export const apiGetCustomerStatsUrl = "customer/customer-statistic/my"; // :country_id
+
+export const apiGetMyWalletsUrl = "customer/wallet/my-wallets";
+
+export const apiGetWithdrawUrl = "customer/wallet/request/withdraw";
+
+export const apiCreateWithdrawUrl = "customer/wallet/request/withdraw"; // id
+
+export const apiPlaceQuickOrderUrl = "customer/orders/quick-order";

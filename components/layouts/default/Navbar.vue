@@ -1,3 +1,29 @@
+<script setup>
+import AvatarImage from "@/assets/images/avatar.svg";
+
+import LogoutImage from "@/assets/images/logout.svg";
+
+const { cartLength } = useCartLength();
+
+const { removeUserData, user } = useAuth();
+
+const userMenu = [
+  {
+    image: AvatarImage,
+    link: "/profile",
+    title: "اعدادات الحساب",
+  },
+  {
+    image: LogoutImage,
+    function: () => {
+      removeUserData();
+      window.location.reload();
+    },
+    title: "تسجيل الخروج",
+  },
+];
+</script>
+
 <template>
   <div class="bg-white py-8">
     <div
@@ -7,11 +33,9 @@
         <img src="@/assets/images/logo.png" />
         <div class="relative layout-navbar-search">
           <shared-form-input
-            :input-props="{
-              placeholder: 'ما الذي تبحث عنه؟',
-              type: 'text',
-              class: 'pe-[80px]',
-            }"
+            placeholder="ما الذي تبحث عنه؟"
+            type="text"
+            class="pe-[80px]"
           />
           <span
             class="absolute top-0 left-0 bottom-0 rounded-tl-[11px] rounded-bl-[11px] bg-primary-100 text-primary-300 w-[75px] flex items-center justify-center border border-gray-200 border-s-0"
@@ -23,19 +47,59 @@
       <div class="flex gap-8">
         <div class="flex items-center gap-9">
           <Icon name="pepicons-pencil:bell" class="text-gray-600 text-2xl" />
-          <span class="flex items-center gap-2 text-2xl">
+          <nuxt-link
+            to="/saved-products"
+            class="flex items-center gap-2 text-2xl"
+          >
             <span>0</span>
             <Icon name="fluent:bookmark-20-regular" class="text-gray-600" />
-          </span>
-          <span class="flex items-center gap-2 text-2xl">
-            <span>0</span>
+          </nuxt-link>
+          <nuxt-link to="/cart" class="flex items-center gap-2 text-2xl">
+            <span>{{ cartLength }}</span>
             <Icon
               name="solar:cart-large-minimalistic-linear"
               class="text-gray-600"
             />
-          </span>
+          </nuxt-link>
         </div>
-        <shared-menu />
+        <shared-menu
+          :items="userMenu"
+          :menu-props="{
+            class: '!min-w-0',
+          }"
+        >
+          <template #label>
+            <div class="flex items-center gap-[19px]">
+              <Icon name="iconamoon:arrow-down-2-duotone" />
+              <span class="leading-normal text-2xl text-gray-700">
+                {{ user.name }}
+              </span>
+            </div>
+          </template>
+          <template #item="{ data }">
+            <nuxt-link
+              v-if="data.link"
+              :to="data.link"
+              class="flex items-center gap-6 leading-normal text-2xl text-gray-700 mb-[1.19rem]"
+            >
+              <img :src="data.image" :alt="data.title" class="" />
+              <span class="flex-1 whitespace-nowrap">
+                {{ data.title }}
+              </span>
+            </nuxt-link>
+            <button
+              v-else
+              type="button"
+              @click="data.function()"
+              class="flex items-center gap-6 leading-normal text-2xl text-gray-700"
+            >
+              <img :src="data.image" :alt="data.title" class="" />
+              <span class="flex-1 whitespace-nowrap">
+                {{ data.title }}
+              </span>
+            </button>
+          </template>
+        </shared-menu>
       </div>
     </div>
     <div class="container flex justify-between items-center">
@@ -58,31 +122,7 @@
         >
       </nav>
       <div class="flex items-center gap-[36px]">
-        <shared-menu
-          :items="flagsItems"
-          :button-props="{
-            class: 'h-[57px] px-[32px] py-[6px]',
-          }"
-          :menu-props="{
-            class: 'max-w-[216px]',
-          }"
-        >
-          <template #label>
-            <div class="flex items-center gap-[19px]">
-              <Icon name="iconamoon:arrow-down-2-duotone" />
-              <img :src="flagsItems[0].image" class="" alt="" />
-            </div>
-          </template>
-          <template #item="{ data }">
-            <button
-              type="button"
-              class="flex gap-[24px] items-center mb-[19px] last:mb-0 h-[45px]"
-            >
-              <img :src="data.image" class="" alt="" />
-              <span>{{ data.title }}</span>
-            </button>
-          </template>
-        </shared-menu>
+        <shared-countries-menu />
 
         <shared-menu
           :items="[]"
@@ -102,35 +142,6 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import flagEg from "@/assets/images/flag-eg.png";
-import flagSa from "@/assets/images/flag-sa.png";
-import flagKu from "@/assets/images/flag-ku.png";
-import flagEm from "@/assets/images/flag-em.png";
-const flagsItems = [
-  {
-    image: flagEg,
-    title: "مصر",
-    id: "eg",
-  },
-  {
-    image: flagSa,
-    title: "السعودية",
-    id: "sa",
-  },
-  {
-    image: flagKu,
-    title: "الكويت",
-    id: "ku",
-  },
-  {
-    image: flagEm,
-    title: "الامارات",
-    id: "em",
-  },
-];
-</script>
 
 <style scoped>
 .layout-navbar-search:focus-within > span {

@@ -33,6 +33,39 @@ body {
 
 input::placeholder {
   font-size: 24px;
-  color: theme("colors.gray.200");
+  color: theme("colors.gray.200") !important;
   font-weight: 400;
+}
+
+.table {
+  border: 1px solid theme("colors.gray.200");
+  border-radius: 1.5rem;
+  background: theme("colors.white");
+}
+
+table {
+  vertical-align: middle;
+}
+
+td,
+th {
+  padding: 1.5rem 1.75rem;
+  text-align: center;
+}
+
+td * {
+  text-align: center;
+}
+
+tr td {
+  border-top: 1px solid theme("colors.gray.200");
+}
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
 }

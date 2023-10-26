@@ -15,6 +15,7 @@
       <shared-buttons-primary-button
         submitTitle="سجل الأن"
         class="mb-16 w-[14.4rem] h-[4.18rem] min-w-0"
+        @click="navigateTo('/auth/register')"
       />
 
       <div class="flex items-center gap-5">

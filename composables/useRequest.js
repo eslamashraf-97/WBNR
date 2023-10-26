@@ -1,6 +1,8 @@
+import { toast } from "vue3-toastify";
+
 export default async function ({ url, requetOptions = {} }) {
   const isServer = typeof window === "undefined";
-  console.log(isServer)
+
   const requestArgs = await useFetch(url, {
     // request
     onRequest({ request, options }) {
@@ -21,13 +23,36 @@ export default async function ({ url, requetOptions = {} }) {
     },
 
     onResponse({ request, response, options }) {
-      console.log("response success", response);
+      const responseData = response._data;
+
+      if (responseData && !isServer && options.method !== "GET") {
+        if (responseData?.message) {
+          toast.success(responseData?.message);
+        }
+      }
     },
 
-    onResponseError({ request, response, options }) {
-      console.log("response error", response);
+    onResponseError({ response }) {
+      const responseData = response._data;
+
+      if (responseData && !isServer) {
+        if (responseData?.message) {
+          toast.error(responseData?.message);
+        }
+        if (error.response?.status === 401) {
+          // localStorage.removeItem("token");
+          // window.location.pathname = "/auth/login";
+        }
+      }
+
+      // if (isServer && error.response) {
+      //   if (error.response?.status === 401) {
+      //     cookies.value = null;
+      //   }
+      // }
     },
-    baseURL: "https://85.31.238.244:3000/v1",
+
+    baseURL: "http://85.31.238.244:3000/v1",
     method: "get",
     ...requetOptions,
   });
