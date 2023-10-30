@@ -40,41 +40,38 @@ const { data, pending } = await fire();
     </div>
 
     <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-7">
-      <shared-cards-stats
-        title="اجمالي الطلبات"
-        :value="data.data?.total_orders"
-      />
+      <shared-cards-stats title="اجمالي الطلبات" :value="data.total_orders" />
       <shared-cards-stats
         title="اجمالي الأرباح"
-        :value="data.data?.total_confirmed_revenue"
+        :value="data.total_confirmed_revenue"
       />
       <shared-cards-stats
         title="طلبات ملغية"
-        :value="data.data?.cancelled_order_count"
+        :value="data.cancelled_order_count"
       />
       <shared-cards-stats
         title="طلبات تحت التجهيز"
-        :value="data.data?.processing_order_count"
+        :value="data.processing_order_count"
       />
       <shared-cards-stats
         title="طلبات معلقة"
-        :value="data.data?.pending_order_count"
+        :value="data.pending_order_count"
       />
       <shared-cards-stats
         title="منتجات مسلمة"
-        :value="data.data?.delivered_order_count"
+        :value="data.delivered_order_count"
       />
       <shared-cards-stats
         title="طلبات مؤكدة"
-        :value="data.data?.confirmed_order_count"
+        :value="data.confirmed_order_count"
       />
       <shared-cards-stats
         title="طلبات مرفوضة"
-        :value="data.data?.rejected_order_count"
+        :value="data.rejected_order_count"
       />
       <shared-cards-stats
         title="طلبات جارى توصيلها"
-        :value="data.data?.shipping_order_count"
+        :value="data.shipping_order_count"
       />
     </div>
   </section>

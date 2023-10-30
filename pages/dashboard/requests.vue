@@ -53,7 +53,7 @@ function filterOrders() {
                 <dashboard-country-menu @changeCountry="changeCountry" />
                 <shared-buttons-secondary-button
                   submit-title="البحث"
-                  class="h-[57px] w-[105px]"
+                  class="!h-[3.5625rem] w-[105px]"
                   @click="filterOrders"
                   :disabled="pending"
                   :loading="pending"

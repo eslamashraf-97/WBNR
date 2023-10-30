@@ -11,12 +11,16 @@ export default defineNuxtRouteMiddleware((to, from) => {
 
   const isAuthenticated = tokenCookies.value;
 
+  if (isAuthenticated && inLnadingPage) {
+    return navigateTo("/home");
+  }
+
   if (inLnadingPage) {
     return;
   }
 
   if (inAuthPage && isAuthenticated) {
-    return navigateTo("/dashboard");
+    return navigateTo("/home");
   }
 
   if (!isAuthenticated && !inAuthPage) {
