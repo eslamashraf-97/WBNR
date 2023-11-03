@@ -1,6 +1,4 @@
-<script setup lang="ts">
-import MainButton from "~/components/shared/MainButton.vue";
-</script>
+<script setup></script>
 
 <template>
   <div class="bg-white py-8">

@@ -3,6 +3,8 @@ import { apiGetReturnsItemsUrl } from "@/server";
 
 import { handleDate } from "@/helpers";
 
+import { returnedOrderStatus } from "@/constants";
+
 const { selectedCountry } = useCountries();
 
 const title = ref("");
@@ -72,7 +74,7 @@ function hideReturnModal() {
       </template>
     </shared-cards-filter>
 
-    <div v-if="pending" class="mt-16">
+    <div v-if="pending" class="mt-16 flex items-center justify-center">
       <shared-loders-loading />
     </div>
     <div v-else class="mt-16">
@@ -90,11 +92,12 @@ function hideReturnModal() {
         <div>
           <h6 class="text-2xl text-gray-700 leading-normal mb-[.88rem]">
             {{ order.product.title }}
+            <span class="">{{ returnedOrderStatus[order.status] }}</span>
           </h6>
           <div
             class="flex items-center gap-4 text-gray-300 text-xl leading-normal"
           >
-            <span>تاريخ الشراء: {{ handleDate(order.order.created_at) }}</span>
+            <span>تاريخ الشراء:{{ handleDate(order.order.created_at) }}</span>
             <div class="h-[36px] bg-gray-200 w-[1px]"></div>
             <span>كود الطلب: {{ order.order.order_number }}</span>
           </div>
@@ -102,7 +105,7 @@ function hideReturnModal() {
 
         <button
           class="ms-auto flex items-center gap-4 text-primary-300 disabled:text-primary-200 text-lg"
-          :disabled="!order"
+          :disabled="order.is_returned_before"
           @click="showReturnModal(order)"
         >
           طلب استبدال او استرجاع

@@ -1,5 +1,5 @@
 import { getRequestDependencies, getPreloadLinks, getPrefetchLinks, createRenderer } from 'vue-bundle-renderer/runtime';
-import { e as eventHandler, s as setResponseHeader, a as send, g as getResponseStatus, b as setResponseStatus, c as setResponseHeaders, u as useNitroApp, j as joinURL, f as useRuntimeConfig, h as getQuery, i as createError, k as getRouteRules, l as getResponseStatusText } from '../nitro/node-server.mjs';
+import { e as eventHandler, s as setResponseHeader, a as send, g as getResponseStatus, b as setResponseStatus, c as setResponseHeaders, u as useNitroApp, j as joinURL, d as useRuntimeConfig, f as getQuery, h as createError, i as getRouteRules, k as getResponseStatusText } from '../nitro/node-server.mjs';
 import { stringify, uneval } from 'devalue';
 import { renderToString } from 'vue/server-renderer';
 import { renderSSRHead } from '@unhead/ssr';
@@ -33,7 +33,7 @@ function defineRenderHandler(handler) {
     if (response.statusCode || response.statusMessage) {
       setResponseStatus(event, response.statusCode, response.statusMessage);
     }
-    return typeof response.body === "string" ? response.body : JSON.stringify(response.body);
+    return response.body;
   });
 }
 
@@ -93,7 +93,7 @@ function createServerHead(options = {}) {
 
 const unheadPlugins = [];
 
-const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initial-scale=1"},{"charset":"utf-8"}],"link":[],"style":[],"script":[],"noscript":[],"title":"WBNR","htmlAttrs":{"dir":"rtl"}};
+const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initial-scale=1"},{"charset":"utf-8"}],"link":[],"style":[],"script":[{"src":"https://accounts.google.com/gsi/client","async":true,"defer":true}],"noscript":[],"title":"WBNR","htmlAttrs":{"dir":"rtl"}};
 
 const appRootId = "__nuxt";
 

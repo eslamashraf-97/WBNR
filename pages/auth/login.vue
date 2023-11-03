@@ -36,11 +36,17 @@ async function handleSubmit() {
   });
   isLoading.value = false;
 }
+
+function loginWith(data) {
+  const responseData = data;
+  setUserData(responseData.data.customer, responseData.meta?.token);
+  navigateTo("/home");
+}
 </script>
 
 <template>
   <form @submit.prevent="handleSubmit">
-    <social-media-login />
+    <social-media-login @loginWith="loginWith" />
     <div class="my-16">
       <div class="mb-7">
         <shared-form-input

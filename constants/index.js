@@ -1,3 +1,9 @@
+export const returnedOrderStatus = {
+  confirmed: "تم قبول الطلب",
+  pending: "قيد المراجعة",
+  rejected: "تم رفض الطلب",
+};
+
 export const walletStatus = {
   pending: "معلق",
   accepted: "تم الارسال",

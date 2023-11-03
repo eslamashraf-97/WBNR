@@ -26,6 +26,10 @@ export const apiLoginUrl = "customer/login";
 
 export const apiRegisterUrl = "customer/signup";
 
+export const apiLoginWithGoogleUrl = "customer/auth/google";
+
+export const apiLoginWithFacebookUrl = "customer/auth/facebook";
+
 export const apiGetSuggestedProductsUrl = "customer/products";
 
 export const apiGetCateoriesUrl = "customer/product-category";
