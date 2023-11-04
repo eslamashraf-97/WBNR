@@ -76,11 +76,14 @@ module.exports = {
     plugin(function ({ addBase }) {
       addBase({
         html: {
-          "@media (min-width: 768px)": {
-            fontSize: "14px",
+          "@media (max-width: 767px)": {
+            fontSize: "12px",
           },
-          "@media (min-width: 992px)": {
-            fontSize: "15px",
+          "@media (min-width: 768px)": {
+            fontSize: "13px",
+          },
+          "@media (min-width: 991px)": {
+            fontSize: "14px",
           },
           "@media (min-width: 1600px)": {
             fontSize: "16px",

@@ -29,10 +29,11 @@
 }
 body {
   background-color: #F9FAFA;
+  overflow-x: hidden;
 }
 
 input::placeholder {
-  font-size: 24px;
+  font-size: theme("fontSize.xl");
   color: theme("colors.gray.200") !important;
   font-weight: 400;
 }
@@ -68,4 +69,14 @@ tr td {
 .v-enter-from,
 .v-leave-to {
   opacity: 0;
+}
+
+.loading-spinner {
+  animation: spinner .5s infinite linear;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
 }

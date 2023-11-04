@@ -49,7 +49,7 @@ function hideReturnModal() {
           <shared-form-input
             placeholder="البحث عن منتج"
             type="text"
-            class="pe-[80px] !h-[3.5625rem]"
+            class="pe-[80px] !h-[3.5625rem] !w-[22rem] sm:!w-[35rem]"
             v-model="title"
           />
           <span
@@ -81,7 +81,7 @@ function hideReturnModal() {
       <div
         v-for="order in data.data"
         :key="order.id"
-        class="shadow-main p-9 bg-white border border-gray-200 rounded-2xl flex items-center gap-9 mb-9"
+        class="shadow-main p-9 bg-white border border-gray-200 rounded-2xl flex items-center flex-wrap gap-9 mb-9"
       >
         <img
           :src="order.product.featured_image"
@@ -92,10 +92,15 @@ function hideReturnModal() {
         <div>
           <h6 class="text-2xl text-gray-700 leading-normal mb-[.88rem]">
             {{ order.product.title }}
-            <span class="">{{ returnedOrderStatus[order.status] }}</span>
+            <span
+              class="px-8 py-[.3rem] text-base returned-order-status rounded-[5.625rem] ms-[1.5rem]"
+              :class="order.status_if_returned_before"
+              v-if="order.status_if_returned_before"
+              >{{ returnedOrderStatus[order.status_if_returned_before] }}</span
+            >
           </h6>
           <div
-            class="flex items-center gap-4 text-gray-300 text-xl leading-normal"
+            class="flex flex-wrap items-center gap-4 text-gray-300 text-xl leading-normal"
           >
             <span>تاريخ الشراء:{{ handleDate(order.order.created_at) }}</span>
             <div class="h-[36px] bg-gray-200 w-[1px]"></div>
@@ -126,3 +131,19 @@ function hideReturnModal() {
     </Transition>
   </teleport>
 </template>
+
+<style scoped>
+.returned-order-status.pending {
+  color: theme("colors.status.yellow400");
+  background-color: #fefcf1;
+}
+
+.returned-order-status.confirmed {
+  color: theme("colors.primary.300");
+  background-color: theme("colors.primary.100");
+}
+.returned-order-status.rejected {
+  color: theme("colors.status.error400");
+  background-color: #fdd9d3;
+}
+</style>

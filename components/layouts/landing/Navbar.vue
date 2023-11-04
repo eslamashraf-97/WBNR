@@ -5,7 +5,9 @@
     <div class="container flex justify-between items-center">
       <img src="@/assets/images/logo.png" />
       <div class="flex gap-8 items-center">
-        <nuxt-link class="text-primary-300 text-lg" to="/auth/register"
+        <nuxt-link
+          class="text-primary-300 text-lg hidden md:block"
+          to="/auth/register"
           >إنشاء حساب جديد
         </nuxt-link>
         <shared-buttons-secondary-button @click="navigateTo('/auth/login')">

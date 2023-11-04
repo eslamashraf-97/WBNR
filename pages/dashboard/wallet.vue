@@ -48,9 +48,9 @@ function refreshData() {
     </div>
     <div
       v-else
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-7"
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2 2xl:grid-cols-4 gap-7"
     >
-      <div v-for="wallet in data.data" :key="wallet.id">
+      <div v-for="wallet in data.data" :key="wallet.id" class="">
         <shared-cards-wallet
           title="ارباحك"
           :value="wallet.available_balance"
@@ -58,62 +58,65 @@ function refreshData() {
           :expected="wallet.pending_balance"
           :currency="wallet.country.currency"
         />
-        <shared-buttons-secondary-button
-          submitTitle="سحب الارباح"
-          class="w-[256px] mt-4"
-          @click="makeWithDrawRequest(wallet)"
-        />
+        <div class="flex justify-center">
+          <shared-buttons-secondary-button
+            submitTitle="سحب الارباح"
+            class="w-full min-w-[256px] mt-4"
+            @click="makeWithDrawRequest(wallet)"
+          />
+        </div>
       </div>
     </div>
 
     <h4 class="my-16 text-gray-700 font-normal">طلبات السحب السابقة</h4>
+    <div class="w-full overflow-auto">
+      <div class="table w-full" v-if="!withDrawPending && withdrawData.data">
+        <table class="w-full">
+          <thead>
+            <tr>
+              <th class="text-2xl text-gray-800 font-normal leading-normal">
+                تاريخ الطلب
+              </th>
+              <th class="text-2xl text-gray-800 font-normal leading-normal">
+                المبلغ
+              </th>
+              <th class="text-2xl text-gray-800 font-normal leading-normal">
+                العملة
+              </th>
+              <th class="text-2xl text-gray-800 font-normal leading-normal">
+                الحالة
+              </th>
+            </tr>
+          </thead>
 
-    <div class="table w-full" v-if="!withDrawPending && withdrawData.data">
-      <table class="w-full">
-        <thead>
-          <tr>
-            <th class="text-2xl text-gray-800 font-normal leading-normal">
-              تاريخ الطلب
-            </th>
-            <th class="text-2xl text-gray-800 font-normal leading-normal">
-              المبلغ
-            </th>
-            <th class="text-2xl text-gray-800 font-normal leading-normal">
-              العملة
-            </th>
-            <th class="text-2xl text-gray-800 font-normal leading-normal">
-              الحالة
-            </th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr v-for="withdraw in withdrawData.data" :key="withdraw.id">
-            <td
-              class="text-2xl text-gray-700 font-normal leading-normal w-full"
-            >
-              {{ handleDate(withdraw.created_at) }}
-            </td>
-            <td class="text-2xl text-gray-700 font-normal leading-normal">
-              {{ withdraw.amount }}
-            </td>
-            <td>
-              <img
-                v-if="withdraw.country"
-                :src="withdraw.country.image"
-                :alt="withdraw.country.name + 'flag'"
-                class="m-auto"
-              />
-            </td>
-            <td class="text-2xl font-normal leading-normal">
-              <shared-status
-                :status="withdraw.status"
-                :statuses="walletStatus"
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+          <tbody>
+            <tr v-for="withdraw in withdrawData.data" :key="withdraw.id">
+              <td
+                class="text-2xl text-gray-700 font-normal leading-normal w-full"
+              >
+                {{ handleDate(withdraw.created_at) }}
+              </td>
+              <td class="text-2xl text-gray-700 font-normal leading-normal">
+                {{ withdraw.amount }}
+              </td>
+              <td>
+                <img
+                  v-if="withdraw.country"
+                  :src="withdraw.country.image"
+                  :alt="withdraw.country.name + 'flag'"
+                  class="m-auto"
+                />
+              </td>
+              <td class="text-2xl font-normal leading-normal">
+                <shared-status
+                  :status="withdraw.status"
+                  :statuses="walletStatus"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </section>
 

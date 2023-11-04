@@ -1,7 +1,7 @@
 <template>
   <layouts-auth-navbar />
   <div class="pt-[128px] pb-[160px] container">
-    <div class="max-w-[29rem] m-auto">
+    <div class="max-w-[32rem] m-auto">
       <slot />
     </div>
   </div>

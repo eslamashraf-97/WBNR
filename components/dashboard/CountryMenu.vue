@@ -24,7 +24,7 @@ function setSelectedCountry(data) {
     <template #label>
       <div class="flex items-center gap-[19px]">
         <Icon name="iconamoon:arrow-down-2-duotone" />
-        <img :src="selectedCountry.image" class="" alt="" />
+        <img :src="selectedCountry.image" class="max-w-[2rem]" alt="" />
       </div>
     </template>
     <template #item="{ data }">
@@ -33,7 +33,7 @@ function setSelectedCountry(data) {
         class="flex gap-[24px] items-center mb-[19px] last:mb-0 h-[45px]"
         @click="setSelectedCountry(data)"
       >
-        <img :src="data.image" class="" alt="" />
+        <img :src="data.image" class="max-w-[2rem]" alt="" />
         <span>{{ data.name }}</span>
       </button>
     </template>

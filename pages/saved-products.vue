@@ -11,7 +11,7 @@ const route = useRoute();
 
 const orderBy = ref(route.query.order_by);
 
-const productPerformance = ref(route.query.product_performance);
+const productPerformance = ref(route.query.performance);
 
 const lowestPriceForSale = ref(route.query.lowest_price_for_sale);
 
@@ -28,7 +28,7 @@ const { data: productData, pending } = await useRequest({
       page: page,
       country_id: selectedCountry.value.id,
       order_by: orderBy,
-      product_performance: productPerformance,
+      performance: productPerformance,
       lowest_price_for_sale: lowestPriceForSale,
       most_price_for_sale: mostPriceForSale,
       lowest_commission: lowestCommission,
@@ -77,7 +77,7 @@ function setProductPerformance(data) {
     path: "/saved-products",
     query: {
       ...route.query,
-      product_performance: data.value,
+      performance: data.value,
     },
   });
 }
@@ -151,10 +151,10 @@ function handleMostCommissionInputValue(e) {
   <div class="bg-primary">
     <shared-title title="منتجات محفوظة" />
     <!-- filter box -->
-    <shared-cards-filter>
+    <shared-cards-filter class="!items-start 2xl:items-center flex-wrap gap-9">
       <template v-slot:right>
-        <div class="flex items-center gap-9">
-          <div class="flex items-center gap-4">
+        <div class="flex flex-wrap items-center gap-9">
+          <div class="flex flex-wrap items-center gap-4">
             <span class="text-gray-500 text-2xl">اداء المنتج:</span>
             <shared-menu
               :items="productsActives"
@@ -197,47 +197,53 @@ function handleMostCommissionInputValue(e) {
             </shared-menu>
           </div>
 
-          <span class="h-[36px] w-[1px] bg-gray-200"></span>
+          <span class="hidden xl:block h-[36px] w-[1px] bg-gray-200"></span>
 
-          <div class="flex items-center gap-4">
-            <span class="text-gray-500 text-2xl">اقل سعر للبيع:</span>
-            <shared-form-input
-              class="bg-transparent w-[4.5625rem] h-[3.5625rem]"
-              type="text"
-              @input="handleLowestPriceForSaleInputValue"
-              :model-value="lowestPriceForSale"
-            />
-            <span class="text-gray-200 text-2xl">الى</span>
-            <shared-form-input
-              class="bg-transparent w-[4.5625rem] h-[3.5625rem]"
-              type="text"
-              @input="handleMostPriceForSaleInputValue"
-              :model-value="mostPriceForSale"
-            />
-          </div>
+          <div class="flex flex-wrap items-center gap-9">
+            <div class="flex flex-wrap items-center gap-4">
+              <span class="text-gray-500 text-2xl">اقل سعر للبيع:</span>
+              <div class="flex items-center gap-4">
+                <shared-form-input
+                  class="bg-transparent !w-[4.5625rem] !h-[3.5625rem]"
+                  type="text"
+                  @input="handleLowestPriceForSaleInputValue"
+                  :model-value="lowestPriceForSale"
+                />
+                <span class="text-gray-200 text-2xl">الى</span>
+                <shared-form-input
+                  class="bg-transparent !w-[4.5625rem] !h-[3.5625rem]"
+                  type="text"
+                  @input="handleMostPriceForSaleInputValue"
+                  :model-value="mostPriceForSale"
+                />
+              </div>
+            </div>
 
-          <span class="h-[36px] w-[1px] bg-gray-200"></span>
+            <span class="hidden md:block h-[36px] w-[1px] bg-gray-200"></span>
 
-          <div class="flex items-center gap-4">
-            <span class="text-gray-500 text-2xl">اقل ربح:</span>
-            <shared-form-input
-              class="bg-transparent w-[4.5625rem] h-[3.5625rem]"
-              type="text"
-              @input="handleLowestCommissionInputValue"
-              :model-value="lowestCommission"
-            />
-            <span class="text-gray-200 text-2xl">الى</span>
-            <shared-form-input
-              class="bg-transparent w-[4.5625rem] h-[3.5625rem]"
-              type="text"
-              @input="handleMostCommissionInputValue"
-              :model-value="mostCommission"
-            />
+            <div class="flex flex-wrap items-center gap-4">
+              <span class="text-gray-500 text-2xl">اقل ربح:</span>
+              <div class="flex items-center gap-4">
+                <shared-form-input
+                  class="bg-transparent !w-[4.5625rem] !h-[3.5625rem]"
+                  type="text"
+                  @input="handleLowestCommissionInputValue"
+                  :model-value="lowestCommission"
+                />
+                <span class="text-gray-200 text-2xl">الى</span>
+                <shared-form-input
+                  class="bg-transparent !w-[4.5625rem] !h-[3.5625rem]"
+                  type="text"
+                  @input="handleMostCommissionInputValue"
+                  :model-value="mostCommission"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </template>
       <template v-slot:left>
-        <div class="flex items-center gap-4">
+        <div class="flex flex-wrap items-center gap-4 whitespace-nowrap">
           <span class="text-gray-500 text-2xl">ترتيب حسب:</span>
           <shared-menu
             :items="productsStatuses"
@@ -269,7 +275,7 @@ function handleMostCommissionInputValue(e) {
     </shared-cards-filter>
 
     <div
-      class="mt-24 grid lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-9 mb-40 grid-flow-row-dense"
+      class="mt-24 grid md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-9 grid-flow-row-dense"
       v-if="!pending && productData?.data.length"
     >
       <lazy-shared-cards-product

@@ -17,10 +17,11 @@ onMounted(() => {
   });
   const el = window.document.getElementById("googleSignInBtn");
   if (!el) return;
-  console.log("hello => ", window?.google.accounts.id);
   window?.google.accounts.id.renderButton(el, {
     theme: "outline",
     size: "large",
+    width: "100%",
+    height: "100%",
   });
 });
 
@@ -42,7 +43,9 @@ async function handleCredentialResponse(response) {
 }
 
 function clickGoogle() {
-  document.querySelector(".nsm7Bb-HzV7m-LgbsSe").click();
+  const iframe = window.document
+    .getElementById("googleSignInBtn")
+    .getElementsByTagName("iframe")[0];
 }
 </script>
 
@@ -98,7 +101,7 @@ export default {
 </script>
 
 <template>
-  <div id="googleSignInBtn" ref="googleRef"></div>
+  <div id="googleSignInBtn"></div>
 
   <div
     class="bg-white flex justify-between items-center text-2xl py-4 px-14 mb-4"

@@ -12,7 +12,7 @@ defineEmits([
 </script>
 
 <template>
-  <div class="table w-full">
+  <div class="table w-full overflow-auto">
     <table class="w-full">
       <thead>
         <tr>
@@ -32,7 +32,7 @@ defineEmits([
             الربح
           </th>
           <th
-            class="text-2xl text-error-400 font-normal leading-normal cursor-pointer"
+            class="text-2xl text-error-400 font-normal leading-normal cursor-pointer whitespace-nowrap"
             @click="$emit('clearCart')"
             :aria-disabled="clearCartIsPending"
           >
@@ -46,7 +46,7 @@ defineEmits([
 
       <tbody>
         <tr v-for="(product, index) in products" :key="product.id + index">
-          <td>
+          <td class="whitespace-nowrap min-w-fit">
             <div class="flex items-center gap-[2.25rem]">
               <img
                 :src="product.product.featured_image"

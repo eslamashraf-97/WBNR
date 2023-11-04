@@ -31,23 +31,41 @@ export const banks = {
 export const productsStatuses = [
   {
     title: "وصل حديثا",
-    value: "arrived",
+    value: "",
   },
   {
     title: "الاقل سعر للبيع",
-    value: "lowest_price_for_sale",
+    value: "price:asc",
   },
   {
     title: "الاعلى سعر للبيع",
-    value: "most_price_for_sale",
+    value: "price:desc",
   },
   {
     title: "الاقل سعر للربح",
-    value: "lowest_commission",
+    value: "minCommission:asc",
   },
   {
     title: "الاعلى سعر للربح",
-    value: "most_commission",
+    value: "minCommission:desc",
+  },
+];
+
+export const productStatus = [
+  {
+    from: 0,
+    to: 25,
+    color: "#F85A40",
+  },
+  {
+    from: 26,
+    to: 50,
+    color: "#EEDC53",
+  },
+  {
+    from: 51,
+    to: undefined,
+    color: "#05BD6E",
   },
 ];
 
@@ -58,7 +76,7 @@ export const productsActives = [
   },
   {
     title: "اعلي",
-    value: "top",
+    value: "high",
     color: "#05BD6E",
   },
   {
@@ -68,7 +86,7 @@ export const productsActives = [
   },
   {
     title: "اقل",
-    value: "bottom",
+    value: "low",
     color: "#F85A40",
   },
 ];

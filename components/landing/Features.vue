@@ -31,7 +31,7 @@ const feaures = [
       class="flex justify-center"
     >
       <div
-        class="p-16 max-w-[61.5rem] flex-1 shadow-main rounded-2xl bg-white border border-primary-300 flex items-center justify-between gap-5"
+        class="p-16 max-w-[61.5rem] flex-1 shadow-main rounded-2xl bg-white border border-primary-300 flex flex-wrap-reverse md:flex-nowrap items-center justify-between gap-5"
       >
         <div>
           <h5 class="mb-[0.56rem] text-gray-700 text-5xl leading-[4.8rem]">

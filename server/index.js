@@ -34,6 +34,8 @@ export const apiGetSuggestedProductsUrl = "customer/products";
 
 export const apiGetCateoriesUrl = "customer/product-category";
 
+export const apiGetSubCateoriesUrl = "customer/product-category"; // :id
+
 export const apiGetProductsMostSellUrl = "customer/products/most-ordered";
 
 export const apiGetProductsUrl = "customer/products";
@@ -61,7 +63,11 @@ export const apiPlaceOrderUrl = "customer/orders/place"; // :cart_id
 
 export const apiAddDestinationUrl = "customer/cart/apply-destination";
 
-export const apiGetSavedProductsUrl = "customer/favorite-products";
+export const apiGetSavedProductsUrl = "customer/favorite-products"; //? country id
+
+export const apiSaveProductUrl = "customer/favorite-products"; // :product_id
+
+export const apiRemoveProductUrl = "customer/favorite-products"; // :product_id
 
 export const apiGetOrdersUrl = "customer/orders"; // /:country_id
 

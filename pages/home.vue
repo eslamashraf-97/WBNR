@@ -51,7 +51,7 @@ const { data: products } = await useRequest({
   <div class="bg-primary">
     <!-- category -->
     <div
-      class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-9 mb-40"
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-9 mb-40"
       v-if="categoriesData?.data && categoriesData.data.length"
     >
       <lazy-shared-cards-category

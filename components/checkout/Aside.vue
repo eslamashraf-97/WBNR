@@ -1,14 +1,14 @@
 <script setup>
 import { apiPlaceOrderUrl } from "@/server";
 
-defineProps(["details"]);
+defineProps(["details", "isLoadingPlaceOrder"]);
 
 defineEmits(["placeOrder"]);
 </script>
 
 <template>
   <aside
-    class="flex flex-col gap-9 w-[37.625rem] p-9 bg-white border border-gray-200 rounded-3xl dashboard-aside h-fit shadow-main"
+    class="flex flex-col gap-9 w-full xl:w-[37.625rem] p-9 bg-white border border-gray-200 rounded-3xl dashboard-aside h-fit shadow-main"
   >
     <template v-if="details">
       <!-- start main info  -->
@@ -67,6 +67,7 @@ defineEmits(["placeOrder"]);
           submit-title="تأكيد الطلب"
           class="w-[14.5rem] h-[4.1875rem]"
           @click="$emit('placeOrder')"
+          :loading="isLoadingPlaceOrder"
         />
       </div>
     </template>

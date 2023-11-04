@@ -65,9 +65,13 @@ const commission = computed(
 
 <template>
   <div>
-    <p class="text-gray-400 text-2xl mb-9">
-      المنتجات / إلكترونيات/ اكسسوارات/ حوامل
-    </p>
+    <div class="flex items-center text-gray-400 text-2xl mb-9">
+      <nuxt-link to="/suggested-products">المنتجات</nuxt-link>
+      <span>&nbsp;/&nbsp;</span>
+      <span>{{ productData?.data?.category?.name }}</span>
+      <span>&nbsp;/&nbsp;</span>
+      <span>{{ productData?.data?.title }}</span>
+    </div>
     <template v-if="productData?.data">
       <div class="flex gap-16 mb-24">
         <!-- Gallery -->

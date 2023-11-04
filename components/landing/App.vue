@@ -15,11 +15,7 @@
       </a>
     </div>
     <div class="flex justify-center">
-      <img
-        src="@/assets/images/app-screen.png"
-        alt=""
-        class="max-w-[56.25rem]"
-      />
+      <img src="@/assets/images/app-screen.png" alt="" class="max-w-full" />
     </div>
   </section>
 </template>
