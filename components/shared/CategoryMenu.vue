@@ -39,7 +39,7 @@ const { data: subCategoriesData, pending: subCategoriesPending } =
   await fireGetSubCategories();
 
 const selectedSubCategory = ref(
-  subCategoriesData.value?.data.sub_categories[0].id,
+  subCategoriesData.value?.data?.sub_categories[0]?.id,
 );
 
 const selectedSubCategoryData = ref(

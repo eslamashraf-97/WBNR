@@ -906,7 +906,7 @@ function createServerHead(options = {}) {
 
 const unheadPlugins = [];
 
-const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initial-scale=1"},{"charset":"utf-8"}],"link":[],"style":[],"script":[{"src":"https://accounts.google.com/gsi/client","async":true,"defer":true}],"noscript":[],"title":"WBNR","htmlAttrs":{"dir":"rtl"}};
+const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initial-scale=1"},{"charset":"utf-8"}],"link":[],"style":[],"script":[{"src":"https://accounts.google.com/gsi/client","async":true,"defer":true},{"src":"https://connect.facebook.net/en_US/sdk.js","async":true,"defer":true}],"noscript":[],"title":"WBNR","htmlAttrs":{"dir":"rtl"}};
 
 const appRootId = "__nuxt";
 

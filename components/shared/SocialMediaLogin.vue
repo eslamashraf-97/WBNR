@@ -4,26 +4,63 @@ import { apiLoginWithGoogleUrl } from "@/server";
 const emits = defineEmits(["loginWith"]);
 
 const token = ref({ token: "" });
-
-const googleRef = ref();
-
+let googleLoginWrapperButton = ''
 onMounted(() => {
-  console.log("hellllo =>");
   if (!window.google) return;
   window?.google.accounts.id.initialize({
     client_id:
       "1081113478426-dar8vkgmv9anrnoa5ofn49q8vsi0vaik.apps.googleusercontent.com",
     callback: handleCredentialResponse,
   });
-  const el = window.document.getElementById("googleSignInBtn");
-  if (!el) return;
-  window?.google.accounts.id.renderButton(el, {
-    theme: "outline",
-    size: "large",
-    width: "100%",
-    height: "100%",
-  });
+  // const el = window.document.getElementById("googleSignInBtn");
+  // if (!el) return;
+  // window?.google.accounts.id.renderButton(el, {
+  //   theme: "outline",
+  //   size: "large",
+  //   width: "100%",
+  //   height: "100%",
+  // });
+
+  window.createFakeGoogleWrapper = () => {
+    const googleLoginWrapper = document.createElement("div");
+    googleLoginWrapper.style.display = "none";
+    googleLoginWrapper.classList.add("custom-google-button");
+    document.body.appendChild(googleLoginWrapper);
+    window.google.accounts.id.renderButton(googleLoginWrapper, {
+      type: "icon",
+      width: "200",
+    });
+    googleLoginWrapperButton = googleLoginWrapper.querySelector("div[role=button]");
+    return {
+      click: () => {
+        googleLoginWrapperButton.click();
+      },
+    };
+  };
 });
+
+const handleGoogleLogin = () => {
+  createFakeGoogleWrapper().click()
+};
+const logInWithFacebook = () => {
+  window.FB.init({
+    appId: "12132154648949898",
+    version: "v11.0",
+  });
+  window.FB.login(
+      function (response) {
+        console.log(response)
+        if (response.authResponse) {
+          model.value.facebook_access_token = response.authResponse.accessToken;
+          window.FB.api("/me", { fields: "name, email" }, function (userRes) {
+            console.log(userRes)
+          });
+        }
+      },
+      { scope: "email", return_scopes: true }
+  );
+  return false;
+};
 
 const { fire } = useApi({
   url: () => apiLoginWithGoogleUrl,
@@ -41,72 +78,14 @@ async function handleCredentialResponse(response) {
   token.value.token = response.credential;
   await fire(token.value);
 }
-
-function clickGoogle() {
-  const iframe = window.document
-    .getElementById("googleSignInBtn")
-    .getElementsByTagName("iframe")[0];
-}
-</script>
-
-<script>
-export default {
-  mounted() {
-    this.loadFacebookSDK();
-  },
-  methods: {
-    loadFacebookSDK() {
-      // Load the Facebook SDK asynchronously
-      window.fbAsyncInit = function () {
-        FB.init({
-          appId: "YOUR_FACEBOOK_APP_ID",
-          autoLogAppEvents: true,
-          xfbml: true,
-          version: "v13.0", // Specify the required version
-        });
-      };
-
-      // Load the SDK script
-      (function (d, s, id) {
-        var js,
-          fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {
-          return;
-        }
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "https://connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-      })(document, "script", "facebook-jssdk");
-    },
-    loginWithFacebook() {
-      // Trigger the Facebook login process
-      FB.login(
-        (response) => {
-          if (response.authResponse) {
-            // User is logged in and authorized
-            console.log("Successfully logged in:", response);
-            // You can now use the Facebook API to access user information
-            // For instance, FB.api('/me', ...)
-          } else {
-            // User cancelled login or did not authorize the app
-            console.log("Login cancelled.");
-          }
-        },
-        { scope: "email" },
-      ); // You can specify the required permissions
-    },
-  },
-};
 </script>
 
 <template>
   <div id="googleSignInBtn"></div>
 
   <div
-    class="bg-white flex justify-between items-center text-2xl py-4 px-14 mb-4"
-    @click="clickGoogle"
-  >
+      @click="handleGoogleLogin()"
+      id="customBtn" class="cursor-pointer bg-white flex justify-between items-center text-2xl py-4 px-14 mb-4">
     <p class="m-0">تسجيل بواسطة جوجل</p>
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -133,10 +112,7 @@ export default {
       />
     </svg>
   </div>
-  <div>
-    <button @click="loginWithFacebook">Login with Facebook</button>
-  </div>
-  <div class="bg-white flex justify-between items-center text-2xl py-4 px-14">
+  <div @click="logInWithFacebook" class="cursor-pointer bg-white flex justify-between items-center text-2xl py-4 px-14">
     <p class="m-0">تسجيل بواسطة فيسبوك</p>
     <svg
       xmlns="http://www.w3.org/2000/svg"

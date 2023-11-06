@@ -26,7 +26,7 @@ const { data: productData, pending } = await useRequest({
   requetOptions: {
     query: {
       page: page,
-      country_id: selectedCountry.value.id,
+      country_id: selectedCountry.value?.id,
       order_by: orderBy,
       performance: productPerformance,
       lowest_price_for_sale: lowestPriceForSale,

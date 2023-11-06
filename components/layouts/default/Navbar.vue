@@ -95,7 +95,7 @@ function toggleMenu() {
               :to="data.link"
               class="flex items-center gap-6 leading-normal text-2xl text-gray-700 mb-[1.19rem]"
             >
-              <img :src="data.image" :alt="data.title" class="" />
+              <img :src="data?.image" :alt="data.title" class="" />
               <span class="flex-1 whitespace-nowrap">
                 {{ data.title }}
               </span>
@@ -106,7 +106,7 @@ function toggleMenu() {
               @click="data.function()"
               class="flex items-center gap-6 leading-normal text-2xl text-gray-700"
             >
-              <img :src="data.image" :alt="data.title" class="" />
+              <img :src="data?.image" :alt="data.title" class="" />
               <span class="flex-1 whitespace-nowrap">
                 {{ data.title }}
               </span>

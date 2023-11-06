@@ -7,7 +7,7 @@ const selectedCountry = ref(initialSelectedCountry);
 
 function setSelectedCountry(data) {
   selectedCountry.value = data;
-  emits("changeCountry", data.id);
+  emits("changeCountry", data?.id);
 }
 </script>
 

@@ -56,7 +56,7 @@ async function updateCart(data) {
 
 function increaseQuantity(data) {
   const payload = {
-    product_id: data.product.id,
+    product_id: data.product?.id,
     quantity: data.quantity + 1,
     final_price: data.price,
   };

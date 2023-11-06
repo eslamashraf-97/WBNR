@@ -6,7 +6,7 @@ import { handleDate } from "@/helpers";
 const { selectedCountry } = useCountries();
 
 const query = reactive({
-  country_id: selectedCountry.value.id,
+  country_id: selectedCountry.value?.id,
   name: "",
   from: "",
   to: "",

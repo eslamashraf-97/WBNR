@@ -30,7 +30,7 @@ async function handleSubmit() {
       onResponse: ({ response }) => {
         const responseData = response._data;
         setUserData(responseData.data.user, responseData.meta?.token);
-        navigateTo("/home");
+        // navigateTo("/home");
       },
     },
   });

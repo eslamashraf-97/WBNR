@@ -18,7 +18,7 @@ const { data: productsNewArrivals } = await useRequest({
   url: () => apiGetProductsNewArrivalsUrl,
   requetOptions: {
     query: {
-      country_id: selectedCountry.value.id,
+      country_id: selectedCountry.value?.id,
     },
     watch: [selectedCountry],
   },
@@ -29,7 +29,7 @@ const { data: productsMostSell } = await useRequest({
   url: () => apiGetProductsMostSellUrl,
   requetOptions: {
     query: {
-      country_id: selectedCountry.value.id,
+      country_id: selectedCountry.value?.id,
     },
     watch: [selectedCountry],
   },
@@ -40,7 +40,7 @@ const { data: products } = await useRequest({
   url: () => apiGetProductsUrl,
   requetOptions: {
     query: {
-      country_id: selectedCountry.value.id,
+      country_id: selectedCountry.value?.id,
     },
     watch: [selectedCountry],
   },
@@ -56,7 +56,7 @@ const { data: products } = await useRequest({
     >
       <lazy-shared-cards-category
         v-for="category in categoriesData.data"
-        :key="category.id"
+        :key="category?.id"
         :details="category"
       />
     </div>
