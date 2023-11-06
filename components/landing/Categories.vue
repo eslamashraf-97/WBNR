@@ -10,7 +10,7 @@ import { Autoplay, FreeMode } from "swiper/modules";
     <div class="mb-9">
       <swiper
         :modules="[Autoplay, FreeMode]"
-        :slidesPerView="4.4"
+        :slidesPerView="1.2"
         :spaceBetween="32"
         :loop="true"
         :autoplay="{
@@ -24,6 +24,17 @@ import { Autoplay, FreeMode } from "swiper/modules";
         :allowTouchMove="false"
         :freeMode="true"
         class="category-swiper"
+        :breakpoints="{
+          767: {
+            slidesPerView: 2.2,
+          },
+          991: {
+            slidesPerView: 3,
+          },
+          1500: {
+            slidesPerView: 4,
+          },
+        }"
       >
         <swiper-slide>
           <lazy-shared-cards-category />
@@ -62,7 +73,7 @@ import { Autoplay, FreeMode } from "swiper/modules";
     </div>
     <swiper
       :modules="[Autoplay, FreeMode]"
-      :slidesPerView="4.1"
+      :slidesPerView="1.2"
       :spaceBetween="32"
       :loop="true"
       :autoplay="{
@@ -76,6 +87,17 @@ import { Autoplay, FreeMode } from "swiper/modules";
       :allowTouchMove="false"
       :freeMode="true"
       class="category-swiper"
+      :breakpoints="{
+        767: {
+          slidesPerView: 2.2,
+        },
+        991: {
+          slidesPerView: 3,
+        },
+        1500: {
+          slidesPerView: 4,
+        },
+      }"
     >
       <swiper-slide>
         <lazy-shared-cards-category />

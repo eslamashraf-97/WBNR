@@ -6,7 +6,7 @@ import { handleDate } from "@/helpers";
 const { selectedCountry } = useCountries();
 
 const query = reactive({
-  country_id: selectedCountry.value.id,
+  country_id: selectedCountry.value?.id,
   name: "",
   from: "",
   to: "",
@@ -31,7 +31,7 @@ function filterOrders() {
 </script>
 
 <template>
-  <section>
+  <section class="min-h-screen">
     <div class="mb-16">
       <shared-cards-filter>
         <template v-slot:default>
@@ -53,7 +53,7 @@ function filterOrders() {
                 <dashboard-country-menu @changeCountry="changeCountry" />
                 <shared-buttons-secondary-button
                   submit-title="البحث"
-                  class="h-[57px] w-[105px]"
+                  class="!h-[3.5625rem] w-[105px]"
                   @click="filterOrders"
                   :disabled="pending"
                   :loading="pending"
@@ -65,14 +65,18 @@ function filterOrders() {
       </shared-cards-filter>
     </div>
 
-    <div class="table w-full" v-if="!pending && data.data">
+    <div class="table overflow-auto" v-if="!pending && data.data">
       <table class="w-full">
         <thead>
           <tr>
-            <th class="text-2xl text-gray-800 font-normal leading-normal">
+            <th
+              class="text-2xl text-gray-800 font-normal leading-normal block xl:hidden 2xl:block"
+            >
               كود الطلب
             </th>
-            <th class="text-2xl text-gray-800 font-normal leading-normal">
+            <th
+              class="text-2xl text-gray-800 font-normal leading-normal whitespace-nowrap"
+            >
               اسم العميل
             </th>
             <th class="text-2xl text-gray-800 font-normal leading-normal">
@@ -92,7 +96,9 @@ function filterOrders() {
 
         <tbody>
           <tr v-for="order in data.data" :key="order.id">
-            <td class="text-2xl text-gray-500 font-normal leading-normal">
+            <td
+              class="text-2xl text-gray-500 font-normal leading-normal block xl:hidden 2xl:block"
+            >
               {{ order.order_number }}
             </td>
             <td class="text-2xl text-gray-700 font-normal leading-normal">

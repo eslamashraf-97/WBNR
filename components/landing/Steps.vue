@@ -33,24 +33,24 @@ function handleHover(index) {
 }
 </script>
 <template>
-  <section class="pb-40 pt-32">
+  <section class="pb-40 xl:pt-32">
     <!-- line  -->
     <div
-      class="relative h-[0.0625rem] bg-primary-200 mb-[3.125rem]"
+      class="hidden xl:block relative h-[0.0625rem] bg-primary-200 mb-[3.125rem]"
       id="steps-line-wrapper"
     >
       <div class="h-full bg-primary-300 w-0" id="steps-line-inner"></div>
     </div>
 
     <!-- boxes  -->
-    <div class="grid grid-cols-4 gap-x-12">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12">
       <div v-for="(step, index) in steps" :key="index">
         <div
-          class="shadow-main bg-white rounded-2xl max-w-xs p-10 step-box relative border border-transparent"
+          class="shadow-main bg-white rounded-2xl xl:max-w-xs p-10 step-box relative border border-transparent"
           @mouseenter="handleHover(index)"
           @mouseleave="activeIndex = 0"
         >
-          <div class="step-box-tooltip">كل اللى عليك</div>
+          <div class="step-box-tooltip hidden xl:block">كل اللى عليك</div>
           <h4 class="text-[1.875rem] text-gray-700 leading-[3rem] mb-2">
             {{ step.title }}
           </h4>
@@ -82,6 +82,12 @@ function handleHover(index) {
   height: 0.75rem;
   background-color: theme("colors.primary.300");
   border-radius: 50%;
+}
+
+@media (max-width: 1279px) {
+  .step-box::after {
+    display: none;
+  }
 }
 
 .step-box-tooltip {

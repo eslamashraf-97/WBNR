@@ -46,7 +46,7 @@ function next() {
     <div class="fixed inset-0 bg-black/20" @click="$emit('hide')"></div>
     <div class="w-full h-full px-4 overflow-auto">
       <div
-        class="relative z-10 bg-white rounded-lg shadow-main p-16 w-[45rem] my-12 mx-auto"
+        class="relative z-10 bg-white rounded-lg shadow-main p-8 xl:p-16 w-full max-w-[45rem] my-12 mx-auto"
         v-if="data"
       >
         <!-- header  -->

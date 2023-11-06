@@ -3,27 +3,43 @@
 <template>
   <div class="bg-gray-800 text-white pt-16 pb-9">
     <div class="container">
-      <div class="md:flex justify-between border-b border-gray-700 pb-9">
-        <div class="flex flex-col justify-between items-start mb-12 md:mb-0">
-          <img src="~/assets/images/logo-white.png" />
+      <div class="border-b border-gray-700 pb-9">
+        <div class="flex flex-wrap justify-between items-center gap-6 mb-16">
+          <img
+            src="~/assets/images/logo-white.png"
+            class="max-w-[4rem] max-h-[4rem]"
+          />
+
+          <div class="flex items-center gap-8">
+            <a href="#" target="_blank" class="flex-1">
+              <img src="~/assets/images/play-store.png" class="max-w-[12rem]" />
+            </a>
+            <a href="#" target="_blank" class="flex-1">
+              <img src="~/assets/images/app-store.png" class="max-w-[12rem]" />
+            </a>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap justify-between items-center gap-6">
           <ul class="list-none flex gap-9">
             <li>ملاحظات عن الشحن</li>
             <li>مركز المساعدة</li>
             <li>الشروط والأحكام</li>
           </ul>
-        </div>
-        <div class="flex flex-col justify-between gap-2">
-          <div class="flex gap-8 mb-16">
-            <img src="~/assets/images/play-store.png" />
-            <img src="~/assets/images/app-store.png" />
-          </div>
-          <div class="flex justify-end gap-4 text-3xl">
-            <Icon name="teenyicons:instagram-solid" class="cursor-pointer" />
-            <Icon name="formkit:whatsapp" class="cursor-pointer" />
-            <Icon
-              name="entypo-social:facebook-with-circle"
-              class="cursor-pointer"
-            />
+
+          <div class="flex items-center gap-4 text-3xl">
+            <a href="#">
+              <Icon name="teenyicons:instagram-solid" class="cursor-pointer" />
+            </a>
+            <a href="#">
+              <Icon name="formkit:whatsapp" class="cursor-pointer" />
+            </a>
+            <a href="#">
+              <Icon
+                name="entypo-social:facebook-with-circle"
+                class="cursor-pointer"
+              />
+            </a>
           </div>
         </div>
       </div>

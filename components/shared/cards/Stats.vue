@@ -4,7 +4,7 @@ defineProps(["title", "value"]);
 
 <template>
   <div
-    class="border border-primary-300 rounded-[16px] bg-white p-[24px] wallet-card max-w-[350px] flex flex-col h-[350px]"
+    class="border border-primary-300 rounded-[16px] bg-white p-[24px] wallet-card min-w-[21.8rem] flex flex-col h-[350px]"
   >
     <div class="flex justify-between items-center">
       <h6 class="text-[28px] text-gray-400 font-semibold">{{ title }}</h6>

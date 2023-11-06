@@ -1,11 +1,18 @@
 <script setup>
-const props = defineProps(["products"]);
+const props = defineProps(["products", "clearCartIsPending"]);
 
-defineEmits(["increaseQuantity", "decreaseQuantity", "deleteCartItem"]);
+defineEmits([
+  "increaseQuantity",
+  "decreaseQuantity",
+  "deleteCartItem",
+  "changePrice",
+  "changeQuantity",
+  "clearCart",
+]);
 </script>
 
 <template>
-  <div class="table w-full">
+  <div class="table w-full overflow-auto">
     <table class="w-full">
       <thead>
         <tr>
@@ -24,15 +31,22 @@ defineEmits(["increaseQuantity", "decreaseQuantity", "deleteCartItem"]);
           <th class="text-2xl text-gray-800 font-normal leading-normal">
             الربح
           </th>
-          <th class="text-2xl text-error-400 font-normal leading-normal">
-            حذف الكل
+          <th
+            class="text-2xl text-error-400 font-normal leading-normal cursor-pointer whitespace-nowrap"
+            @click="$emit('clearCart')"
+            :aria-disabled="clearCartIsPending"
+          >
+            <span v-if="clearCartIsPending">
+              <shared-loders-loader-button />
+            </span>
+            <span v-else> حذف الكل </span>
           </th>
         </tr>
       </thead>
 
       <tbody>
         <tr v-for="(product, index) in products" :key="product.id + index">
-          <td>
+          <td class="whitespace-nowrap min-w-fit">
             <div class="flex items-center gap-[2.25rem]">
               <img
                 :src="product.product.featured_image"
@@ -52,7 +66,8 @@ defineEmits(["increaseQuantity", "decreaseQuantity", "deleteCartItem"]);
               <shared-form-input
                 type="text"
                 class="!w-[10.75rem] h-[3.3125rem] bg-transparent text-xl"
-                v-model="product.final_price"
+                @input="$emit('changePrice', $event.target.value, product)"
+                :value="product.final_price"
               />
               <div
                 class="absolute top-[1px] left-[1px] bottom-[1px] flex flex-col bg-white rounded-[11px]"
@@ -70,22 +85,24 @@ defineEmits(["increaseQuantity", "decreaseQuantity", "deleteCartItem"]);
               <shared-form-input
                 type="text"
                 class="w-[6rem] h-[3.3125rem] bg-transparent text-xl"
-                v-model="product.quantity"
+                @input="$emit('changeQuantity', $event.target.value, product)"
+                :value="product.quantity"
               />
+
               <div
                 class="absolute top-[1px] left-[1px] bottom-[1px] flex flex-col items-center bg-white rounded-[11px]"
               >
                 <button
                   type="button"
                   class="w-[24px] flex-1 border-b border-b-gray-200 border-s border-s-gray-200"
-                  @click="$emit('increaseQuantity', index)"
+                  @click="$emit('increaseQuantity', product)"
                 >
                   +
                 </button>
                 <button
                   type="button"
                   class="w-[24px] flex-1 border-s border-s-gray-200"
-                  @click="$emit('decreaseQuantity', index)"
+                  @click="$emit('decreaseQuantity', product)"
                 >
                   -
                 </button>

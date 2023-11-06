@@ -67,9 +67,11 @@ const { fire: firePlaceOrder } = useApi({
   },
 });
 
-function placeOrder() {
-  console.log("clicked");
-  firePlaceOrder(form);
+const isLoadingPlaceOrder = ref(false);
+async function placeOrder() {
+  isLoadingPlaceOrder.value = true;
+  await firePlaceOrder(form);
+  isLoadingPlaceOrder.value = false;
 }
 
 const getSelectedGov = computed(() =>
@@ -79,12 +81,16 @@ const getSelectedGov = computed(() =>
 <template>
   <section class="bg-primary">
     <shared-title title="مراجعة الطلب" />
-    <div class="flex justify-start gap-24">
-      <checkout-aside :details="cartData.data" @placeOrder="placeOrder" />
+    <div class="flex flex-col-reverse xl:flex-row justify-start gap-24">
+      <checkout-aside
+        :details="cartData.data"
+        @placeOrder="placeOrder"
+        :isLoadingPlaceOrder="isLoadingPlaceOrder"
+      />
 
       <div class="flex-1">
         <h5 class="text-2xl text-gray-700 mb-16">بيانات شخصية</h5>
-        <form class="w-[38rem]">
+        <form class="w-full xl:w-[38rem]">
           <div class="mb-7">
             <shared-form-input
               placeholder="الأسم بالكامل"

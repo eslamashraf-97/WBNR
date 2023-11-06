@@ -40,14 +40,14 @@ module.exports = {
     container: {
       center: true,
       screens: {
-        sm: "600px",
-        md: "728px",
-        lg: "984px",
-        xl: "1240px",
+        // sm: "600px",
+        // md: "728px",
+        // lg: "984px",
+        // xl: "1240px",
         "2xl": "1664px",
       },
       padding: {
-        DEFAULT: "0rem",
+        DEFAULT: "20px",
       },
     },
     extend: {
@@ -76,11 +76,17 @@ module.exports = {
     plugin(function ({ addBase }) {
       addBase({
         html: {
-          "@media (max-width: 1200px)": {
+          "@media (max-width: 767px)": {
             fontSize: "12px",
           },
-          "@media (max-width: 991px)": {
-            fontSize: "10px",
+          "@media (min-width: 768px)": {
+            fontSize: "13px",
+          },
+          "@media (min-width: 991px)": {
+            fontSize: "14px",
+          },
+          "@media (min-width: 1600px)": {
+            fontSize: "16px",
           },
         },
       });

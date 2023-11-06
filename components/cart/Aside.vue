@@ -31,7 +31,7 @@ const cartDetails = [
 
 <template>
   <aside
-    class="flex flex-col gap-7 w-[29.25rem] p-9 bg-white border border-gray-200 rounded-3xl dashboard-aside h-fit shadow-main"
+    class="flex flex-col gap-7 2xl:w-[29.25rem] p-9 bg-white border border-gray-200 rounded-3xl dashboard-aside h-fit shadow-main"
   >
     <template v-if="details">
       <!-- start main info  -->

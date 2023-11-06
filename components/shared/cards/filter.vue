@@ -2,7 +2,7 @@
 
 <template>
   <div
-    class="bg-white rounded-xl shadow-main py-9 px-16 flex justify-between"
+    class="bg-white rounded-xl shadow-main py-6 px-8 xl:py-9 xl:px-16 flex justify-between items-center"
     v-bind="$attrs"
   >
     <slot />

@@ -26,9 +26,15 @@ export const apiLoginUrl = "customer/login";
 
 export const apiRegisterUrl = "customer/signup";
 
+export const apiLoginWithGoogleUrl = "customer/auth/google";
+
+export const apiLoginWithFacebookUrl = "customer/auth/facebook";
+
 export const apiGetSuggestedProductsUrl = "customer/products";
 
 export const apiGetCateoriesUrl = "customer/product-category";
+
+export const apiGetSubCateoriesUrl = "customer/product-category"; // :id
 
 export const apiGetProductsMostSellUrl = "customer/products/most-ordered";
 
@@ -57,7 +63,11 @@ export const apiPlaceOrderUrl = "customer/orders/place"; // :cart_id
 
 export const apiAddDestinationUrl = "customer/cart/apply-destination";
 
-export const apiGetSavedProductsUrl = "customer/favorite-products";
+export const apiGetSavedProductsUrl = "customer/favorite-products"; //? country id
+
+export const apiSaveProductUrl = "customer/favorite-products"; // :product_id
+
+export const apiRemoveProductUrl = "customer/favorite-products"; // :product_id
 
 export const apiGetOrdersUrl = "customer/orders"; // /:country_id
 
@@ -70,3 +80,17 @@ export const apiGetWithdrawUrl = "customer/wallet/request/withdraw";
 export const apiCreateWithdrawUrl = "customer/wallet/request/withdraw"; // id
 
 export const apiPlaceQuickOrderUrl = "customer/orders/quick-order";
+
+export const apiDeleteCartUrl = "customer/cart"; // cart id
+
+export const apiGetProfileUrl = "customer/profile";
+
+export const apiUpdateProfileUrl = "customer/profile"; // patch
+
+export const apiUploadFilesUrl = "customer/upload/customer-images";
+
+export const apiChangePasswordUrl = "customer/profile/change-password";
+
+export const apiGetReturnsItemsUrl = "customer/orders/orders-items"; // country_id and title
+
+export const apiCreateReturnOrderUrl = "customer/return-orders";

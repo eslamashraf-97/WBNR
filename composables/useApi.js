@@ -54,7 +54,7 @@ export default function ({ url, requestOptions = {} }) {
         // }
       },
 
-      baseURL: "http://85.31.238.244:3000/v1",
+      baseURL: "https://backend.bazaarmyr.com/v1",
       method: "get",
       body: JSON.stringify(data),
       ...requestOptions,
