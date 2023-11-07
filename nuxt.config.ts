@@ -13,10 +13,11 @@ export default defineNuxtConfig({
           async: true,
           defer: true,
         },
-        { src: "https://connect.facebook.net/en_US/sdk.js" ,
+        {
+          src: "https://connect.facebook.net/en_US/sdk.js",
           async: true,
-          defer: true
-        }
+          defer: true,
+        },
       ],
       // meta: [
       //   {

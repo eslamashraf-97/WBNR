@@ -1,25 +1,22 @@
-import Api from "./setupAxios";
+function $api() {
+  const { $api } = useNuxtApp();
+  return $api;
+}
 
 export function api_login(data) {
-  return Api().post("customer/login", data);
+  return $api().post("customer/login", data);
 }
 
 export function api_register(data) {
-  return Api().post("customer/signup", data);
+  return $api().post("customer/signup", data);
 }
 
-export function api_suggested_products(data) {
-  return Api().get("customer/products");
+export function api_submit_verificationCode(data) {
+  return $api().post("customer/verify-account", data);
 }
 
-export function api_single_product(id) {
-  return Api().get(`customer/products/${id}`);
-}
-
-export function api_products(params) {
-  return Api().get(`customer/products`, {
-    params,
-  });
+export function api_resend_verificationCode(data) {
+  return $api().post("customer/resend-verification-otp", data);
 }
 
 export const apiLoginUrl = "customer/login";
