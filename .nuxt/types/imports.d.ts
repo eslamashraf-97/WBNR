@@ -136,6 +136,7 @@ declare global {
   const useNuxtData: typeof import('../../node_modules/nuxt/dist/app')['useNuxtData']
   const useNuxtDevTools: typeof import('../../node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools')['useNuxtDevTools']
   const usePagination: typeof import('../../composables/usePagination')['default']
+  const useQuickProduct: typeof import('../../composables/useQuickProduct')['default']
   const useRequest: typeof import('../../composables/useRequest')['default']
   const useRequestEvent: typeof import('../../node_modules/nuxt/dist/app')['useRequestEvent']
   const useRequestFetch: typeof import('../../node_modules/nuxt/dist/app')['useRequestFetch']
@@ -309,6 +310,7 @@ declare module 'vue' {
     readonly useNuxtData: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app')['useNuxtData']>
     readonly useNuxtDevTools: UnwrapRef<typeof import('../../node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools')['useNuxtDevTools']>
     readonly usePagination: UnwrapRef<typeof import('../../composables/usePagination')['default']>
+    readonly useQuickProduct: UnwrapRef<typeof import('../../composables/useQuickProduct')['default']>
     readonly useRequest: UnwrapRef<typeof import('../../composables/useRequest')['default']>
     readonly useRequestEvent: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app')['useRequestEvent']>
     readonly useRequestFetch: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app')['useRequestFetch']>
@@ -476,6 +478,7 @@ declare module '@vue/runtime-core' {
     readonly useNuxtData: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app')['useNuxtData']>
     readonly useNuxtDevTools: UnwrapRef<typeof import('../../node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools')['useNuxtDevTools']>
     readonly usePagination: UnwrapRef<typeof import('../../composables/usePagination')['default']>
+    readonly useQuickProduct: UnwrapRef<typeof import('../../composables/useQuickProduct')['default']>
     readonly useRequest: UnwrapRef<typeof import('../../composables/useRequest')['default']>
     readonly useRequestEvent: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app')['useRequestEvent']>
     readonly useRequestFetch: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app')['useRequestFetch']>

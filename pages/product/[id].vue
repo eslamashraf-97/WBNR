@@ -78,6 +78,19 @@ const productStatuses = computed(() => {
     );
   }).color;
 });
+
+const { setQuickOrderState } = useQuickProduct();
+
+function requestNow() {
+  setQuickOrderState({
+    ...productData.data,
+    qty: productForm.quantity,
+    commission: commission.value,
+    selectedVariants: getSelectedVariantsValues(),
+  });
+
+  navigateTo("/checkout-quick-order");
+}
 </script>
 
 <template>
@@ -90,10 +103,10 @@ const productStatuses = computed(() => {
       <span>{{ productData?.data?.title }}</span>
     </div>
     <template v-if="productData?.data">
-      <div class="flex gap-16 mb-24">
+      <div class="flex flex-col lg:flex-row gap-16 mb-24">
         <!-- Gallery -->
         <div class="bg-white p-9 rounded-lg">
-          <div class="gallery flex gap-2">
+          <div class="gallery flex flex-wrap gap-2">
             <img
               :src="productData.data.featured_image"
               class="w-[36rem] h-[36rem] object-cover"
@@ -222,7 +235,7 @@ const productStatuses = computed(() => {
           <div
             class="px-9 py-5 shadow-main rounded-sm border border-gray-200 max-w-[650px]"
           >
-            <div class="flex items-center gap-6">
+            <div class="flex flex-wrap items-center gap-6">
               <div>
                 <span class="text-base text-gray-400 font-light mb-5 block"
                   >الكمية</span
@@ -292,11 +305,7 @@ const productStatuses = computed(() => {
               <shared-buttons-primary-button
                 submit-title="اطلب الان"
                 class="w-[232px] h-[67px]"
-                @click="
-                  navigateTo(
-                    `/checkout-quick-order?product=${productData.data.id}&title=${productData.data.title}&price=${productData.data.price}&minCommission=${productData.data.minCommission}&commission=${commission}&qty=${productForm.quantity}&image=${productData.data.featured_image}`,
-                  )
-                "
+                @click="requestNow"
               />
               <shared-buttons-secondary-button
                 class="w-[93px] h-[67px] flex items-center justify-center"

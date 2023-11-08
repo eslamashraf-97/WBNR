@@ -94,6 +94,10 @@ export const apiCreateWithdrawUrl = "customer/wallet/request/withdraw"; // id
 
 export const apiPlaceQuickOrderUrl = "customer/orders/quick-order";
 
+export function api_place_quick_order(data) {
+  return $api().post("customer/orders/quick-order", data);
+}
+
 export const apiDeleteCartUrl = "customer/cart"; // cart id
 
 export const apiGetProfileUrl = "customer/profile";
