@@ -7,6 +7,8 @@ const baseURL = "https://backend.bazaarmyr.com/v1";
 const isServer = typeof window === "undefined";
 
 export default defineNuxtPlugin(() => {
+  const { removeUserData } = useAuth();
+
   const appClient = axios.create({
     baseURL,
     headers: {
@@ -41,14 +43,14 @@ export default defineNuxtPlugin(() => {
           error.response?.status === 401 &&
           window.location.pathname !== "/auth/register"
         ) {
-          localStorage.removeItem("token");
+          removeUserData();
           window.location.pathname = "/auth/login";
         }
       }
 
       if (isServer && error.response) {
         if (error.response?.status === 401) {
-          cookies.value = null;
+          removeUserData();
         }
       }
 

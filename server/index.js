@@ -19,6 +19,22 @@ export function api_resend_verificationCode(data) {
   return $api().post("customer/resend-verification-otp", data);
 }
 
+export function api_get_single_product(id) {
+  return $api().get(`customer/products/${id}`);
+}
+
+export function api_get_products(params) {
+  return $api().get(`customer/products`, {
+    params,
+  });
+}
+
+export function api_add_to_cart(data) {
+  return $api().post(`customer/cart`, data);
+}
+
+// export const apiAddToCartUrl = "customer/cart";
+
 export const apiLoginUrl = "customer/login";
 
 export const apiRegisterUrl = "customer/signup";
