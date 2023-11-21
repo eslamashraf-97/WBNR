@@ -8,7 +8,7 @@ defineProps(["title", "value", "flag", "expected", "currency"]);
   >
     <div class="flex justify-between items-center">
       <h6 class="text-[28px] text-gray-400 font-semibold">{{ title }}</h6>
-      <img :src="flag" alt="" />
+      <img class="w-[40px]" :src="flag" alt="" />
     </div>
     <div class="flex justify-between mt-auto">
       <div>
