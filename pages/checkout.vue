@@ -64,6 +64,11 @@ const { fire: firePlaceOrder } = useApi({
   url: apiPlaceOrderUrl + "/" + cartData.value?.data.id,
   requestOptions: {
     method: "post",
+    onResponse: (res) => {
+      if (res.response.ok) {
+        navigateTo("/dashboard/requests");
+      }
+    },
   },
 });
 

@@ -3,11 +3,14 @@ import {
   apiGetGov,
   apiPlaceQuickOrderUrl,
   apiAddDestinationUrl,
+  api_place_quick_order,
 } from "@/server";
 
 const route = useRoute();
 
 const { selectedCountry } = useCountries();
+
+const { quickOrderState } = useQuickProduct();
 
 // get gov
 const { fire: fireGov } = useApi({
@@ -30,9 +33,10 @@ const form = reactive({
   store_name: "",
   store_url: "",
   governorate_id: "",
-  product_id: route.query.product,
-  product_quantity: route.query.qty,
-  final_price: route.query.price,
+  product_id: quickOrderState.value.id,
+  product_quantity: quickOrderState.value.qty,
+  final_price: quickOrderState.value.price,
+  variants: quickOrderState.value.selectedVariants,
 });
 
 function chooseGov(data) {
@@ -48,10 +52,15 @@ const { fire: firePlaceOrder } = useApi({
 
 const isLoadingPlaceOrder = ref(false);
 
-async function placeOrder() {
+function placeOrder() {
   isLoadingPlaceOrder.value = true;
-  await firePlaceOrder(form);
-  isLoadingPlaceOrder.value = false;
+  api_place_quick_order(form)
+    .then((res) => {
+      navigateTo("/dashboard/requests");
+    })
+    .finally(() => {
+      isLoadingPlaceOrder.value = false;
+    });
 }
 
 const getSelectedGov = computed(() =>
@@ -64,18 +73,19 @@ const getSelectedGov = computed(() =>
     <div class="flex flex-col-reverse xl:flex-row justify-start gap-24">
       <checkout-aside
         :details="{
+          ...quickOrderState,
           cartItems: [
             {
               product: {
-                featured_image: route.query.image,
-                title: route.query.title,
+                featured_image: quickOrderState.featured_image,
+                title: quickOrderState.title,
               },
-              quantity: route.query.qty,
+              quantity: quickOrderState.qty,
             },
           ],
-          price: route.query.price,
-          final_price: route.query.price,
-          tax_percentage: route.query.minCommission,
+          price: quickOrderState.price,
+          final_price: quickOrderState.price,
+          tax_percentage: quickOrderState.minCommission,
           delivery_cost: '',
         }"
         @placeOrder="placeOrder"

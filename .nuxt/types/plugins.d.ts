@@ -17,6 +17,7 @@ type NuxtAppInjections =
   InjectionType<typeof import("../../node_modules/nuxt/dist/app/plugins/check-outdated-build.client").default> &
   InjectionType<typeof import("../../plugins/firebase").default> &
   InjectionType<typeof import("../../plugins/error-handler").default> &
+  InjectionType<typeof import("../../plugins/setup-axios").default> &
   InjectionType<typeof import("../../plugins/toast").default>
 
 declare module '#app' {

@@ -23,7 +23,7 @@ export default function () {
     cookies.value = data;
 
     if (cloneCountry && typeof window !== "undefined") {
-      window.location.reload();
+      window.location.href = "/home";
     }
   }
 

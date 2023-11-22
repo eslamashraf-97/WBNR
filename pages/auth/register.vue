@@ -1,13 +1,19 @@
 <script setup>
 import SocialMediaLogin from "~/components/shared/SocialMediaLogin.vue";
 
-import { apiRegisterUrl } from "@/server";
+import {
+  api_register,
+  api_resend_verificationCode,
+  api_submit_verificationCode,
+} from "@/server";
 
 const { setUserData } = useAuth();
 
 definePageMeta({
   layout: "auth",
 });
+
+const route = useRoute();
 
 const form = reactive({
   name: "",
@@ -21,23 +27,55 @@ const form = reactive({
 
 const isLoading = ref(false);
 
-const tokenCookies = useCookie("token");
+const activateAccountModal = ref(
+  route.query.activate && route.query.email ? true : false,
+);
 
-async function handleSubmit() {
+function saveUserToActivate() {
+  activateAccountModal.value = true;
+  navigateTo(`/auth/register?activate=true&email=${form.email}`);
+}
+
+function handleSubmit() {
   isLoading.value = true;
-  await useRequest({
-    url: apiRegisterUrl,
-    requetOptions: {
-      body: JSON.stringify(form),
-      method: "post",
-      onResponse: ({ response }) => {
-        const responseData = response._data;
-        setUserData(responseData.data.user, responseData.meta?.token);
-        navigateTo("/home");
-      },
-    },
+  api_register(form)
+    .then((response) => {
+      saveUserToActivate();
+    })
+    .catch((error) => {
+      if (
+        error.data?.message ===
+        "This account is already exist, please activate."
+      ) {
+        saveUserToActivate();
+      }
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
+}
+
+const isSubmitCodeDisabled = ref(false);
+
+function submitCode(isCompleted, value) {
+  if (isCompleted && value) {
+    isSubmitCodeDisabled.value = true;
+    api_submit_verificationCode({ email: route.query.email, otp: value })
+      .then((res) => {
+        navigateTo("/auth/login");
+      })
+      .finally(() => {
+        isSubmitCodeDisabled.value = false;
+      });
+  }
+}
+
+const isResendCode = ref(false);
+function resendCode() {
+  isResendCode.value = true;
+  api_resend_verificationCode({ email: route.query.email }).finally(() => {
+    isResendCode.value = false;
   });
-  isLoading.value = false;
 }
 </script>
 
@@ -114,6 +152,61 @@ async function handleSubmit() {
       >
     </div>
   </form>
+
+  <teleport to="body">
+    <Transition>
+      <div
+        class="fixed inset-0 z-50"
+        v-if="activateAccountModal && route.query.email && route.query.activate"
+      >
+        <div
+          class="fixed inset-0 bg-black/20"
+          @click="activateAccountModal = false"
+        ></div>
+        <div class="w-full h-full px-4 overflow-auto">
+          <div
+            class="relative z-10 bg-white rounded-lg shadow-main p-8 xl:p-16 w-full max-w-[45rem] my-12 mx-auto text-center"
+          >
+            <form>
+              <h6 class="text-2xl text-gray-700 mb-4 leading-normal">
+                ادخل رمز التحقق
+              </h6>
+              <p class="text-2xl text-gray-400 leading-normal mb-16">
+                لقد ارسلنا رمز تحقق إلي عنوان بريدك الإلكتروني, يرجي التحقق من
+                صندوق البريد الخاص بك
+              </p>
+              <div class="mb-16" style="direction: rtl">
+                <code-input
+                  @complete="submitCode"
+                  :disabled="isSubmitCodeDisabled"
+                />
+              </div>
+              <Icon
+                name="icomoon-free:spinner2"
+                class="loading-spinner text-primary-300"
+                v-if="isSubmitCodeDisabled"
+              />
+            </form>
+            <div class="flex justify-center">
+              <button
+                type="button"
+                class="flex items-center gap-4 text-primary-200 text-xl"
+                @click="resendCode"
+              >
+                <span>اعادة ارسال الرمز</span>
+                <Icon name="carbon:chevron-left" v-if="!isResendCode" />
+                <Icon
+                  name="icomoon-free:spinner2"
+                  class="loading-spinner text-primary-300"
+                  v-else
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Transition>
+  </teleport>
 </template>
 
 <style scoped></style>

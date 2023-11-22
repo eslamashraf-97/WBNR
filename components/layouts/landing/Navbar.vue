@@ -11,7 +11,7 @@
           >إنشاء حساب جديد
         </nuxt-link>
         <shared-buttons-secondary-button @click="navigateTo('/auth/login')">
-          تسحيل دخول
+          تسجيل دخول
         </shared-buttons-secondary-button>
       </div>
     </div>

@@ -1,1 +1,0 @@
-import{_}from"./entry.6d26f239.js";import{E as e,O as o}from"./swiper-vue.cec2437d.js";const c={},n={class:"loader"};function t(s,a){return e(),o("span",n)}const d=_(c,[["render",t],["__scopeId","data-v-cba9e9f2"]]);export{d as _};

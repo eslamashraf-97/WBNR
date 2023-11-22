@@ -199,7 +199,7 @@ const { data: productsData, pending: productsPending } =
                   :to="`/product/${product.id}`"
                   class="whitespace-nowrap text-xl text-gray-700 font-normal mb-[1rem] py-[.75rem] flex justify-between items-center cursor-pointer"
                 >
-                  {{ product.title }}
+                  {{ product.title.substring(0, 20) + "..." }}
                 </nuxt-link>
               </MenuItem>
             </template>
