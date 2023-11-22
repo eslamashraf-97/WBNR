@@ -1,4 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+// @ts-ignore
 export default defineNuxtConfig({
   devtools: { enabled: true },
   app: {
@@ -35,6 +36,7 @@ export default defineNuxtConfig({
     },
   },
   modules: ["nuxt-icon", "nuxt-swiper"],
+  plugins: ['~/plugins/firebase.js']
   // fcm: {
   //   firebaseConfig: {
   //     apiKey: "AIzaSyDs3KvHilOfojecJnTmJifN0KxEOxl5UNI",

@@ -1,7 +1,19 @@
 <script setup>
+import WalletImage from "@/assets/images/wallet.svg";
+
+import OrdersImage from "@/assets/images/orders.svg";
+
 import AvatarImage from "@/assets/images/avatar.svg";
 
 import LogoutImage from "@/assets/images/logout.svg";
+
+import { apiGetNotificationListUrl } from "@/server";
+
+const { fire } = useApi({
+  url: apiGetNotificationListUrl,
+});
+
+const { data: notificationData, pending } = await fire();
 
 const { cartLength } = useCartLength();
 
@@ -10,6 +22,16 @@ const { savedProductsCount } = useSavedProducts();
 const { removeUserData, user } = useAuth();
 
 const userMenu = [
+  {
+    image: WalletImage,
+    link: "/dashboard/wallet",
+    title: "المحفظة",
+  },
+  {
+    image: OrdersImage,
+    link: "/dashboard/requests",
+    title: "الطلبات",
+  },
   {
     image: AvatarImage,
     link: "/profile",
@@ -56,7 +78,32 @@ function toggleMenu() {
         class="flex flex-col-reverse sm:flex-row items-end sm:items-center gap-4 sm:gap-8"
       >
         <div class="flex items-center gap-9">
-          <Icon name="pepicons-pencil:bell" class="text-gray-600 text-2xl" />
+          <shared-menu
+            :items="notificationData.data"
+            :menu-props="{
+              class: '!min-w-0 w-[830px] text-start',
+            }"
+            :button-props="{
+              class: '!px-0 bg-transparent border-0 hover:bg-transparent',
+            }"
+          >
+            <template #label>
+              <Icon
+                name="pepicons-pencil:bell"
+                class="text-gray-600 text-2xl"
+              />
+            </template>
+            <template #item="{ data }">
+              <div class="pb-[2.25rem] border-b border-b-gray-200 mb-2">
+                <h5 class="text-gray-700 font-bold text-2xl leading-normal">
+                  {{ data?.title }}
+                </h5>
+                <p class="text-gray-500 text-2xl mb-0 leading-normal">
+                  {{ data.body }}
+                </p>
+              </div>
+            </template>
+          </shared-menu>
           <nuxt-link
             to="/saved-products"
             class="flex items-center gap-2 text-2xl"
@@ -95,7 +142,11 @@ function toggleMenu() {
               :to="data.link"
               class="flex items-center gap-6 leading-normal text-2xl text-gray-700 mb-[1.19rem]"
             >
-              <img :src="data?.image" :alt="data.title" class="" />
+              <img
+                :src="data?.image"
+                :alt="data.title"
+                class="block w-[20px] h-[20px]"
+              />
               <span class="flex-1 whitespace-nowrap">
                 {{ data.title }}
               </span>
@@ -106,7 +157,11 @@ function toggleMenu() {
               @click="data.function()"
               class="flex items-center gap-6 leading-normal text-2xl text-gray-700"
             >
-              <img :src="data?.image" :alt="data.title" class="" />
+              <img
+                :src="data?.image"
+                :alt="data.title"
+                class="w-[20px] h-[20px] block"
+              />
               <span class="flex-1 whitespace-nowrap">
                 {{ data.title }}
               </span>

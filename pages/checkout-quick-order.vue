@@ -54,9 +54,13 @@ const isLoadingPlaceOrder = ref(false);
 
 function placeOrder() {
   isLoadingPlaceOrder.value = true;
-  api_place_quick_order(form).finally(() => {
-    isLoadingPlaceOrder.value = false;
-  });
+  api_place_quick_order(form)
+    .then((res) => {
+      navigateTo("/dashboard/requests");
+    })
+    .finally(() => {
+      isLoadingPlaceOrder.value = false;
+    });
 }
 
 const getSelectedGov = computed(() =>
@@ -69,6 +73,7 @@ const getSelectedGov = computed(() =>
     <div class="flex flex-col-reverse xl:flex-row justify-start gap-24">
       <checkout-aside
         :details="{
+          ...quickOrderState,
           cartItems: [
             {
               product: {

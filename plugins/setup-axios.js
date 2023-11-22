@@ -27,7 +27,7 @@ export default defineNuxtPlugin(() => {
 
   appClient.interceptors.response.use(
     (response) => {
-      if (response?.data?.message) {
+      if (response?.data?.message && response.config.method !== "get") {
         if (!isServer) {
           toast.success(response.data.message);
         }

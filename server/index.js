@@ -111,3 +111,7 @@ export const apiChangePasswordUrl = "customer/profile/change-password";
 export const apiGetReturnsItemsUrl = "customer/orders/orders-items"; // country_id and title
 
 export const apiCreateReturnOrderUrl = "customer/return-orders";
+
+export const submitFcm = "customer/profile/post-token";
+
+export const apiGetNotificationListUrl = "customer/notifications";

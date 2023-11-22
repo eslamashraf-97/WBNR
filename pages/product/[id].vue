@@ -158,7 +158,8 @@ function requestNow() {
               <h6
                 class="mb-0 text-3xl text-gray-800 flex gap-[10px] items-center leading-[48px]"
               >
-                {{ productData.data.price }} <span>ج.م</span>
+                {{ productData.data.price }}
+                <span>{{ productData.data.country.currency }}</span>
               </h6>
             </div>
 
@@ -171,7 +172,8 @@ function requestNow() {
               <h6
                 class="mb-0 text-3xl text-gray-800 flex gap-[10px] items-center leading-[48px]"
               >
-                {{ productData.data.minCommission }} <span>ج.م</span>
+                {{ productData.data.minCommission }}
+                <span>{{ productData.data.country.currency }}</span>
               </h6>
             </div>
           </div>
@@ -284,7 +286,7 @@ function requestNow() {
                     <div
                       class="w-[57px] flex-1 border-s border-s-gray-200 flex items-center justify-center text-xl text-gray-300 font-bold"
                     >
-                      ج.م
+                      {{ productData.data.country.currency }}
                     </div>
                   </div>
                 </div>
@@ -296,7 +298,7 @@ function requestNow() {
                 <span
                   class="flex items-center gap-[10px] text-primary-300 text-xl"
                   >{{ commission }}
-                  <span>ج.م</span>
+                  <span>{{ productData.data.country.currency }}</span>
                 </span>
               </span>
             </div>

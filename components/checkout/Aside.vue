@@ -30,14 +30,14 @@ defineEmits(["placeOrder"]);
       <div class="flex items-center justify-between">
         <h5 class="text-2xl text-gray-700 font-normal">سعر المنتجات::</h5>
         <h5 class="text-2xl text-gray-500 font-normal">
-          <span>{{ details.price }} ج.م</span>
+          <span>{{ details.price }} {{ details.country.currency }}</span>
         </h5>
       </div>
 
       <div class="flex items-center justify-between">
         <h5 class="text-2xl text-gray-700 font-normal">الربح:</h5>
         <h5 class="text-2xl text-gray-500 font-normal">
-          <span>{{ details.final_price }} ج.م</span>
+          <span>{{ details.final_price }} {{ details.country.currency }}</span>
         </h5>
       </div>
 
@@ -51,14 +51,16 @@ defineEmits(["placeOrder"]);
       <div class="flex items-center justify-between">
         <h5 class="text-2xl text-gray-700 font-normal">اجمالي الربح:</h5>
         <h5 class="text-2xl text-gray-500 font-normal">
-          <span>{{ details.final_price }} ج.م</span>
+          <span>{{ details.final_price }} {{ details.country.currency }}</span>
         </h5>
       </div>
 
       <div class="flex items-center justify-between">
         <h5 class="text-2xl text-gray-700 font-normal">سعر الشحن:</h5>
         <h5 class="text-2xl text-gray-500 font-normal">
-          <span>{{ details.delivery_cost }} ج.م</span>
+          <span
+            >{{ details.delivery_cost }} {{ details.country.currency }}</span
+          >
         </h5>
       </div>
 

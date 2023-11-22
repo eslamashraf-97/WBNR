@@ -34,7 +34,7 @@ const flagsItems = [
       class: 'h-[57px] px-[32px] py-[6px]',
     }"
     :menu-props="{
-      class: 'max-w-[216px]',
+      class: 'max-w-[216px] bottom-full mt-0 mb-2 right-0 max-h-[240px]',
     }"
   >
     <template #label>
