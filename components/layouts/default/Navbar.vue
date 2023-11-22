@@ -8,6 +8,7 @@ import AvatarImage from "@/assets/images/avatar.svg";
 import LogoutImage from "@/assets/images/logout.svg";
 
 import { apiGetNotificationListUrl } from "@/server";
+import { getMessaging, onMessage } from "firebase/messaging";
 
 const { fire } = useApi({
   url: apiGetNotificationListUrl,
@@ -52,6 +53,14 @@ const menuIsOpen = ref(false);
 function toggleMenu() {
   menuIsOpen.value = !menuIsOpen.value;
 }
+
+onMounted(() => {
+  const messaging = getMessaging();
+  onMessage(messaging, (payload) => {
+    console.log("hello this is ", payload);
+    notificationData.value = { ...payload, ...notificationData.value };
+  });
+});
 </script>
 
 <template>

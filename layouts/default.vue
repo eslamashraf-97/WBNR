@@ -1,12 +1,16 @@
 <script setup>
 import { initializeApp, getApps } from "firebase/app";
+
 import { getMessaging, onMessage, getToken } from "firebase/messaging";
+
 import {
   apiGetCountriesUrl,
   apiGetCartLengthUrl,
   apiGetSavedProductsUrl,
   submitFcm,
 } from "@/server";
+
+const { user } = useAuth();
 
 const openMessagePopup = ref(false);
 // <!-- start firebase Notifications-->
@@ -20,28 +24,23 @@ const firebaseConfig = {
   measurementId: "G-02319K2TSP",
 };
 const apps = getApps();
+
 const app = !apps.length ? initializeApp(firebaseConfig) : apps[0];
 
+const fcm_token = ref(user.value.fcm_token);
+
 async function activate() {
-  const token = await getToken(getMessaging(app));
-  if (token) {
-    console.log(token);
-  } else {
-    // request permission
+  if (!fcm_token) {
+    const token = await getToken(getMessaging(app));
+    if (token) {
+      fcm_token.value = token;
+    }
   }
 }
 
 async function authenticate() {
   await activate();
 }
-
-onMounted(async () => {
-  await authenticate();
-  const messaging = getMessaging();
-  onMessage(messaging, (payload) => {
-    console.log("hello this is ", payload);
-  });
-});
 
 const { setCountries, selectedCountry } = useCountries();
 
@@ -82,13 +81,17 @@ await useRequest({
   url: () => submitFcm,
   requetOptions: {
     body: JSON.stringify({
-      fcm_token: "",
+      fcm_token: fcm_token.value,
     }),
     method: "post",
     onResponse: ({ response }) => {
       const responseData = response._data;
     },
   },
+});
+
+onMounted(async () => {
+  await authenticate();
 });
 </script>
 

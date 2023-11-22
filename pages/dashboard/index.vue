@@ -39,7 +39,10 @@ const { data, pending } = await fire();
       <shared-loders-loading />
     </div>
 
-    <div v-else class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-7">
+    <div
+      v-else
+      class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-7 px-[4px]"
+    >
       <shared-cards-stats title="اجمالي الطلبات" :value="data.total_orders" />
       <shared-cards-stats
         title="اجمالي الأرباح"
