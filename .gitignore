@@ -125,4 +125,6 @@ out
 .yarn/install-state.gz
 .pnp.*
 
-# 
+# .nuxt
+# .output
+# .dist

@@ -97,12 +97,26 @@ const productStatuses = computed(() => {
     );
   }).color;
 });
+
+const { setQuickOrderState } = useQuickProduct();
+
+function requestNow() {
+  setQuickOrderState({
+    ...props.details,
+    qty: 1,
+    commission: props.details.minCommission,
+    selectedVariants: [],
+  });
+
+  navigateTo("/checkout-quick-order");
+}
 </script>
 
 <template>
-  <div
+  <nuxt-link
     v-if="details"
-    class="min-w-96 border border-gray-200 shadow-product rounded-md overflow-hidden"
+    :to="`/product/${details.id}`"
+    class="min-w-96 border border-gray-200 shadow-product rounded-md overflow-hidden block"
   >
     <img :src="details.featured_image" class="object-cover w-full h-80" />
 
@@ -113,14 +127,14 @@ const productStatuses = computed(() => {
         <Icon
           name="fluent:bookmark-20-regular"
           class="cursor-pointer"
-          @click="saveProduct"
+          @click.prevent.stop="saveProduct"
           v-if="!savedProduct && !saveProductIsLoading"
         />
 
         <Icon
           name="fluent:bookmark-20-filled"
           class="cursor-pointer"
-          @click="removeProduct"
+          @click.prevent.stop="removeProduct"
           v-else-if="savedProduct && !saveProductIsLoading"
         />
         <Icon name="icomoon-free:spinner2" class="loading-spinner" v-else />
@@ -128,7 +142,7 @@ const productStatuses = computed(() => {
         <Icon
           name="la:cart-arrow-down"
           class="cursor-pointer"
-          @click="addProductToCart"
+          @click.prevent.stop="addProductToCart"
           v-if="!addProductToCartIsLoading"
         />
         <Icon name="icomoon-free:spinner2" class="loading-spinner" v-else />
@@ -137,30 +151,36 @@ const productStatuses = computed(() => {
         class="w-[1.5rem] h-[.25rem] rounded-[3rem] block mb-2"
         :style="{ background: productStatuses }"
       ></span>
-      <h1 class="text-[28px] leading-10">{{ details.title }}</h1>
+      <h1 class="text-[28px] leading-10">
+        {{ details.title.substring(0, 15) + "..." }}
+      </h1>
       <div class="flex justify-between my-9">
         <div>
           <h5 class="text-gray-400 text-base font-normal mb-1">
             اقل سعر للبيع
           </h5>
-          <h3 class="text-2xl">{{ details.price }}</h3>
+          <h3 class="text-2xl">
+            {{ details.price }} {{ details.country?.currency }}
+          </h3>
         </div>
         <div>
           <h5 class="text-gray-400 text-base font-normal mb-1">
             اقل سعر للربح
           </h5>
-          <h3 class="text-2xl">{{ details.minCommission }}</h3>
+          <h3 class="text-2xl">
+            {{ details.minCommission }} {{ details.country?.currency }}
+          </h3>
         </div>
       </div>
-      <nuxt-link
-        :to="`/product/${details.id}`"
-        class="text-primary-300 flex gap-1 font-semibold items-center text-lg"
+      <div
+        @click.prevent.stop="requestNow"
+        class="cursor-pointer text-primary-300 flex gap-1 font-semibold items-center text-lg"
       >
-        <span>تفاصيل المنتج</span>
+        <span>اطلب الان</span>
         <Icon name="iconamoon:arrow-left-2-duotone" class="text-2xl" />
-      </nuxt-link>
+      </div>
     </div>
-  </div>
+  </nuxt-link>
 </template>
 
 <style scoped></style>

@@ -28,6 +28,20 @@ function changeCountry(country) {
 function filterOrders() {
   refresh();
 }
+
+const moreDetails = ref(false);
+
+const moreDetailsData = ref(null);
+
+function showMoreDetails(details) {
+  moreDetails.value = true;
+  moreDetailsData.value = details;
+}
+
+function hideMoreDetails() {
+  moreDetails.value = false;
+  moreDetailsData.value = null;
+}
 </script>
 
 <template>
@@ -65,7 +79,7 @@ function filterOrders() {
       </shared-cards-filter>
     </div>
 
-    <div class="table overflow-auto" v-if="!pending && data.data">
+    <div class="table overflow-auto w-full" v-if="!pending && data.data">
       <table class="w-full">
         <thead>
           <tr>
@@ -91,6 +105,7 @@ function filterOrders() {
             <th class="text-2xl text-gray-800 font-normal leading-normal">
               الدولة
             </th>
+            <th class="text-2xl text-gray-800 font-normal leading-normal"></th>
           </tr>
         </thead>
 
@@ -99,10 +114,10 @@ function filterOrders() {
             <td
               class="text-2xl text-gray-500 font-normal leading-normal block xl:hidden 2xl:block"
             >
-              {{ order.order_number }}
+              {{ order.order_number.substring(0, 5) + "..." }}
             </td>
             <td class="text-2xl text-gray-700 font-normal leading-normal">
-              {{ order.client.name }}
+              {{ order.client.name.substring(0, 5) + "..." }}
             </td>
             <td class="text-2xl text-gray-700 font-normal leading-normal">
               {{ order.price }}
@@ -120,11 +135,107 @@ function filterOrders() {
                 class="m-auto"
               />
             </td>
+            <td
+              class="text-2xl text-gray-700 font-normal leading-normal cursor-pointer"
+              @click="showMoreDetails(order)"
+            >
+              تفاصيل الطلب
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
   </section>
+
+  <teleport to="body">
+    <Transition v-if="moreDetails">
+      <div class="fixed inset-0 z-50">
+        <div class="fixed inset-0 bg-black/20" @click="hideMoreDetails"></div>
+        <div class="w-full h-full px-4 overflow-auto">
+          <div
+            class="relative z-10 bg-white rounded-lg shadow-main p-8 xl:p-16 w-full max-w-[50rem] my-12 mx-auto flex flex-col gap-9"
+          >
+            <div class="relative mb-16">
+              <button
+                type="button"
+                @click="hideMoreDetails"
+                class="absolute top-0 end-0 text-[1.6rem] text-gray-500"
+              >
+                <Icon name="clarity:times-line" />
+              </button>
+            </div>
+
+            <div class="grid gap-md">
+              <div
+                class="flex items-center gap-8"
+                v-for="product in moreDetailsData.orderItems"
+              >
+                <img
+                  :src="product.product.featured_image"
+                  :alt="product.product.title"
+                  class="w-[4.6875rem] h-[4.6875rem] rounded-[.5rem]"
+                />
+
+                <div class="">
+                  <h6 class="text-2xl font-normal leading-normal text-gray-700">
+                    {{ product.product.title }}
+                  </h6>
+                  <span>الكمية: ({{ product.quantity }})</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <h5 class="text-2xl text-gray-700 font-normal">سعر المنتجات::</h5>
+              <h5 class="text-2xl text-gray-500 font-normal">
+                <span
+                  >{{ moreDetailsData.price }}
+                  {{ moreDetailsData.country.currency }}</span
+                >
+              </h5>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <h5 class="text-2xl text-gray-700 font-normal">الربح:</h5>
+              <h5 class="text-2xl text-gray-500 font-normal">
+                <span
+                  >{{ moreDetailsData.final_price }}
+                  {{ moreDetailsData.country.currency }}</span
+                >
+              </h5>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <h5 class="text-2xl text-gray-700 font-normal">الضريبة:</h5>
+              <h5 class="text-2xl text-gray-500 font-normal">
+                <span>{{ moreDetailsData.tax_percentage }}</span>
+              </h5>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <h5 class="text-2xl text-gray-700 font-normal">اجمالي الربح:</h5>
+              <h5 class="text-2xl text-gray-500 font-normal">
+                <span
+                  >{{ moreDetailsData.final_price }}
+                  {{ moreDetailsData.country.currency }}</span
+                >
+              </h5>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <h5 class="text-2xl text-gray-700 font-normal">سعر الشحن:</h5>
+              <h5 class="text-2xl text-gray-500 font-normal">
+                <span
+                  >{{ moreDetailsData.delivery_cost }}
+                  {{ moreDetailsData.country.currency }}</span
+                >
+              </h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Transition>
+  </teleport>
 </template>
 
 <style scoped></style>

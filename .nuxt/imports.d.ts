@@ -8,6 +8,7 @@ export { default as useAuth } from '../composables/useAuth';
 export { default as useCartLength } from '../composables/useCartLength';
 export { default as useCountries } from '../composables/useCountries';
 export { default as usePagination } from '../composables/usePagination';
+export { default as useQuickProduct } from '../composables/useQuickProduct';
 export { default as useRequest } from '../composables/useRequest';
 export { default as useSavedProducts } from '../composables/useSavedProducts';
 export { useSwiper, useSwiperSlide } from 'swiper/vue';

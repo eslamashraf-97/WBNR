@@ -3,7 +3,7 @@ import { reactive, ref } from "vue";
 
 import SocialMediaLogin from "@/components/shared/SocialMediaLogin.vue";
 
-import { apiLoginUrl } from "@/server";
+import { api_login } from "@/server";
 
 const { setUserData } = useAuth();
 
@@ -18,23 +18,17 @@ const form = reactive({
   password: "",
 });
 
-const tokenCookies = useCookie("token");
-
-async function handleSubmit() {
+function handleSubmit() {
   isLoading.value = true;
-  await useRequest({
-    url: apiLoginUrl,
-    requetOptions: {
-      body: JSON.stringify(form),
-      method: "post",
-      onResponse: ({ response }) => {
-        const responseData = response._data;
-        setUserData(responseData.data.user, responseData.meta?.token);
-        // navigateTo("/home");
-      },
-    },
-  });
-  isLoading.value = false;
+  api_login(form)
+    .then((response) => {
+      const responseData = response.data;
+      setUserData(responseData.data.user, responseData.meta?.token);
+      navigateTo("/home");
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
 }
 
 function loginWith(data) {

@@ -1,4 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+// @ts-ignore
 export default defineNuxtConfig({
   devtools: { enabled: true },
   app: {
@@ -13,10 +14,11 @@ export default defineNuxtConfig({
           async: true,
           defer: true,
         },
-        { src: "https://connect.facebook.net/en_US/sdk.js" ,
+        {
+          src: "https://connect.facebook.net/en_US/sdk.js",
           async: true,
-          defer: true
-        }
+          defer: true,
+        },
       ],
       // meta: [
       //   {
@@ -34,6 +36,7 @@ export default defineNuxtConfig({
     },
   },
   modules: ["nuxt-icon", "nuxt-swiper"],
+  plugins: ['~/plugins/firebase.js']
   // fcm: {
   //   firebaseConfig: {
   //     apiKey: "AIzaSyDs3KvHilOfojecJnTmJifN0KxEOxl5UNI",

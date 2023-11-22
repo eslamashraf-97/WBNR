@@ -1,26 +1,39 @@
-import Api from "./setupAxios";
+function $api() {
+  const { $api } = useNuxtApp();
+  return $api;
+}
 
 export function api_login(data) {
-  return Api().post("customer/login", data);
+  return $api().post("customer/login", data);
 }
 
 export function api_register(data) {
-  return Api().post("customer/signup", data);
+  return $api().post("customer/signup", data);
 }
 
-export function api_suggested_products(data) {
-  return Api().get("customer/products");
+export function api_submit_verificationCode(data) {
+  return $api().post("customer/verify-account", data);
 }
 
-export function api_single_product(id) {
-  return Api().get(`customer/products/${id}`);
+export function api_resend_verificationCode(data) {
+  return $api().post("customer/resend-verification-otp", data);
 }
 
-export function api_products(params) {
-  return Api().get(`customer/products`, {
+export function api_get_single_product(id) {
+  return $api().get(`customer/products/${id}`);
+}
+
+export function api_get_products(params) {
+  return $api().get(`customer/products`, {
     params,
   });
 }
+
+export function api_add_to_cart(data) {
+  return $api().post(`customer/cart`, data);
+}
+
+// export const apiAddToCartUrl = "customer/cart";
 
 export const apiLoginUrl = "customer/login";
 
@@ -81,6 +94,10 @@ export const apiCreateWithdrawUrl = "customer/wallet/request/withdraw"; // id
 
 export const apiPlaceQuickOrderUrl = "customer/orders/quick-order";
 
+export function api_place_quick_order(data) {
+  return $api().post("customer/orders/quick-order", data);
+}
+
 export const apiDeleteCartUrl = "customer/cart"; // cart id
 
 export const apiGetProfileUrl = "customer/profile";
@@ -94,3 +111,7 @@ export const apiChangePasswordUrl = "customer/profile/change-password";
 export const apiGetReturnsItemsUrl = "customer/orders/orders-items"; // country_id and title
 
 export const apiCreateReturnOrderUrl = "customer/return-orders";
+
+export const submitFcm = "customer/profile/post-token";
+
+export const apiGetNotificationListUrl = "customer/notifications";
