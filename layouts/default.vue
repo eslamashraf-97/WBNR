@@ -30,7 +30,7 @@ const app = !apps.length ? initializeApp(firebaseConfig) : apps[0];
 const fcm_token = ref(user.value.fcm_token);
 
 async function activate() {
-  if (!fcm_token) {
+  if (!fcm_token.value) {
     const token = await getToken(getMessaging(app));
     if (token) {
       fcm_token.value = token;
