@@ -51,7 +51,9 @@ function addToCart() {
   api_add_to_cart(payload)
     .then(() => {
       addedToCartStatus.value = true;
-      setCartLength(cartLength.value + productForm.quantity);
+      setCartLength(
+        parseInt(cartLength.value) + parseInt(productForm.quantity),
+      );
     })
     .finally(() => {
       isLoading.value = false;

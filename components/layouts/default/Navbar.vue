@@ -7,14 +7,21 @@ import AvatarImage from "@/assets/images/avatar.svg";
 
 import LogoutImage from "@/assets/images/logout.svg";
 
-import { apiGetNotificationListUrl } from "@/server";
+import { apiGetNotificationListUrl, apiGetNotificationList } from "@/server";
+
 import { getMessaging, onMessage } from "firebase/messaging";
 
-const { fire } = useApi({
-  url: apiGetNotificationListUrl,
-});
+import { toast } from "vue3-toastify";
 
-const { data: notificationData, pending } = await fire();
+// const { fire } = useApi({
+//   url: apiGetNotificationListUrl,
+// });
+
+const notificationData = ref([]);
+
+await apiGetNotificationList().then((res) => {
+  notificationData.value = res.data.data;
+});
 
 const { cartLength } = useCartLength();
 
@@ -58,7 +65,8 @@ onMounted(() => {
   const messaging = getMessaging();
   onMessage(messaging, (payload) => {
     console.log("hello this is ", payload);
-    notificationData.value = { ...payload, ...notificationData.value };
+    notificationData.value = [payload.notification, ...notificationData.value];
+    toast.info(payload.notification.title);
   });
 });
 </script>
@@ -88,9 +96,10 @@ onMounted(() => {
       >
         <div class="flex items-center gap-9">
           <shared-menu
-            :items="notificationData.data"
+            :items="notificationData"
             :menu-props="{
-              class: '!min-w-0 w-[830px] text-start',
+              class:
+                '!min-w-0 w-[300px] xl:w-[52rem] max-h-[52rem] text-start notification-menu',
             }"
             :button-props="{
               class: '!px-0 bg-transparent border-0 hover:bg-transparent',
@@ -103,7 +112,9 @@ onMounted(() => {
               />
             </template>
             <template #item="{ data }">
-              <div class="pb-[2.25rem] border-b border-b-gray-200 mb-2">
+              <div
+                class="pb-[2.25rem] border-b border-b-gray-200 mb-2 last:border-0 last:mb-0"
+              >
                 <h5 class="text-gray-700 font-bold text-2xl leading-normal">
                   {{ data?.title }}
                 </h5>
@@ -141,7 +152,7 @@ onMounted(() => {
             <div class="flex items-center gap-[19px]">
               <Icon name="iconamoon:arrow-down-2-duotone" />
               <span class="leading-normal text-2xl text-gray-700">
-                {{ user.name.substring(0, 5) }}
+                {{ user?.name ? user.name.substring(0, 5) : null }}
               </span>
             </div>
           </template>

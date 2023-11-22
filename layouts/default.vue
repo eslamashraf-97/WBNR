@@ -8,6 +8,7 @@ import {
   apiGetCartLengthUrl,
   apiGetSavedProductsUrl,
   submitFcm,
+  apiSubmitFcm,
 } from "@/server";
 
 const { user } = useAuth();
@@ -30,7 +31,7 @@ const app = !apps.length ? initializeApp(firebaseConfig) : apps[0];
 const fcm_token = ref(user.value.fcm_token);
 
 async function activate() {
-  if (!fcm_token.value) {
+  if (!user.value.fcm_token) {
     const token = await getToken(getMessaging(app));
     if (token) {
       fcm_token.value = token;
@@ -41,6 +42,12 @@ async function activate() {
 async function authenticate() {
   await activate();
 }
+
+onMounted(async () => {
+  await authenticate();
+
+  await apiSubmitFcm({ fcm_token: fcm_token.value });
+});
 
 const { setCountries, selectedCountry } = useCountries();
 
@@ -77,22 +84,20 @@ await useRequest({
     },
   },
 });
-await useRequest({
-  url: () => submitFcm,
-  requetOptions: {
-    body: JSON.stringify({
-      fcm_token: fcm_token.value,
-    }),
-    method: "post",
-    onResponse: ({ response }) => {
-      const responseData = response._data;
-    },
-  },
-});
+// await useRequest({
+//   url: () => submitFcm,
+//   requetOptions: {
+//     body: JSON.stringify({
+//       fcm_token: fcm_token.value,
+//     }),
+//     method: "post",
+//     onResponse: ({ response }) => {
+//       const responseData = response._data;
 
-onMounted(async () => {
-  await authenticate();
-});
+//       console.log(fcm_token);
+//     },
+//   },
+// });
 </script>
 
 <template>

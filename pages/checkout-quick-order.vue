@@ -145,7 +145,7 @@ const getSelectedGov = computed(() =>
                       'w-[11.1375rem] h-[3.06rem] !p-0 flex items-center justify-center rounded-[0.75rem] !border-gray-200 !bg-gray-100',
                   }"
                   :menuProps="{
-                    class: 'w-[11.1375rem]',
+                    class: 'w-[11.1375rem] right-0',
                   }"
                 >
                   <template #label>

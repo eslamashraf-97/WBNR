@@ -37,7 +37,7 @@ async function saveProduct() {
   console.log(status);
   if (status.value === "success") {
     savedProduct.value = true;
-    setSavedProductsCount(savedProductsCount.value + 1);
+    setSavedProductsCount(parseInt(savedProductsCount.value) + 1);
   }
   saveProductIsLoading.value = false;
 }
@@ -56,7 +56,7 @@ async function removeProduct() {
   console.log(status.value);
   if (status.value === "success") {
     savedProduct.value = false;
-    setSavedProductsCount(savedProductsCount.value - 1);
+    setSavedProductsCount(parseInt(savedProductsCount.value) - 1);
   }
   saveProductIsLoading.value = false;
 }
@@ -80,7 +80,7 @@ async function addProductToCart() {
     final_price: props.details.price,
   });
   if (status.value === "success") {
-    setCartLength(cartLength + 1);
+    setCartLength(parseInt(cartLength.value) + 1);
   }
   addProductToCartIsLoading.value = false;
 }
@@ -152,7 +152,8 @@ function requestNow() {
         :style="{ background: productStatuses }"
       ></span>
       <h1 class="text-[28px] leading-10">
-        {{ details.title.substring(0, 15) + "..." }}
+        {{ details.title.substring(0, 15) }}
+        {{ details.title.length > 15 ? "..." : "" }}
       </h1>
       <div class="flex justify-between my-9">
         <div>

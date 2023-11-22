@@ -31,7 +31,7 @@ const cartDetails = [
 
 <template>
   <aside
-    class="flex flex-col gap-7 2xl:w-[29.25rem] p-9 bg-white border border-gray-200 rounded-3xl dashboard-aside h-fit shadow-main"
+    class="flex flex-col gap-7 2xl:w-[32rem] p-9 bg-white border border-gray-200 rounded-3xl dashboard-aside h-fit shadow-main"
   >
     <template v-if="details">
       <!-- start main info  -->
@@ -42,7 +42,7 @@ const cartDetails = [
       >
         <h5 class="text-2xl text-gray-700 font-normal">{{ item.title }}</h5>
         <h5 class="text-2xl text-gray-500 font-normal">
-          <span>{{ details[item.key] }} {{ item.coins }}</span>
+          <span>{{ details[item.key] }} {{ details.country.currency }}</span>
         </h5>
       </div>
     </template>

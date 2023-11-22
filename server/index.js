@@ -114,4 +114,12 @@ export const apiCreateReturnOrderUrl = "customer/return-orders";
 
 export const submitFcm = "customer/profile/post-token";
 
+export function apiSubmitFcm(data) {
+  return $api().post(`customer/profile/post-token`, data);
+}
+
 export const apiGetNotificationListUrl = "customer/notifications";
+
+export function apiGetNotificationList() {
+  return $api().get(`customer/notifications`);
+}

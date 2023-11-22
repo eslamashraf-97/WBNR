@@ -86,3 +86,17 @@ tr td {
     transform: rotate(360deg);
   }
 }
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: theme("colors.gray.200");
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: theme("colors.primary.300");
+}
