@@ -7,16 +7,16 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-    - name: Deploy to server
-      env:
-        PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        HOST: 138.68.133.151
-        USER: root
-      run: |
-        echo "$PRIVATE_KEY" > private_key 
-        chmod 600 private_key
-         sshpass -p 2701_Hgfds  ssh  -o StrictHostKeyChecking=no  $USER@$HOST  " 
-         cd /root/website/WBNR && git pull && docker stop wbnr && docker rm wbnr  &&
-         docker build -t wbnr .  && docker run -d -p 5000:3000 --name=wbnr wbnr "
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Deploy to server
+        env:
+          PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          HOST: 138.68.133.151
+          USER: root
+        run: |
+          echo "$PRIVATE_KEY" > private_key 
+          chmod 600 private_key
+           sshpass -p 2701_Hgfds  ssh  -o StrictHostKeyChecking=no  $USER@$HOST  " 
+           cd /root/website/WBNR && git pull && docker stop wbnr && docker rm wbnr  &&
+           docker build -t wbnr .  && docker run -d -p 5000:3000 --name=wbnr wbnr "
