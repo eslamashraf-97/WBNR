@@ -7,6 +7,8 @@ import {
 
 import { productStatus } from "@/constants";
 
+import JSZip from "jszip";
+
 const { setCartLength, cartLength } = useCartLength();
 
 const route = useRoute();
@@ -88,11 +90,41 @@ function requestNow() {
     ...productData.data,
     qty: productForm.quantity,
     commission: commission.value,
+    price: productForm.price,
     selectedVariants: getSelectedVariantsValues(),
   });
 
   navigateTo("/checkout-quick-order");
 }
+
+function downloadImages() {
+  var zip = new JSZip();
+  var promises = [];
+
+  productData.data.images.forEach(function (url) {
+    promises.push(
+      fetch(url.url)
+        .then((response) => response.blob())
+        .then((blob) => {
+          var filename = url.url.substring(url.url.lastIndexOf("/") + 1);
+          zip.file(filename, blob);
+        })
+        .catch((error) => {
+          console.error("Error fetching image:", error);
+        }),
+    );
+  });
+
+  Promise.all(promises).then(() => {
+    zip.generateAsync({ type: "blob" }).then(function (content) {
+      var link = document.createElement("a");
+      link.href = URL.createObjectURL(content);
+      link.download = "images.zip";
+      link.click();
+    });
+  });
+}
+// downloadImage(productData.data.images[i].url);
 </script>
 
 <template>
@@ -125,7 +157,10 @@ function requestNow() {
               />
             </div>
           </div>
-          <p class="text-primary-300 text-xl font-semibold mt-7">
+          <p
+            class="text-primary-300 text-xl font-semibold mt-7 cursor-pointer"
+            @click="downloadImages"
+          >
             تحميل كل صور المنتج
             <span>
               <Icon name="pepicons-pop:angle-left" />

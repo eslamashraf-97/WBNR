@@ -75,7 +75,7 @@ defineEmits([
                 <div
                   class="w-[3.5625rem] flex-1 border-s border-s-gray-200 flex items-center justify-center text-xl text-gray-300 font-bold"
                 >
-                  ج.م
+                  {{ product.country.currency }}
                 </div>
               </div>
             </div>

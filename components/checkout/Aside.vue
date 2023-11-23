@@ -44,7 +44,9 @@ defineEmits(["placeOrder"]);
       <div class="flex items-center justify-between">
         <h5 class="text-2xl text-gray-700 font-normal">الضريبة:</h5>
         <h5 class="text-2xl text-gray-500 font-normal">
-          <span>{{ details.tax_percentage }}</span>
+          <span
+            >{{ details.tax_percentage }} {{ details.country.currency }}</span
+          >
         </h5>
       </div>
 
