@@ -95,7 +95,7 @@ const productStatuses = computed(() => {
     return (
       item.from <= percentage && (item.to >= percentage || item.to == undefined)
     );
-  }).color;
+  })?.color;
 });
 
 const { setQuickOrderState } = useQuickProduct();
