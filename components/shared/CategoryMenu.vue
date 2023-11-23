@@ -21,35 +21,26 @@ const selectedCategory = ref(categoriesData.value?.data[0].id);
 
 const selectedCategoryData = ref(categoriesData.value?.data[0]);
 
-function changeCategory(cat) {
-  selectedCategory.value = cat.id;
-  selectedCategoryData.value = cat;
-  productsData.value.data = [];
-}
-
 // sub categories
+const selectedSubCategory = ref();
+
+const selectedSubCategoryData = ref();
+
 const { fire: fireGetSubCategories } = useApi({
   url: () => apiGetSubCateoriesUrl + "/" + selectedCategory.value,
   requestOptions: {
     watch: [selectedCategory],
+    onResponse: (response) => {
+      if (response.response.ok) {
+        selectedSubCategory.value = response.response._data.data.id;
+        selectedSubCategoryData.value = response.response._data.data;
+      }
+    },
   },
 });
 
 const { data: subCategoriesData, pending: subCategoriesPending } =
   await fireGetSubCategories();
-
-const selectedSubCategory = ref(
-  subCategoriesData.value?.data?.sub_categories[0]?.id,
-);
-
-const selectedSubCategoryData = ref(
-  subCategoriesData.value?.data.sub_categories[0],
-);
-
-function changeSubCategory(subCat) {
-  selectedSubCategory.value = subCat.id;
-  selectedSubCategoryData.value = subCat;
-}
 
 // products based on selected category
 const { fire: fireGetProducts } = useApi({
@@ -59,12 +50,26 @@ const { fire: fireGetProducts } = useApi({
       country_id: selectedCountry.value.id,
       category_id: selectedSubCategory,
     },
+    onResponse: () => {
+      console.log("prodcts");
+    },
     watch: [selectedSubCategory],
   },
 });
 
 const { data: productsData, pending: productsPending } =
   await fireGetProducts();
+
+function changeCategory(cat) {
+  selectedCategory.value = cat.id;
+  selectedCategoryData.value = cat;
+  productsData.value.data = [];
+}
+
+function changeSubCategory(subCat) {
+  selectedSubCategory.value = subCat.id;
+  selectedSubCategoryData.value = subCat;
+}
 </script>
 
 <template>
@@ -94,16 +99,12 @@ const { data: productsData, pending: productsPending } =
         <div class="py-1 flex">
           <!-- category  -->
           <div class="overflow-auto max-h-[300px] w-[20rem] items-scroller">
-            <MenuItem
-              v-slot="{ active }"
-              v-for="(cat, index) in categoriesData.data"
-              :key="cat.id"
-            >
+            <MenuItem v-for="(cat, index) in categoriesData.data" :key="cat.id">
               <div
                 @click.stop.prevent="changeCategory(cat)"
                 class="whitespace-nowrap text-xl text-gray-700 font-bold mb-[1rem] py-[.75rem] flex justify-between items-center cursor-pointer"
                 :class="{
-                  'text-primary-300': selectedCategoryData.id === cat.id,
+                  'text-primary-300': selectedCategoryData?.id === cat.id,
                 }"
               >
                 <span>
@@ -142,16 +143,16 @@ const { data: productsData, pending: productsPending } =
             </template>
             <template v-else>
               <MenuItem
-                v-slot="{ active }"
                 v-for="(subCat, index) in subCategoriesData.data.sub_categories"
-                :key="subCat.id"
+                :key="subCat.id + 'subcat' + index"
+                as="div"
               >
                 <div
                   @click.stop.prevent="changeSubCategory(subCat)"
                   class="whitespace-nowrap text-xl text-gray-700 font-normal mb-[1rem] py-[.75rem] flex justify-between items-center cursor-pointer"
                   :class="{
                     'text-primary-300':
-                      selectedSubCategoryData.id === subCat.id,
+                      selectedSubCategoryData?.id === subCat.id,
                   }"
                 >
                   <span>
@@ -191,9 +192,9 @@ const { data: productsData, pending: productsPending } =
             </template>
             <template v-else>
               <MenuItem
-                v-slot="{ active }"
                 v-for="(product, index) in productsData.data"
-                :key="product.id"
+                :key="product.id + 'product' + index"
+                as="div"
               >
                 <nuxt-link
                   :to="`/product/${product.id}`"
