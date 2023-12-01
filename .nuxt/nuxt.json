@@ -1,9 +1,9 @@
 {
-  "_hash": "NaxLZXGqnE",
+  "_hash": "mZXCUNOjwz",
   "project": {
-    "rootDir": "/home/mahmoud/Projects/WBNR"
+    "rootDir": "/Users/ahmedmohsin/work/islam-ashraf/WBNR"
   },
   "versions": {
-    "nuxt": "3.8.0"
+    "nuxt": "3.8.2"
   }
 }

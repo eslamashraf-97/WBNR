@@ -36,7 +36,6 @@ export default defineNuxtConfig({
     },
   },
   modules: ["nuxt-icon", "nuxt-swiper"],
-  plugins: ['~/plugins/firebase.js']
   // fcm: {
   //   firebaseConfig: {
   //     apiKey: "AIzaSyDs3KvHilOfojecJnTmJifN0KxEOxl5UNI",
