@@ -34,8 +34,6 @@ export default function useChat () {
       is_user_message: true,
     });
     message.value = '';
-    console.log('Message sent!');
-
   };
 
   return {

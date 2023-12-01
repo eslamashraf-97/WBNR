@@ -2,10 +2,20 @@
 import AdminLogo from "./AdminLogo.vue";
 
 const openMessagePopup = ref(false);
+const chatbox = ref(null);
 const { message, chat, getMessages, sendMessage } = useChat();
 onMounted(() => {
   getMessages();
 });
+watch(
+  chat,
+  () => {
+    nextTick(() => {
+      chatbox.value.scrollTop = chatbox.value.scrollHeight;
+    });
+  },
+  { deep: true, immediate: true },
+);
 </script>
 
 
@@ -50,7 +60,7 @@ onMounted(() => {
         <h2>Chatbot</h2>
         <span class="close-btn material-symbols-outlined">close</span>
       </header>
-      <ul class="chatbox">
+      <ul class="chatbox" ref="chatbox">
         <li class="chat incoming">
           <admin-logo />
           <p>Hi there 👋<br />How can I help you today?</p>
@@ -162,10 +172,12 @@ header h2 {
 .chatbot .chatbox {
   overflow-y: auto;
   height: 510px;
-  padding: 30px 20px 100px;
+  padding: 30px 20px;
   display: flex;
   flex-direction: column;
   gap: 12px;
+  scroll-behavior: smooth;
+  margin-bottom: 50px;
 }
 .chatbot :where(.chatbox, input)::-webkit-scrollbar {
   width: 6px;
