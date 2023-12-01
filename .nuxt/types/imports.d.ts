@@ -120,6 +120,7 @@ declare global {
   const useAttrs: typeof import('../../node_modules/vue')['useAttrs']
   const useAuth: typeof import('../../composables/useAuth')['default']
   const useCartLength: typeof import('../../composables/useCartLength')['default']
+  const useChat: typeof import('../../composables/useChat')['default']
   const useCookie: typeof import('../../node_modules/nuxt/dist/app/composables/cookie')['useCookie']
   const useCountries: typeof import('../../composables/useCountries')['default']
   const useCssModule: typeof import('../../node_modules/vue')['useCssModule']
@@ -296,6 +297,7 @@ declare module 'vue' {
     readonly useAttrs: UnwrapRef<typeof import('../../node_modules/vue')['useAttrs']>
     readonly useAuth: UnwrapRef<typeof import('../../composables/useAuth')['default']>
     readonly useCartLength: UnwrapRef<typeof import('../../composables/useCartLength')['default']>
+    readonly useChat: UnwrapRef<typeof import('../../composables/useChat')['default']>
     readonly useCookie: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/cookie')['useCookie']>
     readonly useCountries: UnwrapRef<typeof import('../../composables/useCountries')['default']>
     readonly useCssModule: UnwrapRef<typeof import('../../node_modules/vue')['useCssModule']>
@@ -465,6 +467,7 @@ declare module '@vue/runtime-core' {
     readonly useAttrs: UnwrapRef<typeof import('../../node_modules/vue')['useAttrs']>
     readonly useAuth: UnwrapRef<typeof import('../../composables/useAuth')['default']>
     readonly useCartLength: UnwrapRef<typeof import('../../composables/useCartLength')['default']>
+    readonly useChat: UnwrapRef<typeof import('../../composables/useChat')['default']>
     readonly useCookie: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/cookie')['useCookie']>
     readonly useCountries: UnwrapRef<typeof import('../../composables/useCountries')['default']>
     readonly useCssModule: UnwrapRef<typeof import('../../node_modules/vue')['useCssModule']>

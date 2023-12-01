@@ -24,6 +24,7 @@ export { injectHead, useHead, useSeoMeta, useHeadSafe, useServerHead, useServerS
 export { default as useApi } from '../composables/useApi';
 export { default as useAuth } from '../composables/useAuth';
 export { default as useCartLength } from '../composables/useCartLength';
+export { default as useChat } from '../composables/useChat';
 export { default as useCountries } from '../composables/useCountries';
 export { default as usePagination } from '../composables/usePagination';
 export { default as useQuickProduct } from '../composables/useQuickProduct';

@@ -1,7 +1,7 @@
 import { initializeApp, } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 
-export default defineNuxtPlugin(nuxtApp => {
+export default defineNuxtPlugin(({ provide }) => {
     const firebaseConfig = {
         apiKey: "AIzaSyDs3KvHilOfojecJnTmJifN0KxEOxl5UNI",
         authDomain: "myr-group.firebaseapp.com",
@@ -13,6 +13,6 @@ export default defineNuxtPlugin(nuxtApp => {
     };
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    nuxtApp.provide('firestore', db);
+    provide('db', db);
 })
 
