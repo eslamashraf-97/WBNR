@@ -1,12 +1,13 @@
 <script setup>
 import AdminLogo from "./AdminLogo.vue";
 
-const openMessagePopup = ref(false);
+const MessagePopup = ref(false);
 const chatbox = ref(null);
 const { message, chat, getMessages, sendMessage } = useChat();
-onMounted(() => {
+const openMessagePopup = () => {
+  MessagePopup.value = !MessagePopup.value;
   getMessages();
-});
+};
 watch(
   chat,
   () => {
@@ -21,11 +22,8 @@ watch(
 
 
 <template>
-  <div :class="{ 'show-chatbot': openMessagePopup }">
-    <button
-      class="chatbot-toggler bg-primary-300"
-      @click="openMessagePopup = !openMessagePopup"
-    >
+  <div :class="{ 'show-chatbot': MessagePopup }">
+    <button class="chatbot-toggler bg-primary-300" @click="openMessagePopup()">
       <span class="material-symbols-rounded">
         <svg
           xmlns="http://www.w3.org/2000/svg"
