@@ -11,7 +11,7 @@ defineProps({
 </script>
 
 <template>
-  <span :class="status" class="text-2xl font-normal leading-normal">{{
+  <span :class="status" class="text-2xl font-normal leading-normal" v-bind="$attrs">{{
     statuses[status]
   }}</span>
 </template>

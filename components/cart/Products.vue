@@ -54,7 +54,7 @@ defineEmits([
                 class="w-[4.6875rem] h-[4.6875rem] rounded-[0.5rem]"
               />
               <h5 class="text-2xl text-gray-700 font-normal leading-normal">
-                {{ product.product.title_ar }}
+                {{ product.product.title_ar.length > 10 ? product.product.title_ar.substring(0,10) + '...' : product.product.title_ar }}
               </h5>
             </div>
           </td>
@@ -73,9 +73,8 @@ defineEmits([
                 class="absolute top-[1px] left-[1px] bottom-[1px] flex flex-col bg-white rounded-[11px]"
               >
                 <div
-                  class="w-[3.5625rem] flex-1 border-s border-s-gray-200 flex items-center justify-center text-xl text-gray-300 font-bold"
-                >
-                  {{ product.country.currency }}
+                  class="w-[3.5625rem] flex-1 border-s border-s-gray-200 flex items-center justify-center text-xl text-gray-300 font-bold">
+                  {{product?.product.country.currency}}
                 </div>
               </div>
             </div>

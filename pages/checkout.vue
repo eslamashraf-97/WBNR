@@ -49,6 +49,9 @@ const { fire: fireAddDestination } = useApi({
   url: apiAddDestinationUrl,
   requestOptions: {
     method: "post",
+    onResponse: (response) => {
+      console.log('sssssss ', response.response._data);
+    },
   },
 });
 

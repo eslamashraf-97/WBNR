@@ -21,6 +21,7 @@ const form = reactive({
   reason: "",
   return_type: "refund",
   image: "",
+  quantity: ""
 });
 
 const selectedType = computed(() =>
@@ -43,6 +44,9 @@ const { fire } = useApi({
 const isSubmitting = ref(false);
 
 async function createReturnOrder() {
+  console.log(props.data.id)
+  console.log(props.data.order.id)
+  console.log(selectedCountry.value.id)
   isSubmitting.value = true;
   await fire({
     ...form,
@@ -85,6 +89,7 @@ async function uploadImage(e) {
 </script>
 
 <template>
+
   <div class="fixed inset-0 z-50">
     <div class="fixed inset-0 bg-black/20" @click="$emit('hide')"></div>
     <div class="w-full h-full px-4 overflow-auto">
@@ -115,6 +120,16 @@ async function uploadImage(e) {
               v-model="form.reason"
               class="h-[7.125rem] w-full block border border-gray-200 rounded-[11px] px-4 py-[.75rem] focus:border-primary-300 focus-within:!outline-0"
             ></textarea>
+          </div>
+          <div class="mb-16">
+            <label for="quantity" class="mb-1">كمية</label>
+            <shared-form-input
+                type="text"
+                placeholder="كمية"
+                id="requeste-search-input"
+                class="w-full"
+                v-model="form.quantity"
+            />
           </div>
 
           <div class="mb-16">

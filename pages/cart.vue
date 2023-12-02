@@ -152,11 +152,13 @@ async function clearCart() {
     >
       <shared-loders-loading />
     </div>
-    <div class="flex flex-col 2xl:flex-row justify-start gap-24" v-else>
+    <div class="flex flex-col 2xl:flex-row justify-start gap-12" v-else>
       <cart-aside
         :details="{
           ...cartData.data,
           itemsInCart: cartDataLength.data.cart_length || cartLength,
+          totalEarn: cartData.data.cartItems.reduce( (accumulator, currentValue) => accumulator + currentValue.customer_earn, 0),
+          total: cartData.data.final_price,
         }"
       />
       <div class="w-full">

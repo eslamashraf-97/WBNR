@@ -12,10 +12,10 @@ const links = [
     link: "/dashboard/requests",
     title: "الطلبات",
   },
-  {
-    link: "/dashboard/replace-returns",
-    title: "استبدال واسترجاع",
-  },
+  // {
+  //   link: "/dashboard/replace-returns",
+  //   title: "استبدال واسترجاع",
+  // },
   {
     link: "/dashboard/link-store",
     title: "ربط متجرك",

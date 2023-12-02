@@ -13,7 +13,7 @@ const cartDetails = [
   },
   {
     title: "اجمالي الربح:",
-    key: "price",
+    key: "totalEarn",
     coins: "ج.م",
   },
   {
@@ -22,8 +22,13 @@ const cartDetails = [
     coins: "ج.م",
   },
   {
-    title: "الربح بعد الضريبة:",
-    key: "tax_amount",
+    title: "سعر التوصيل:",
+    key: "delivery_cost",
+    coins: "ج.م",
+  },
+  {
+    title: "الاجمالى:",
+    key: "total",
     coins: "ج.م",
   },
 ];
@@ -31,20 +36,22 @@ const cartDetails = [
 
 <template>
   <aside
-    class="flex flex-col gap-7 2xl:w-[32rem] p-9 bg-white border border-gray-200 rounded-3xl dashboard-aside h-fit shadow-main"
+    class="flex flex-col gap-7 2xl:w-[42rem] p-9 bg-white border border-gray-200 rounded-3xl dashboard-aside h-fit shadow-main"
   >
     <template v-if="details">
       <!-- start main info  -->
-      <div
-        class="flex items-center justify-between"
-        v-for="(item, index) in cartDetails"
-        :key="index"
-      >
-        <h5 class="text-2xl text-gray-700 font-normal">{{ item.title }}</h5>
-        <h5 class="text-2xl text-gray-500 font-normal">
-          <span>{{ details[item.key] }} {{ details.country.currency }}</span>
-        </h5>
-      </div>
+      <template  v-for="(item, index) in cartDetails">
+        <div
+            v-if="details[item.key] !=0"
+            class="flex items-center justify-between"
+            :key="index"
+        >
+          <h5 class="text-2xl text-gray-700 font-normal">{{ item.title }}</h5>
+          <h5 class="text-2xl text-gray-500 font-normal">
+            <span>{{ details[item.key] }} {{ item.key === 'itemsInCart' ? 'منتج' : details.country.currency }}</span>
+          </h5>
+        </div>
+      </template>
     </template>
 
     <div class="mt-9">
