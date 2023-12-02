@@ -102,27 +102,21 @@ function downloadImages() {
   var promises = [];
 
   productData.data.images.forEach(function (url) {
-    promises.push(
-      fetch(url.url)
-        .then((response) => response.blob())
-        .then((blob) => {
-          var filename = url.url.substring(url.url.lastIndexOf("/") + 1);
-          zip.file(filename, blob);
-        })
-        .catch((error) => {
-          console.error("Error fetching image:", error);
-        }),
-    );
+    var link = document.createElement("a");
+    console.log('url.url => ', url.url);
+    link.href = url.url;
+    link.download = "images.png";
+    link.click();
   });
 
-  Promise.all(promises).then(() => {
-    zip.generateAsync({ type: "blob" }).then(function (content) {
-      var link = document.createElement("a");
-      link.href = URL.createObjectURL(content);
-      link.download = "images.zip";
-      link.click();
-    });
-  });
+  // Promise.all(promises).then(() => {
+  //   zip.generateAsync({ type: "blob" }).then(function (content) {
+  //     var link = document.createElement("a");
+  //     link.href = URL.createObjectURL(content);
+  //     link.download = "images.zip";
+  //     link.click();
+  //   });
+  // });
 }
 // downloadImage(productData.data.images[i].url);
 </script>
