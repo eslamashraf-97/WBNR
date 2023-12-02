@@ -365,6 +365,7 @@ function downloadImages() {
             </div>
           </div>
         </div>
+
       </div>
 
       <!-- description -->
@@ -373,6 +374,15 @@ function downloadImages() {
         <div
           class="bg-white rounded-lg border p-9"
           v-html="productData.data.description"
+        ></div>
+      </div>
+
+      <!-- description -->
+      <div class="mb-24">
+        <p class="text-gray-700 text-3xl font-normal mb-8">شرح المنتج</p>
+        <div
+          class="bg-white rounded-lg border p-9"
+          v-html="productData.data.catalog"
         ></div>
       </div>
 
