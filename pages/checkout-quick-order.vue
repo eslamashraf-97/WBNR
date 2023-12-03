@@ -8,9 +8,15 @@ import {
 
 const route = useRoute();
 
+const router = useRouter();
+
 const { selectedCountry } = useCountries();
 
 const { quickOrderState } = useQuickProduct();
+
+if (!quickOrderState.value) {
+  router.back();
+}
 
 // get gov
 const { fire: fireGov } = useApi({
@@ -33,10 +39,10 @@ const form = reactive({
   store_name: "",
   store_url: "",
   governorate_id: "",
-  product_id: quickOrderState.value.id,
-  product_quantity: quickOrderState.value.qty,
-  final_price: quickOrderState.value.price,
-  variants: quickOrderState.value.selectedVariants,
+  product_id: quickOrderState.value?.id,
+  product_quantity: quickOrderState.value?.qty,
+  final_price: quickOrderState.value?.price,
+  variants: quickOrderState.value?.selectedVariants,
 });
 
 function chooseGov(data) {
@@ -68,7 +74,7 @@ const getSelectedGov = computed(() =>
 );
 </script>
 <template>
-  <section class="bg-primary">
+  <section class="bg-primary" v-if="quickOrderState">
     <shared-title title="مراجعة الطلب" />
     <div class="flex flex-col-reverse xl:flex-row justify-start gap-24">
       <checkout-aside

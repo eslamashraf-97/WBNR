@@ -28,7 +28,9 @@ defineEmits(["placeOrder"]);
       </div>
 
       <div class="flex items-center justify-between">
-        <h5 class="text-2xl text-gray-700 font-normal">سعر المنتجات الاساسى:</h5>
+        <h5 class="text-2xl text-gray-700 font-normal">
+          سعر المنتجات الاساسى:
+        </h5>
         <h5 class="text-2xl text-gray-500 font-normal">
           <span>{{ details.price }} {{ details.country.currency }}</span>
         </h5>
@@ -36,22 +38,47 @@ defineEmits(["placeOrder"]);
       <div class="flex items-center justify-between">
         <h5 class="text-2xl text-gray-700 font-normal">سعر البيع:</h5>
         <h5 class="text-2xl text-gray-500 font-normal">
-          <span> {{ details.cartItems.reduce( (accumulator, currentValue) => accumulator + currentValue.final_price, 0) }} {{ details.country.currency }}</span>
+          <span>
+            {{
+              details?.cartItems[0]?.final_price
+                ? details.cartItems.reduce(
+                    (accumulator, currentValue) =>
+                      accumulator + currentValue.final_price,
+                    0,
+                  )
+                : details.final_price
+            }}
+            {{ details.country.currency }}</span
+          >
         </h5>
       </div>
 
       <div class="flex items-center justify-between">
         <h5 class="text-2xl text-gray-700 font-normal">اجمالي الربح:</h5>
         <h5 class="text-2xl text-gray-500 font-normal">
-          <span>{{ details.cartItems.reduce( (accumulator, currentValue) => accumulator + currentValue.customer_earn, 0) }} {{ details.country.currency }}</span>
+          <span
+            >{{
+              details?.cartItems[0]?.customer_earn
+                ? details.cartItems.reduce(
+                    (accumulator, currentValue) =>
+                      accumulator + currentValue.customer_earn,
+                    0,
+                  )
+                : details.minCommission
+            }}
+            {{ details.country.currency }}</span
+          >
         </h5>
       </div>
 
-      <div class="flex items-center justify-between" v-if="details.tax_percentage">
+      <div
+        class="flex items-center justify-between"
+        v-if="details.tax_percentage"
+      >
         <h5 class="text-2xl text-gray-700 font-normal">الضريبة:</h5>
         <h5 class="text-2xl text-gray-500 font-normal">
           <span
-          >{{ details.tax_percentage }} {{ details.country.currency }}</span
+            >{{ details.tax_percentage }} {{ details.country.currency }}</span
           >
         </h5>
       </div>
@@ -68,16 +95,15 @@ defineEmits(["placeOrder"]);
         <h5 class="text-2xl text-gray-700 font-normal">اجمالى بدون الشحن:</h5>
         <h5 class="text-2xl text-gray-500 font-normal">
           <span
-          >{{ details.final_price - details.delivery_cost }} {{ details.country.currency }}</span
+            >{{ details.final_price - details.delivery_cost }}
+            {{ details.country.currency }}</span
           >
         </h5>
       </div>
       <div class="flex items-center justify-between">
         <h5 class="text-2xl text-gray-700 font-normal">اجمالى:</h5>
         <h5 class="text-2xl text-gray-500 font-normal">
-          <span
-            >{{ details.final_price }} {{ details.country.currency }}</span
-          >
+          <span>{{ details.final_price }} {{ details.country.currency }}</span>
         </h5>
       </div>
 

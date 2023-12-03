@@ -8,6 +8,8 @@ import {
 
 const route = useRoute();
 
+const router = useRouter();
+
 const { selectedCountry } = useCountries();
 
 // get cart
@@ -42,7 +44,7 @@ const form = reactive({
   address_details: "",
   store_name: "",
   store_url: "",
-  governorate_id: "",
+  governorate_id: +route.query?.governorate_id || "",
 });
 
 const { fire: fireAddDestination } = useApi({
@@ -50,13 +52,22 @@ const { fire: fireAddDestination } = useApi({
   requestOptions: {
     method: "post",
     onResponse: (response) => {
-      console.log('sssssss ', response.response._data);
+      console.log("sssssss ", response.response);
+      if (response.response.ok) {
+        cartData.value = response.response._data;
+      }
     },
   },
 });
 
 function chooseGov(data) {
   form.governorate_id = data.id;
+  const query = { ...route.query, governorate_id: data.id };
+  console.log(query);
+  router.push({
+    path: route.path,
+    query,
+  });
   fireAddDestination({
     cart_id: cartData.value?.data.id,
     governorate_id: data.id,
