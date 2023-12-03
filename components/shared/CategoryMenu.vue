@@ -9,60 +9,132 @@ import {
 
 const { selectedCountry } = useCountries();
 
-// function fireGetCategories() {
+const { $api } = useNuxtApp();
 
-// }
+const categoriesData = ref();
+
+const categoriesPending = ref(true);
+
+const selectedCategory = ref();
+
+const selectedCategoryData = ref();
+
+async function fireGetCategories() {
+  categoriesPending.value = true;
+  $api
+    .get(apiGetCateoriesUrl)
+    .then((response) => {
+      console.log("fireGetCategories", response.data);
+
+      categoriesData.value = response.data;
+      selectedCategory.value = response.data.data[0].id;
+      selectedCategoryData.value = response.data.data[0];
+    })
+    .finally(() => {
+      categoriesPending.value = false;
+    });
+}
+
+await fireGetCategories();
 
 // catgeory
-const { fire: fireGetCategories } = useApi({
-  url: () => apiGetCateoriesUrl,
-});
+// const { fire: fireGetCategories } = useApi({
+//   url: () => apiGetCateoriesUrl,
+// });
 
-const { data: categoriesData, pending: categoriesPending } =
-  await fireGetCategories();
+// const { data: categoriesData, pending: categoriesPending } =
+//   await fireGetCategories();
 
-const selectedCategory = ref(categoriesData.value?.data[0].id);
+// const selectedCategory = ref(categoriesData.value?.data[0].id);
 
-const selectedCategoryData = ref(categoriesData.value?.data[0]);
+// const selectedCategoryData = ref(categoriesData.value?.data[0]);
 
 // sub categories
+
+const subCategoriesData = ref();
+
+const subCategoriesPending = ref(true);
+
 const selectedSubCategory = ref();
 
 const selectedSubCategoryData = ref();
 
-const { fire: fireGetSubCategories } = useApi({
-  url: () => apiGetSubCateoriesUrl + "/" + selectedCategory.value,
-  requestOptions: {
-    watch: [selectedCategory],
-    onResponse: (response) => {
-      if (response.response.ok) {
-        selectedSubCategory.value = response.response._data.data.id;
-        selectedSubCategoryData.value = response.response._data.data;
-      }
-    },
-  },
+async function fireGetSubCategories() {
+  subCategoriesPending.value = true;
+  $api
+    .get(`${apiGetSubCateoriesUrl}/${selectedCategory.value}`)
+    .then((response) => {
+      console.log("fireGetSubCategories", response.data);
+      subCategoriesData.value = response.data;
+      selectedSubCategory.value = response.data.data.id;
+      selectedSubCategoryData.value = response.data.data;
+    })
+    .finally(() => {
+      subCategoriesPending.value = false;
+    });
+}
+
+watch(selectedCategory, () => {
+  fireGetSubCategories();
 });
 
-const { data: subCategoriesData, pending: subCategoriesPending } =
-  await fireGetSubCategories();
+// const { fire: fireGetSubCategories } = useApi({
+//   url: () => apiGetSubCateoriesUrl + "/" + selectedCategory.value,
+//   requestOptions: {
+//     watch: [selectedCategory],
+//     onResponse: (response) => {
+//       if (response.response.ok) {
+//         selectedSubCategory.value = response.response._data.data.id;
+//         selectedSubCategoryData.value = response.response._data.data;
+//       }
+//     },
+//   },
+// });
+
+// const { data: subCategoriesData, pending: subCategoriesPending } =
+//   await fireGetSubCategories();
 
 // products based on selected category
-const { fire: fireGetProducts } = useApi({
-  url: () => apiGetProductsUrl,
-  requestOptions: {
-    query: {
-      country_id: selectedCountry.value.id,
-      category_id: selectedSubCategory,
-    },
-    onResponse: () => {
-      console.log("prodcts");
-    },
-    watch: [selectedSubCategory],
-  },
-});
+const productsData = ref();
 
-const { data: productsData, pending: productsPending } =
-  await fireGetProducts();
+const productsPending = ref(true);
+async function fireGetProducts() {
+  productsPending.value = true;
+  $api
+    .get(apiGetProductsUrl, {
+      params: {
+        country_id: selectedCountry.value.id,
+        category_id: selectedSubCategory.value,
+      },
+    })
+    .then((response) => {
+      console.log("fireGetProducts", response.data);
+      productsData.value = response.data;
+    })
+    .finally(() => {
+      productsPending.value = false;
+    });
+}
+
+watch(selectedSubCategory, () => {
+  fireGetProducts();
+});
+// const { fire: fireGetProducts } = useApi({
+//   url: () => apiGetProductsUrl,
+//   requestOptions: {
+//     query: {
+//       country_id: selectedCountry.value.id,
+//       category_id: selectedSubCategory,
+//     },
+//     onResponse: () => {
+//       console.log("prodcts");
+//     },
+//     watch: [selectedSubCategory],
+//   },
+// });
+
+// const { data: productsData, pending: productsPending } =
+//   await fireGetProducts();
 
 function changeCategory(cat) {
   selectedCategory.value = cat.id;
