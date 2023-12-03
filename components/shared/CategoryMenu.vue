@@ -9,6 +9,10 @@ import {
 
 const { selectedCountry } = useCountries();
 
+// function fireGetCategories() {
+
+// }
+
 // catgeory
 const { fire: fireGetCategories } = useApi({
   url: () => apiGetCateoriesUrl,
@@ -16,8 +20,6 @@ const { fire: fireGetCategories } = useApi({
 
 const { data: categoriesData, pending: categoriesPending } =
   await fireGetCategories();
-
-console.log("categoriesData", categoriesData.value);
 
 const selectedCategory = ref(categoriesData.value?.data[0].id);
 
@@ -43,8 +45,6 @@ const { fire: fireGetSubCategories } = useApi({
 
 const { data: subCategoriesData, pending: subCategoriesPending } =
   await fireGetSubCategories();
-
-console.log("subCategoriesData", subCategoriesData.value);
 
 // products based on selected category
 const { fire: fireGetProducts } = useApi({

@@ -125,6 +125,8 @@ function downloadImages() {
   });
 }
 // downloadImage(productData.data.images[i].url);
+
+const selectedImage = ref(null);
 </script>
 
 <template>
@@ -142,7 +144,7 @@ function downloadImages() {
         <div class="bg-white p-9 rounded-lg">
           <div class="gallery flex flex-wrap gap-2">
             <img
-              :src="productData.data.featured_image"
+              :src="selectedImage || productData.data.featured_image"
               class="w-[36rem] h-[36rem] object-cover"
             />
             <div
@@ -153,7 +155,7 @@ function downloadImages() {
                 :alt="productImage.alt_image"
                 :src="productImage.url"
                 class="w-32 h-32 object-cover cursor-pointer"
-                @click="productData.data.featured_image = productImage.url"
+                @click="selectedImage = productImage.url"
               />
             </div>
           </div>
@@ -365,7 +367,6 @@ function downloadImages() {
             </div>
           </div>
         </div>
-
       </div>
 
       <!-- description -->
