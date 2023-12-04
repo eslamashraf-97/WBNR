@@ -48,17 +48,27 @@ const { fire } = useApi({
 
 const updateCartPending = ref(false);
 
+const { $api } = useNuxtApp();
+
 async function updateCart(data) {
   updateCartPending.value = true;
   await fire(data);
-  updateCartPending.value = false;
+  $api
+    .post(apiAddToCartUrl, data)
+    .then((response) => {
+      refresh();
+      cartDataLengthRefresh();
+    })
+    .finally(() => {
+      updateCartPending.value = false;
+    });
 }
 
 function increaseQuantity(data) {
   const payload = {
     product_id: data.product?.id,
     quantity: data.quantity + 1,
-    final_price: data.price,
+    final_price: data.final_price,
   };
   updateCart(payload);
 }
@@ -68,7 +78,7 @@ function decreaseQuantity(data) {
     const payload = {
       product_id: data.product.id,
       quantity: data.quantity - 1,
-      final_price: data.price,
+      final_price: data.final_price,
     };
     updateCart(payload);
   }
@@ -83,16 +93,17 @@ function changeQuantity(qty, data) {
       const payload = {
         product_id: data.product.id,
         quantity: qty,
-        final_price: data.price,
+        final_price: data.final_price,
       };
       updateCart(payload);
     }
-  }, 300);
+  }, 800);
 }
 
 function changePrice(price, data) {
   clearTimeout(timer);
   timer = setTimeout(() => {
+    console.log(price);
     if (price) {
       const payload = {
         product_id: data.product.id,
@@ -101,7 +112,7 @@ function changePrice(price, data) {
       };
       updateCart(payload);
     }
-  }, 300);
+  }, 800);
 }
 
 const isLoading = ref(false);
@@ -157,7 +168,11 @@ async function clearCart() {
         :details="{
           ...cartData.data,
           itemsInCart: cartDataLength.data.cart_length || cartLength,
-          totalEarn: cartData.data.cartItems.reduce( (accumulator, currentValue) => accumulator + currentValue.customer_earn, 0),
+          totalEarn: cartData.data.cartItems.reduce(
+            (accumulator, currentValue) =>
+              accumulator + currentValue.customer_earn,
+            0,
+          ),
           total: cartData.data.final_price,
         }"
       />

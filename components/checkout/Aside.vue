@@ -94,16 +94,16 @@ defineEmits(["placeOrder"]);
       <div class="flex items-center justify-between">
         <h5 class="text-2xl text-gray-700 font-normal">اجمالى بدون الشحن:</h5>
         <h5 class="text-2xl text-gray-500 font-normal">
-          <span
-            >{{ details.final_price - details.delivery_cost }}
-            {{ details.country.currency }}</span
-          >
+          <span>{{ details.final_price }} {{ details.country.currency }}</span>
         </h5>
       </div>
       <div class="flex items-center justify-between">
         <h5 class="text-2xl text-gray-700 font-normal">اجمالى:</h5>
         <h5 class="text-2xl text-gray-500 font-normal">
-          <span>{{ details.final_price }} {{ details.country.currency }}</span>
+          <span
+            >{{ details.final_price + parseInt(details.delivery_cost) }}
+            {{ details.country.currency }}</span
+          >
         </h5>
       </div>
 

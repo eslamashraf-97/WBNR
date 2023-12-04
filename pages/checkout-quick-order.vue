@@ -45,8 +45,11 @@ const form = reactive({
   variants: quickOrderState.value?.selectedVariants,
 });
 
+const delivery_cost = ref(0);
+
 function chooseGov(data) {
   form.governorate_id = data.id;
+  delivery_cost.value = data.delivery_cost;
 }
 
 const { fire: firePlaceOrder } = useApi({
@@ -92,7 +95,7 @@ const getSelectedGov = computed(() =>
           price: quickOrderState.price,
           final_price: quickOrderState.price,
           tax_percentage: quickOrderState.minCommission,
-          delivery_cost: '',
+          delivery_cost: delivery_cost,
         }"
         @placeOrder="placeOrder"
         :isLoadingPlaceOrder="isLoadingPlaceOrder"
