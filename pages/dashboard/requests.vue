@@ -59,7 +59,14 @@ const toggleRow = (element) => {
   // selected.value === element ? selected.value = null : selected.value = element
   divs.value[element].getElementsByClassName('expanded-row-content')[0].classList.toggle('hide-row');
 }
-
+function getDate (order, status) {
+  const obj = order.find(data => data.status === status)
+  if(obj) {
+    return obj.date.substring(0,10)
+  } else {
+    return '----'
+  }
+}
 function hideReturnModal() {
   isShowReturnModal.value = false;
   selectedOrder.value = null;
@@ -211,7 +218,7 @@ const status = ['pending', 'confirmed', 'processing', 'shipping', 'delivered']
                         <path d="M42.9492 49.8651L46.4072 53.3231L55.052 44.6782" stroke="#05BD6E" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
                       </svg>
                       <h5 class="text-xl text-gray-700 my-1">تم التوصيل</h5>
-                      <p class="text-gray-200">{{order.statusHistories.find(data => data.status === 'delivered')?.date.substring(0,10) || '----' }}</p>
+                      <p class="text-gray-200">{{ getDate(order.statusHistories, 'delivered') }}</p>
                       <p  class="text-gray-400 text-xl font-semibold cursor-pointer" @click="comment = order.statusHistories.find(data => data.status === 'delivered')?.reason || 'لا يوجد تعليق'"> {{order.statusHistories.find(data => data.status === 'delivered')?.reason.substring(0,16) || 'لا يوجد تعليق'}}</p>
                     </div>
                     <div class="bg-white z-30">
@@ -223,7 +230,7 @@ const status = ['pending', 'confirmed', 'processing', 'shipping', 'delivered']
                         <path d="M53.6182 60.0506C54.3894 60.0506 55.0146 59.4256 55.0146 58.6542C55.0146 57.883 54.3894 57.2578 53.6182 57.2578V60.0506ZM43.0891 57.2578C42.3178 57.2578 41.6926 57.883 41.6926 58.6542C41.6926 59.4256 42.3178 60.0506 43.0891 60.0506V57.2578ZM52.2217 58.6542C52.2217 59.4256 52.847 60.0506 53.6182 60.0506C54.3894 60.0506 55.0146 59.4256 55.0146 58.6542H52.2217ZM55.0146 48.8475C55.0146 48.0763 54.3894 47.4511 53.6182 47.4511C52.847 47.4511 52.2217 48.0763 52.2217 48.8475H55.0146ZM53.6182 57.2578C52.847 57.2578 52.2217 57.883 52.2217 58.6542C52.2217 59.4256 52.847 60.0506 53.6182 60.0506V57.2578ZM54.0829 60.0506C54.8541 60.0506 55.4793 59.4256 55.4793 58.6542C55.4793 57.883 54.8541 57.2578 54.0829 57.2578V60.0506ZM62.0281 57.2579C61.2569 57.2613 60.6344 57.8891 60.6378 58.6603C60.6411 59.4315 61.2691 60.0542 62.0404 60.0506L62.0281 57.2579ZM66.2459 54.2955L67.6423 54.2891C67.6419 54.2087 67.6347 54.1286 67.6205 54.0495L66.2459 54.2955ZM66.6456 48.6015C66.5097 47.8424 65.7843 47.3371 65.025 47.473C64.2659 47.6088 63.7606 48.3344 63.8965 49.0936L66.6456 48.6015ZM53.6163 38.7337C52.8451 38.7337 52.2199 39.3589 52.2199 40.1301C52.2199 40.9013 52.8451 41.5265 53.6163 41.5265V38.7337ZM60.2807 40.1301V41.5265C60.29 41.5265 60.2995 41.5265 60.309 41.5262L60.2807 40.1301ZM64.4904 44.4888L63.0946 44.4491C63.0918 44.5447 63.0989 44.6403 63.1158 44.7345L64.4904 44.4888ZM63.8944 49.0933C64.0302 49.8524 64.7556 50.3579 65.5149 50.2223C66.274 50.0866 66.7812 49.3608 66.6456 48.6015L63.8944 49.0933ZM55.0109 40.1301C55.0109 39.3589 54.3877 38.7337 53.6163 38.7337C52.8451 38.7337 52.2199 39.3589 52.2199 40.1301H55.0109ZM52.218 48.8475C52.218 49.6189 52.8432 50.2439 53.6145 50.2439C54.3858 50.2439 55.0109 49.6189 55.0109 48.8475H52.218ZM52.2199 40.1301C52.2199 40.9013 52.8451 41.5265 53.6163 41.5265C54.3877 41.5265 55.0109 40.9013 55.0109 40.1301H52.2199ZM53.6145 38.6406H55.0111L55.0109 38.6306L53.6145 38.6406ZM51.6321 36.6353V38.0318L51.6414 38.0317L51.6321 36.6353ZM33.7417 36.6353L33.7285 38.0317H33.7417V36.6353ZM31.7539 38.6369L30.3575 38.6244V38.6369H31.7539ZM31.7539 56.6508H30.3574L30.3575 56.6634L31.7539 56.6508ZM33.7417 58.6523V57.2559L33.7285 57.2561L33.7417 58.6523ZM35.1432 60.0488C35.9144 60.0488 36.5396 59.4237 36.5396 58.6523C36.5396 57.8811 35.9144 57.2559 35.1432 57.2559V60.0488ZM53.6182 47.4511C52.847 47.4511 52.2217 48.0763 52.2217 48.8475C52.2217 49.6189 52.847 50.2439 53.6182 50.2439V47.4511ZM65.2728 50.2439C66.044 50.2439 66.6693 49.6189 66.6693 48.8475C66.6693 48.0763 66.044 47.4511 65.2728 47.4511V50.2439ZM53.6182 57.2578H43.0891V60.0506H53.6182V57.2578ZM55.0146 58.6542V48.8475H52.2217V58.6542H55.0146ZM53.6182 60.0506H54.0829V57.2578H53.6182V60.0506ZM62.0404 60.0506C63.5446 60.0441 64.977 59.4245 66.0247 58.3401L64.0162 56.3994C63.4841 56.9502 62.7682 57.2546 62.0281 57.2579L62.0404 60.0506ZM66.0247 58.3401C67.0712 57.257 67.6492 55.7991 67.6423 54.2891L64.8494 54.302C64.8531 55.0937 64.5495 55.8475 64.0162 56.3994L66.0247 58.3401ZM67.6205 54.0495L66.6456 48.6015L63.8965 49.0936L64.8712 54.5416L67.6205 54.0495ZM53.6163 41.5265H60.2807V38.7337H53.6163V41.5265ZM60.309 41.5262C61.0448 41.5113 61.7622 41.8059 62.2919 42.3542L64.3007 40.414C63.2392 39.3149 61.7767 38.703 60.2522 38.734L60.309 41.5262ZM62.2919 42.3542C62.8227 42.9039 63.1169 43.6605 63.0946 44.4491L65.8863 44.5286C65.9299 42.9994 65.3609 41.5117 64.3007 40.414L62.2919 42.3542ZM63.1158 44.7345L63.8944 49.0933L66.6456 48.6015L65.8651 44.2432L63.1158 44.7345ZM52.2199 40.1301L52.218 48.8475H55.0109V40.1301H52.2199ZM55.0109 40.1301L55.0111 38.6406H52.218L52.2199 40.1301H55.0109ZM55.0109 38.6306C54.9977 36.7781 53.5141 35.2263 51.6229 35.2389L51.6414 38.0317C51.9246 38.0298 52.2154 38.273 52.2182 38.6506L55.0109 38.6306ZM51.6321 35.2389H33.7417V38.0317L51.6321 38.0318V35.2389ZM33.755 35.2389C32.8507 35.2303 31.9872 35.591 31.3528 36.2298L33.3345 38.1978C33.4456 38.0859 33.588 38.0304 33.7285 38.0317L33.755 35.2389ZM31.3528 36.2298C30.7196 36.8673 30.3655 37.7294 30.3575 38.6244L33.1503 38.6493C33.1519 38.4727 33.2221 38.311 33.3345 38.1978L31.3528 36.2298ZM30.3575 38.6369L30.3574 56.6508H33.1503V38.6369H30.3575ZM30.3575 56.6634C30.3655 57.5583 30.7196 58.4203 31.3528 59.0579L33.3345 57.0898C33.2221 56.9768 33.1519 56.815 33.1503 56.6383L30.3575 56.6634ZM31.3528 59.0579C31.9872 59.6967 32.8507 60.0573 33.755 60.0488L33.7285 57.2561C33.588 57.2574 33.4456 57.2019 33.3345 57.0898L31.3528 59.0579ZM33.7417 60.0488H35.1432V57.2559H33.7417V60.0488ZM53.6182 50.2439H65.2728V47.4511H53.6182V50.2439Z" fill="#05BD6E"/>
                       </svg>
                       <h5 class="text-xl text-gray-700 my-1">خارج للتوصيل</h5>
-                      <p class="text-gray-200">{{order.statusHistories.find(data => data.status === 'shipping')?.date.substring(0,10) || '----' }}</p>
+                      <p class="text-gray-200">{{ getDate(order.statusHistories, 'shipping') }}</p>
                       <p  class="text-gray-400 text-xl font-semibold cursor-pointer"  @click="comment = order.statusHistories.find(data => data.status === 'shipping')?.reason || 'لا يوجد تعليق'">  {{order.statusHistories.find(data => data.status === 'shipping')?.reason || 'لا يوجد تعليق'}}</p>
                     </div>
                     <div class="bg-white z-30">
@@ -234,7 +241,7 @@ const status = ['pending', 'confirmed', 'processing', 'shipping', 'delivered']
                         <path d="M63.3397 41.8301L48.9999 49M48.9999 49L34.6602 41.8301M48.9999 49V64.1364" stroke="#05BD6E" stroke-width="2.8" stroke-linecap="round"/>
                       </svg>
                       <h5 class="text-xl text-gray-700 my-1">انتظار الشحن</h5>
-                      <p class="text-gray-200">{{order.statusHistories.find(data => data.status === 'processing')?.date.substring(0,10) || '----'}}</p>
+                      <p class="text-gray-200">{{ getDate(order.statusHistories, 'processing') }}</p>
                       <p  class="text-gray-400 text-xl font-semibold cursor-pointer"  @click="comment = order.statusHistories.find(data => data.status === 'processing')?.reason || 'لا يوجد تعليق'"> {{order.statusHistories.find(data => data.status === 'processing')?.reason || 'لا يوجد تعليق'}}</p>
                     </div>
                     <div class="bg-white z-30">
@@ -246,7 +253,7 @@ const status = ['pending', 'confirmed', 'processing', 'shipping', 'delivered']
                         <path d="M41.9189 33.9534C41.9189 32.4868 43.1079 31.2979 44.5745 31.2979H53.4262C54.8927 31.2979 56.0817 32.4868 56.0817 33.9534V35.7237C56.0817 37.1903 54.8927 38.3792 53.4262 38.3792H44.5745C43.1079 38.3792 41.9189 37.1903 41.9189 35.7237V33.9534Z" stroke="#05BD6E" stroke-width="2.8"/>
                       </svg>
                       <h5 class="text-xl text-gray-700 my-1">تأكيد الطلب</h5>
-                      <p class="text-gray-200">{{order.statusHistories.find(data => data.status === 'confirmed')?.date.substring(0,10) || '----'}}</p>
+                      <p class="text-gray-200">{{ getDate(order.statusHistories, 'confirmed')}}</p>
                       <p  class="text-gray-400 text-xl font-semibold cursor-pointer" @click="comment = order.statusHistories.find(data => data.status === 'confirmed')?.reason || 'لا يوجد تعليق'"> {{order.statusHistories.find(data => data.status === 'confirmed')?.reason || 'لا يوجد تعليق'}}</p>
                     </div>
                     <!-- Lines -->
