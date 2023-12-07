@@ -22,7 +22,7 @@ watch(
 
 
 <template>
-  <div :class="{ 'show-chatbot': MessagePopup }">}}
+  <div :class="{ 'show-chatbot': MessagePopup }">
     <button class="chatbot-toggler bg-primary-300" @click="openMessagePopup()">
       <span class="material-symbols-rounded">
         <svg
