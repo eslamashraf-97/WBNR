@@ -3,6 +3,10 @@
 <template>
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center pb-40">
     <div class="w-full lg:max-w-[42.8rem] text-center lg:text-start">
+      <div class="bg-primary-100 text-primary-300 p-2 px-4 w-fit rounded-sm flex gap-2 items-center">
+        <img src="assets/images/iconOnly.svg" class="w-[40px]"/>
+        <p> مش محتاج خبرة عشان تبدأ MYR</p>
+      </div>
       <h2
         class="text-gray-800 text-6xl leading-[6.4rem] xl:text-8xl xl:leading-[8.4rem] mb-5"
       >

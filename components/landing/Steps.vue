@@ -50,7 +50,7 @@ function handleHover(index) {
           @mouseenter="handleHover(index)"
           @mouseleave="activeIndex = 0"
         >
-          <div class="step-box-tooltip hidden xl:block">كل اللى عليك</div>
+          <div class="step-box-tooltip hidden xl:block">مش هنخليك تشيل الهم MYR هتحلها</div>
           <h4 class="text-[1.875rem] text-gray-700 leading-[3rem] mb-2">
             {{ step.title }}
           </h4>
@@ -101,6 +101,7 @@ function handleHover(index) {
   font-size: 1.125rem;
   color: theme("colors.gray.100");
   opacity: 0;
+  white-space: nowrap;
   visibility: hidden;
   transition: 0.3s;
 }

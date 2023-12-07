@@ -72,12 +72,29 @@ onMounted(() => {
 </script>
 
 <template>
+  <div class="bg-primary-300 py-2">
+    <div class="text-white container flex justify-between items-center">
+      <div class="flex gap-12">
+        <span>عربى</span>
+        <div class="flex gap-6 items-center">
+          <p>حمل التطبيق الان</p>
+          <img src="assets/images/google-play.png"  class="w-[120px]"/>
+          <img src="assets/images/app-app-store.png"  class="w-[120px]"/>
+        </div>
+      </div>
+      <div>
+        <span>ملاحظات الشحن</span>
+      </div>
+    </div>
+  </div>
   <div class="bg-white py-8">
     <div
       class="container flex justify-between items-center border-b border-b-primary-100 pb-[24px] mb-[24px]"
     >
       <div class="flex items-center gap-[64px]">
-        <img src="@/assets/images/myr-logo.svg" class="w-[130px]" />
+        <NuxtLink to="/home">
+          <img src="@/assets/images/myr-logo.svg" class="w-[130px]" />
+        </NuxtLink>
         <div class="relative layout-navbar-search hidden xl:block">
           <shared-form-input
             placeholder="ما الذي تبحث عنه؟"
@@ -111,9 +128,23 @@ onMounted(() => {
                 class="text-gray-600 text-2xl"
               />
             </template>
+
             <template #item="{ data }">
+              <NuxtLink
+                :to="`/dashboard/requests?id=${data.target_id}`"
+                class="pb-[2.25rem] border-b border-b-gray-200 mb-2 last:border-0 last:mb-0 block"
+                v-if="data.type === 'order'"
+              >
+                <h5 class="text-gray-700 font-bold text-2xl leading-normal">
+                  {{ data?.title }}
+                </h5>
+                <p class="text-gray-500 text-2xl mb-0 leading-normal">
+                  {{ data.body }}
+                </p>
+              </NuxtLink>
               <div
                 class="pb-[2.25rem] border-b border-b-gray-200 mb-2 last:border-0 last:mb-0"
+                v-else
               >
                 <h5 class="text-gray-700 font-bold text-2xl leading-normal">
                   {{ data?.title }}
@@ -192,6 +223,9 @@ onMounted(() => {
     </div>
     <div class="container flex justify-between items-center">
       <nav class="hidden xl:flex items-center gap-[24px]">
+        <div class="hidden xl:block">
+          <shared-category-menu/>
+        </div>
         <NuxtLink
           to="/home"
           class="px-[36px] py-[6px] h-[57px] text-[24px] text-gray-500 font-semibold border-b border-b-transparent"
@@ -219,10 +253,7 @@ onMounted(() => {
       </button>
 
       <div class="flex items-center gap-[36px]">
-        <shared-countries-menu />
-        <div class="hidden xl:block">
-          <shared-category-menu />
-        </div>
+        <shared-countries-menu  :inMenu="true"/>
       </div>
     </div>
   </div>

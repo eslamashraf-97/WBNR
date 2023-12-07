@@ -24,8 +24,6 @@ async function fireGetCategories() {
   $api
     .get(apiGetCateoriesUrl)
     .then((response) => {
-      console.log("fireGetCategories", response.data);
-
       categoriesData.value = response.data;
       selectedCategory.value = response.data.data[0].id;
       selectedCategoryData.value = response.data.data[0];
@@ -152,7 +150,7 @@ function changeSubCategory(subCat) {
   <Menu as="div" class="relative inline-block text-left">
     <div>
       <MenuButton
-        class="rounded-sm border border-gray-300 hover:bg-gray-200 flex items-center text-2xl font-normal h-[3.6rem] px-8 py-[.38rem] bg-primary-100 text-primary-300"
+        class="rounded-sm border border-gray-200 hover:bg-gray-200 flex items-center text-2xl font-normal h-[3.6rem] px-8 py-[.38rem] bg-primary-50 text-primary-300"
       >
         <div class="flex items-center gap-[19px]">
           <span>جميع الفئات</span>
@@ -170,7 +168,7 @@ function changeSubCategory(subCat) {
       leave-to-class="transform opacity-0 scale-95"
     >
       <MenuItems
-        class="absolute left-0 z-10 mt-2 border border-gray-200 rounded-[12px] px-8 py-9 bg-gray-100 text-start"
+        class="absolute right-0 z-10 mt-2 border border-gray-200 rounded-[12px] px-8 py-9 bg-gray-100 text-start"
       >
         <div class="py-1 flex">
           <!-- category  -->

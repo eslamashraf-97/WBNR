@@ -1,5 +1,10 @@
 <script setup>
 const { countries, selectedCountry, setSelectedCountry } = useCountries();
+defineProps({
+  inMenu:{
+    default: false
+  }
+})
 </script>
 
 <template>
@@ -14,8 +19,16 @@ const { countries, selectedCountry, setSelectedCountry } = useCountries();
   >
     <template #label>
       <div class="flex items-center gap-[19px]">
-        <Icon name="iconamoon:arrow-down-2-duotone" />
-        <img :src="selectedCountry.image" class="max-w-[2rem]" alt="" />
+        <template v-if="inMenu">
+          شحن الى
+          <img :src="selectedCountry.image" class="max-w-[2rem]" alt="" />
+          <Icon name="iconamoon:arrow-down-2-duotone" />
+        </template>
+        <template v-else>
+          <Icon name="iconamoon:arrow-down-2-duotone" />
+          <img :src="selectedCountry.image" class="max-w-[2rem]" alt="" />
+        </template>
+
       </div>
     </template>
     <template #item="{ data }">
