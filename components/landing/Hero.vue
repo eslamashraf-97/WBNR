@@ -19,7 +19,7 @@
       </p>
 
       <shared-buttons-primary-button
-        submitTitle="سجل الأن"
+        submitTitle="ابدأ معانا"
         class="mb-16 w-[14.4rem] h-[4.18rem] min-w-0"
         @click="navigateTo('/auth/register')"
       />

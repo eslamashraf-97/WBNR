@@ -183,7 +183,7 @@ onMounted(() => {
             <div class="flex items-center gap-[19px]">
               <Icon name="iconamoon:arrow-down-2-duotone" />
               <span class="leading-normal text-2xl text-gray-700">
-                {{ user?.name ? user.name.substring(0, 5) : null }}
+               اهلا, {{ user?.name ? user.name.substring(0, 5) : null }}
               </span>
             </div>
           </template>
