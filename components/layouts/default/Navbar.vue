@@ -77,7 +77,7 @@ onMounted(() => {
       class="container flex justify-between items-center border-b border-b-primary-100 pb-[24px] mb-[24px]"
     >
       <div class="flex items-center gap-[64px]">
-        <img src="@/assets/images/logo.png" />
+        <img src="@/assets/images/myr-logo.svg" class="w-[130px]" />
         <div class="relative layout-navbar-search hidden xl:block">
           <shared-form-input
             placeholder="ما الذي تبحث عنه؟"
@@ -112,21 +112,8 @@ onMounted(() => {
               />
             </template>
             <template #item="{ data }">
-              <NuxtLink
-                :to="`/dashboard/requests?id=${data.target_id}`"
-                class="pb-[2.25rem] border-b border-b-gray-200 mb-2 last:border-0 last:mb-0 block"
-                v-if="data.type === 'order'"
-              >
-                <h5 class="text-gray-700 font-bold text-2xl leading-normal">
-                  {{ data?.title }}
-                </h5>
-                <p class="text-gray-500 text-2xl mb-0 leading-normal">
-                  {{ data.body }}
-                </p>
-              </NuxtLink>
               <div
                 class="pb-[2.25rem] border-b border-b-gray-200 mb-2 last:border-0 last:mb-0"
-                v-else
               >
                 <h5 class="text-gray-700 font-bold text-2xl leading-normal">
                   {{ data?.title }}

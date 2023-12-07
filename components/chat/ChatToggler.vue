@@ -3,7 +3,7 @@ import AdminLogo from "./AdminLogo.vue";
 
 const MessagePopup = ref(false);
 const chatbox = ref(null);
-const { message, chat, getMessages, sendMessage } = useChat();
+const { message, chat, getMessages, sendMessage, notify } = useChat();
 const openMessagePopup = () => {
   MessagePopup.value = !MessagePopup.value;
   getMessages();
@@ -22,7 +22,7 @@ watch(
 
 
 <template>
-  <div :class="{ 'show-chatbot': MessagePopup }">
+  <div :class="{ 'show-chatbot': MessagePopup }">}}
     <button class="chatbot-toggler bg-primary-300" @click="openMessagePopup()">
       <span class="material-symbols-rounded">
         <svg

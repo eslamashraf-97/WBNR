@@ -217,15 +217,27 @@ const selectedImage = ref(null);
             </div>
           </div>
 
-          <div class="mt-10 mb-10">
-            <span class="text-base text-gray-400 font-light"
-              >الكمية المتوفرة</span
-            >
-            <h6
-              class="mb-0 text-3xl text-gray-800 flex gap-[10px] items-center leading-[48px]"
-            >
-              {{ productData.data.stock }} <span>قطعة</span>
-            </h6>
+          <div class="mt-10 mb-10 flex gap-16">
+            <div>
+              <span class="text-base text-gray-400 font-light"
+                          >الكمية المتوفرة</span
+                          >
+              <h6
+                  class="mb-0 text-3xl text-gray-800 flex gap-[10px] items-center leading-[48px]"
+              >
+                {{ productData.data.stock }} <span>قطعة</span>
+              </h6>
+            </div>
+            <div>
+              <span class="text-base text-gray-400 font-light"
+              >السعر الموصى به</span
+              >
+              <h6
+                  class="mb-0 text-3xl text-gray-800 flex gap-[10px] items-center leading-[48px]"
+              >
+                {{ productData.data.recommended_price }} <span> {{ productData.data.country.currency }} </span>
+              </h6>
+            </div>
           </div>
 
           <div class="">

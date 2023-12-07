@@ -10,6 +10,7 @@ import {
 
 export default function useChat () {
   const message = ref('');
+  const notify = ref(false);
   const chat = ref([]);
   const userId = useCookie('user').value.id;
   const { $db } = useNuxtApp();
@@ -21,6 +22,7 @@ export default function useChat () {
         messages.push({ ...doc.data(), id: doc.id });
       });
       chat.value = messages;
+      notify.value = true
     });
     onUnmounted(unsubscribe);
   };
@@ -37,6 +39,7 @@ export default function useChat () {
   };
 
   return {
+    notify,
     message,
     chat,
     getMessages,

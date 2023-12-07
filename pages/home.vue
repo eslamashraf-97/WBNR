@@ -50,7 +50,7 @@ const { data: products } = await useRequest({
 <template>
   <div class="bg-primary">
     <!-- category -->
-    <div
+    <!-- <div
       class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-9 mb-40"
       v-if="categoriesData?.data && categoriesData.data.length"
     >
@@ -59,7 +59,7 @@ const { data: products } = await useRequest({
         :key="category?.id"
         :details="category"
       />
-    </div>
+    </div> -->
 
     <!-- new arrival -->
     <template v-if="productsNewArrivals.data.length">
