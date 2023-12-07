@@ -22,7 +22,7 @@ definePageMeta({
     <landing-categories />
 
     <!-- features  -->
-    <landing-features />
+<!--    <landing-features />-->
 
     <!-- app  -->
     <landing-app />

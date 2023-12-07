@@ -82,7 +82,8 @@ onMounted(() => {
           <img src="assets/images/app-app-store.png"  class="w-[120px]"/>
         </div>
       </div>
-      <div>
+      <div class="flex gap-6 items-center">
+        <span>الاسأله الشائعة</span>
         <span>ملاحظات الشحن</span>
       </div>
     </div>
