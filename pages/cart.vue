@@ -164,8 +164,9 @@ async function clearCart() {
       <shared-loders-loading />
     </div>
     <div class="flex flex-col 2xl:flex-row justify-start gap-12" v-else>
-      <cart-aside
-        :details="{
+      <div v-if="cartData.data.cartItems.length">
+        <cart-aside
+          :details="{
           ...cartData.data,
           itemsInCart: cartDataLength.data.cart_length || cartLength,
           totalEarn: cartData.data.cartItems.reduce(
@@ -175,18 +176,23 @@ async function clearCart() {
           ),
           total: cartData.data.final_price,
         }"
-      />
-      <div class="w-full">
-        <cart-products
-          :products="cartData.data.cartItems"
-          @decreaseQuantity="decreaseQuantity"
-          @increaseQuantity="increaseQuantity"
-          @deleteCartItem="deleteCartItem"
-          @changeQuantity="changeQuantity"
-          @changePrice="changePrice"
-          @clearCart="clearCart"
-          :clearCartIsPending="clearCartIsPending"
         />
+        <div class="w-full">
+          <cart-products
+            :products="cartData.data.cartItems"
+            @decreaseQuantity="decreaseQuantity"
+            @increaseQuantity="increaseQuantity"
+            @deleteCartItem="deleteCartItem"
+            @changeQuantity="changeQuantity"
+            @changePrice="changePrice"
+            @clearCart="clearCart"
+            :clearCartIsPending="clearCartIsPending"
+          />
+        </div>
+      </div>
+      <div class="flex items-center flex-col justify-center w-full">
+        <img class="w-[200px]" src="assets/images/shopping-cart.png" />
+        <h3 class="mt-4">لا يوجد منتجات فى العربة</h3>
       </div>
     </div>
   </section>

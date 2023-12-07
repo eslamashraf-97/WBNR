@@ -126,16 +126,16 @@ onMounted(() => {
           </shared-menu>
           <nuxt-link
             to="/saved-products"
-            class="flex items-center gap-2 text-2xl"
+            :class="['flex items-center gap-2 text-2xl', {'!text-primary-300': $route.path == '/saved-products'}]"
           >
             <span>{{ savedProductsCount }}</span>
-            <Icon name="fluent:bookmark-20-regular" class="text-gray-600" />
+            <Icon name="fluent:bookmark-20-regular"    :class="['text-gray-600', {'text-primary-300': $route.path == '/saved-products'}]" />
           </nuxt-link>
-          <nuxt-link to="/cart" class="flex items-center gap-2 text-2xl">
+          <nuxt-link to="/cart" :class="['flex items-center gap-2 text-2xl', {'!text-primary-300': $route.path == '/cart'}]">
             <span>{{ cartLength }}</span>
             <Icon
               name="solar:cart-large-minimalistic-linear"
-              class="text-gray-600"
+              :class="['text-gray-600', {'text-primary-300': $route.path == '/cart'}]"
             />
           </nuxt-link>
         </div>
