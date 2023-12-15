@@ -79,16 +79,12 @@ function calculateWidthOfDone(status) {
   switch (status) {
     case "pending":
       return "w-[0%]";
-      break;
     case "processing":
       return "w-[35%]";
-      break;
     case "shipping":
       return "w-[68%]";
-      break;
     case "delivered":
       return "w-[100%]";
-      break;
   }
 }
 function calculateWidthOfWait(status) {
@@ -96,16 +92,12 @@ function calculateWidthOfWait(status) {
   switch (status) {
     case "pending":
       return "w-[0%]";
-      break;
     case "confirmed":
       return "w-[35%]";
-      break;
     case "processing":
       return "w-[68%]";
-      break;
     case "shipping":
       return "w-[100%]";
-      break;
   }
 }
 

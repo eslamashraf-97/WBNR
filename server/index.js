@@ -125,3 +125,5 @@ export function apiGetNotificationList() {
 }
 
 export const apiGetFaqUrl = "faq";
+
+export const apiGetNotesUrl = "customer/delivery-notes"; // /:country_id
