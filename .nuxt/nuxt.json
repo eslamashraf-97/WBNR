@@ -1,9 +1,9 @@
 {
-  "_hash": "V3nsMTf0BK",
+  "_hash": "NaxLZXGqnE",
   "project": {
-    "rootDir": "D:/WBNR_new"
+    "rootDir": "/home/mahmoud/Projects/WBNR"
   },
   "versions": {
-    "nuxt": "3.8.2"
+    "nuxt": "3.8.0"
   }
 }

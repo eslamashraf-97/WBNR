@@ -11,6 +11,26 @@ export default defineNuxtRouteMiddleware((to, from) => {
 
   const isAuthenticated = tokenCookies.value;
 
+  const guestsPages = ["/home", "/products", "/suggested-products"];
+
+  const pageHasGuest = guestsPages.includes(path);
+
+  const inGuestPage = path.includes("-guest");
+
+  const splitGuestPage = path.split("-guest")[0];
+
+  if (isAuthenticated && inGuestPage) {
+    return navigateTo(splitGuestPage);
+  }
+
+  if (!isAuthenticated && inGuestPage) {
+    return;
+  }
+
+  if (!isAuthenticated && pageHasGuest) {
+    return navigateTo(`${path}-guest`);
+  }
+
   if (isAuthenticated && inLnadingPage) {
     return navigateTo("/home");
   }

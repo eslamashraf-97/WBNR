@@ -6,6 +6,10 @@ import {
   apiGetProductsNewArrivalsUrl,
 } from "@/server";
 
+definePageMeta({
+  layout: "guest",
+});
+
 const { selectedCountry } = useCountries();
 
 // get categories
@@ -93,7 +97,7 @@ const { data: products } = await useRequest({
 
     <!-- All Products -->
     <template v-if="products.data.length">
-      <shared-title title="كل المنتجات" url="/suggested-products" />
+      <shared-title title="كل المنتجات" url="/products" />
       <div class="">
         <shared-product-swiper>
           <swiper-slide v-for="(product, key) in products.data" :key="key">

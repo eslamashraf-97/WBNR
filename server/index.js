@@ -43,7 +43,7 @@ export const apiLoginWithGoogleUrl = "customer/auth/google";
 
 export const apiLoginWithFacebookUrl = "customer/auth/facebook";
 
-export const apiGetSuggestedProductsUrl = "customer/products";
+export const apiGetSuggestedProductsUrl = "customer/products/featured-products";
 
 export const apiGetCateoriesUrl = "customer/product-category";
 
@@ -123,3 +123,5 @@ export const apiGetNotificationListUrl = "customer/notifications";
 export function apiGetNotificationList() {
   return $api().get(`customer/notifications`);
 }
+
+export const apiGetFaqUrl = "faq";

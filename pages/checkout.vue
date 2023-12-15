@@ -60,7 +60,10 @@ const { fire: fireAddDestination } = useApi({
   },
 });
 
+const selectedGov = ref(null);
+
 function chooseGov(data) {
+  selectedGov.value = data;
   form.governorate_id = data.id;
   const query = { ...route.query, governorate_id: data.id };
   console.log(query);
@@ -105,6 +108,7 @@ const getSelectedGov = computed(() =>
         :details="cartData.data"
         @placeOrder="placeOrder"
         :isLoadingPlaceOrder="isLoadingPlaceOrder"
+        :selectedGov="selectedGov"
       />
 
       <div class="flex-1">
