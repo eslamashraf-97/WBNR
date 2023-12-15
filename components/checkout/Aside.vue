@@ -18,7 +18,7 @@ const totalPrice = computed(() => {
 const totalCommission = computed(() => {
   return props.details.cartItems.reduce(
     (accumulator, currentValue) =>
-      (+accumulator + +currentValue.customer_earn) * +currentValue.quantity,
+      (+accumulator + +currentValue.minCommission) * +currentValue.quantity,
     0,
   );
 });
