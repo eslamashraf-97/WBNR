@@ -66,7 +66,24 @@ const isLoadingPlaceOrder = ref(false);
 
 function placeOrder() {
   isLoadingPlaceOrder.value = true;
-  api_place_quick_order(form)
+  const payload = {
+    //   name: "",
+    // phone: "",
+    // secondary_phone: "",
+    // address_details: "",
+    // store_name: "",
+    // store_url: "",
+    // governorate_id: "",
+    // product_id: quickOrderState.value?.id,
+    // product_quantity: quickOrderState.value?.qty,
+    // final_price: quickOrderState.value?.price,
+    // variants: quickOrderState.value?.selectedVariants,
+    ...form,
+    product_quantity: quickOrderState.value?.qty,
+    final_price: quickOrderState.value?.price,
+    variants: quickOrderState.value?.selectedVariants,
+  };
+  api_place_quick_order(payload)
     .then((res) => {
       navigateTo("/dashboard/requests");
     })
