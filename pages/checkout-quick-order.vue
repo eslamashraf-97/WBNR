@@ -135,7 +135,7 @@ const detailsComputed = computed(() => {
             <div class="relative w-[150px]">
               <shared-form-input
                 type="text"
-                class="w-[150px] h-[53px] bg-transparent text-xl"
+                class="!w-[150px] h-[53px] bg-transparent text-xl"
                 v-model.number="quickOrderState.qty"
               />
               <div
