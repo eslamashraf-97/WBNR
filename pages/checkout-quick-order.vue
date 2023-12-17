@@ -78,33 +78,96 @@ function placeOrder() {
 const getSelectedGov = computed(() =>
   govData.value?.data.find((item) => item.id === form.governorate_id),
 );
+
+const detailsComputed = computed(() => {
+  return {
+    ...quickOrderState.value,
+    cartItems: [
+      {
+        ...quickOrderState.value,
+        quantity: quickOrderState.value.qty,
+        product: quickOrderState.value,
+        final_price: quickOrderState.value.price,
+      },
+    ],
+    price: quickOrderState.value.price,
+    final_price: quickOrderState.value.price,
+    tax_percentage: quickOrderState.value.minCommission,
+    delivery_cost: delivery_cost.value,
+  };
+});
 </script>
 <template>
   <section class="bg-primary" v-if="quickOrderState">
     <shared-title title="مراجعة الطلب" />
     <div class="flex flex-col-reverse xl:flex-row justify-start gap-24">
       <checkout-aside
-        :details="{
-          ...quickOrderState,
-          cartItems: [
-            {
-              ...quickOrderState,
-              quantity: quickOrderState.qty,
-              product: quickOrderState,
-              final_price: quickOrderState.price,
-            },
-          ],
-          price: quickOrderState.price,
-          final_price: quickOrderState.price,
-          tax_percentage: quickOrderState.minCommission,
-          delivery_cost: delivery_cost,
-        }"
+        :details="detailsComputed"
         @placeOrder="placeOrder"
         :isLoadingPlaceOrder="isLoadingPlaceOrder"
         :selectedGov="selectedGov"
       />
 
       <div class="flex-1">
+        <!-- start  -->
+        <div class="mb-16 flex gap-8">
+          <div>
+            <span class="text-2xl text-gray-500 font-light mb-5 block"
+              >الكمية</span
+            >
+            <div class="relative w-[150px]">
+              <shared-form-input
+                type="text"
+                class="w-[150px] h-[53px] bg-transparent text-xl"
+                v-model.number="quickOrderState.qty"
+              />
+              <div
+                class="absolute top-[1px] left-[1px] bottom-[1px] flex flex-col items-center bg-white rounded-[11px]"
+              >
+                <button
+                  type="button"
+                  class="w-[24px] flex-1 border-b border-b-gray-200 border-s border-s-gray-200"
+                  @click="quickOrderState.qty++"
+                >
+                  +
+                </button>
+                <button
+                  type="button"
+                  class="w-[24px] flex-1 border-s border-s-gray-200"
+                  @click="
+                    quickOrderState.qty > 1 ? quickOrderState.qty-- : null
+                  "
+                >
+                  -
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <span class="text-2xl text-gray-500 font-light mb-5 block"
+              >سعر البيع للقطعة</span
+            >
+            <div class="relative w-[200px]">
+              <shared-form-input
+                type="text"
+                class="!w-[200px] h-[53px] bg-transparent text-xl"
+                v-model="quickOrderState.price"
+              />
+              <div
+                class="absolute top-[1px] left-[1px] bottom-[1px] flex flex-col bg-white rounded-[11px]"
+              >
+                <div
+                  class="w-[57px] flex-1 border-s border-s-gray-200 flex items-center justify-center text-xl text-gray-300 font-bold"
+                >
+                  {{ quickOrderState.country.currency }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- *******  -->
         <h5 class="text-2xl text-gray-700 mb-16">بيانات شخصية</h5>
         <form class="w-full xl:w-[38rem]">
           <div class="mb-7">
@@ -149,7 +212,10 @@ const getSelectedGov = computed(() =>
                 v-model="form.address_details"
               />
 
-              <div class="absolute top-1/2 -translate-y-1/2 start-[5px]">
+              <div
+                class="absolute top-1/2 -translate-y-1/2 start-[5px]"
+                v-if="govData?.data"
+              >
                 <shared-menu
                   :items="govData.data"
                   :buttonProps="{
