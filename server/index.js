@@ -53,6 +53,8 @@ export const apiGetProductsMostSellUrl = "customer/products/most-ordered";
 
 export const apiGetProductsUrl = "customer/products";
 
+export const apiGetBannersUrl = "banner";
+
 export const apiGetProductsNewArrivalsUrl =
   "customer/products/featured-products";
 
