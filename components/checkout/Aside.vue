@@ -16,11 +16,16 @@ const totalPrice = computed(() => {
 });
 
 const totalCommission = computed(() => {
-  return props.details.cartItems.reduce(
-    (accumulator, currentValue) =>
-      (+accumulator + +currentValue.minCommission) * +currentValue.quantity,
-    0,
-  );
+  return props.details.cartItems.reduce((accumulator, currentValue) => {
+    if (!currentValue.minCommission) {
+      return (
+        (+accumulator + +currentValue.minCommission) * +currentValue.quantity
+      );
+    }
+    return (
+      (+accumulator + +currentValue.minCommission) * +currentValue.quantity
+    );
+  }, 0);
 });
 
 const totalPriceSeller = computed(() => {

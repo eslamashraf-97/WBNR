@@ -156,7 +156,10 @@ const getSelectedGov = computed(() =>
                 v-model="form.address_details"
               />
 
-              <div class="absolute top-1/2 -translate-y-1/2 start-[5px]">
+              <div
+                class="absolute top-1/2 -translate-y-1/2 start-[5px]"
+                v-if="govData?.data"
+              >
                 <shared-menu
                   :items="govData.data"
                   :buttonProps="{

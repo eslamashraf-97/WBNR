@@ -4,13 +4,21 @@ import {
   apiGetProductsMostSellUrl,
   apiGetProductsUrl,
   apiGetProductsNewArrivalsUrl,
+  apiGetBannersUrl,
 } from "@/server";
+
+import { Autoplay, Navigation } from "swiper/modules";
 
 const { selectedCountry } = useCountries();
 
 // get categories
 const { data: categoriesData } = await useRequest({
   url: apiGetCateoriesUrl,
+});
+
+// get categories
+const { data: bannersData } = await useRequest({
+  url: apiGetBannersUrl,
 });
 
 // get products new arrivals
@@ -61,6 +69,28 @@ const { data: products } = await useRequest({
       />
     </div> -->
 
+    <template v-if="bannersData?.data">
+      <div class="border rounded-lg p-4 mb-40">
+        <swiper
+          :modules="[Autoplay, Navigation]"
+          :slidesPerView="1"
+          :spaceBetween="32"
+          :loop="true"
+          :autoplay="true"
+          :navigation="true"
+          class="banners-swiper"
+        >
+          <swiper-slide v-for="banner in bannersData?.data" :key="banner.id">
+            <img
+              :src="banner.imageUrl"
+              :alt="banner.alt"
+              class="h-[300px] w-full object-cover rounded-lg"
+            />
+          </swiper-slide>
+        </swiper>
+      </div>
+    </template>
+
     <!-- new arrival -->
     <template v-if="productsNewArrivals.data.length">
       <shared-title title="المنتجات المرشحه لك" url="/suggested-products" />
@@ -105,4 +135,21 @@ const { data: products } = await useRequest({
   </div>
 </template>
 
-<style scoped></style>
+<style>
+.banners-swiper .swiper-button-prev,
+.banners-swiper .swiper-button-next {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: theme("colors.primary.100");
+  border-radius: 10px;
+}
+
+.banners-swiper .swiper-button-prev::after,
+.banners-swiper .swiper-button-next::after {
+  font-size: 25px;
+  color: theme("colors.primary.300");
+}
+</style>
