@@ -25,8 +25,6 @@ async function fireGetCategories() {
     .get(apiGetCateoriesUrl)
     .then((response) => {
       categoriesData.value = response.data;
-      selectedCategory.value = response.data.data[0].id;
-      selectedCategoryData.value = response.data.data[0];
     })
     .finally(() => {
       categoriesPending.value = false;
@@ -35,67 +33,15 @@ async function fireGetCategories() {
 
 await fireGetCategories();
 
-// catgeory
-// const { fire: fireGetCategories } = useApi({
-//   url: () => apiGetCateoriesUrl,
-// });
-
-// const { data: categoriesData, pending: categoriesPending } =
-//   await fireGetCategories();
-
-// const selectedCategory = ref(categoriesData.value?.data[0].id);
-
-// const selectedCategoryData = ref(categoriesData.value?.data[0]);
-
-// sub categories
-
-const subCategoriesData = ref();
-
-const subCategoriesPending = ref(true);
-
 const selectedSubCategory = ref();
 
 const selectedSubCategoryData = ref();
 
-async function fireGetSubCategories() {
-  subCategoriesPending.value = true;
-  $api
-    .get(`${apiGetSubCateoriesUrl}/${selectedCategory.value}`)
-    .then((response) => {
-      console.log("fireGetSubCategories", response.data);
-      subCategoriesData.value = response.data;
-      selectedSubCategory.value = response.data.data.id;
-      selectedSubCategoryData.value = response.data.data;
-    })
-    .finally(() => {
-      subCategoriesPending.value = false;
-    });
-}
-
-watch(selectedCategory, () => {
-  fireGetSubCategories();
-});
-
-// const { fire: fireGetSubCategories } = useApi({
-//   url: () => apiGetSubCateoriesUrl + "/" + selectedCategory.value,
-//   requestOptions: {
-//     watch: [selectedCategory],
-//     onResponse: (response) => {
-//       if (response.response.ok) {
-//         selectedSubCategory.value = response.response._data.data.id;
-//         selectedSubCategoryData.value = response.response._data.data;
-//       }
-//     },
-//   },
-// });
-
-// const { data: subCategoriesData, pending: subCategoriesPending } =
-//   await fireGetSubCategories();
-
 // products based on selected category
-const productsData = ref();
+const productsData = ref([]);
 
 const productsPending = ref(true);
+
 async function fireGetProducts() {
   productsPending.value = true;
   $api
@@ -106,8 +52,7 @@ async function fireGetProducts() {
       },
     })
     .then((response) => {
-      console.log("fireGetProducts", response.data);
-      productsData.value = response.data;
+      productsData.value = response.data.data;
     })
     .finally(() => {
       productsPending.value = false;
@@ -117,22 +62,6 @@ async function fireGetProducts() {
 watch(selectedSubCategory, () => {
   fireGetProducts();
 });
-// const { fire: fireGetProducts } = useApi({
-//   url: () => apiGetProductsUrl,
-//   requestOptions: {
-//     query: {
-//       country_id: selectedCountry.value.id,
-//       category_id: selectedSubCategory,
-//     },
-//     onResponse: () => {
-//       console.log("prodcts");
-//     },
-//     watch: [selectedSubCategory],
-//   },
-// });
-
-// const { data: productsData, pending: productsPending } =
-//   await fireGetProducts();
 
 function changeCategory(cat) {
   selectedCategory.value = cat.id;
@@ -141,6 +70,7 @@ function changeCategory(cat) {
 }
 
 function changeSubCategory(subCat) {
+  productsData.value.data = [];
   selectedSubCategory.value = subCat.id;
   selectedSubCategoryData.value = subCat;
 }
@@ -175,7 +105,16 @@ function changeSubCategory(subCat) {
           <div class="overflow-auto max-h-[300px] w-[20rem] items-scroller">
             <MenuItem v-for="(cat, index) in categoriesData.data" :key="cat.id">
               <div
-                @click.stop.prevent="changeCategory(cat)"
+                @click="
+                  navigateTo({
+                    path: '/products',
+                    query: {
+                      category_id: cat.id,
+                      category_title: cat.name,
+                    },
+                  })
+                "
+                @mouseenter="changeCategory(cat)"
                 class="whitespace-nowrap text-xl text-gray-700 font-bold mb-[1rem] py-[.75rem] flex justify-between items-center cursor-pointer"
                 :class="{
                   'text-primary-300': selectedCategoryData?.id === cat.id,
@@ -192,56 +131,44 @@ function changeSubCategory(subCat) {
           <!-- sub category  -->
           <div
             class="overflow-auto max-h-[300px] w-[20rem] items-scroller"
-            v-if="subCategoriesData.data.sub_categories.length"
+            v-if="
+              selectedCategoryData &&
+              selectedCategoryData?.sub_categories.length
+            "
           >
-            <template v-if="subCategoriesPending">
+            <MenuItem
+              v-for="(subCat, index) in selectedCategoryData?.sub_categories"
+              :key="subCat.id + 'subcat' + index"
+              as="div"
+            >
               <div
-                @click.stop.prevent
-                class="h-[30px] bg-primary-100 animate-pulse mb-[1rem]"
-              ></div>
-
-              <div
-                @click.stop.prevent
-                class="h-[30px] bg-primary-100 animate-pulse mb-[1rem]"
-              ></div>
-
-              <div
-                @click.stop.prevent
-                class="h-[30px] bg-primary-100 animate-pulse mb-[1rem]"
-              ></div>
-
-              <div
-                @click.stop.prevent
-                class="h-[30px] bg-primary-100 animate-pulse mb-[1rem]"
-              ></div>
-            </template>
-            <template v-else>
-              <MenuItem
-                v-for="(subCat, index) in subCategoriesData.data.sub_categories"
-                :key="subCat.id + 'subcat' + index"
-                as="div"
+                @click="
+                  navigateTo({
+                    path: '/products',
+                    query: {
+                      category_id: subCat.id,
+                      category_title: subCat.name,
+                    },
+                  })
+                "
+                @mouseover="changeSubCategory(subCat)"
+                class="whitespace-nowrap text-xl text-gray-700 font-normal mb-[1rem] py-[.75rem] flex justify-between items-center cursor-pointer"
+                :class="{
+                  'text-primary-300': selectedSubCategoryData?.id === subCat.id,
+                }"
               >
-                <div
-                  @click.stop.prevent="changeSubCategory(subCat)"
-                  class="whitespace-nowrap text-xl text-gray-700 font-normal mb-[1rem] py-[.75rem] flex justify-between items-center cursor-pointer"
-                  :class="{
-                    'text-primary-300':
-                      selectedSubCategoryData?.id === subCat.id,
-                  }"
-                >
-                  <span>
-                    {{ subCat.name }}
-                  </span>
-                  <Icon name="carbon:chevron-left" />
-                </div>
-              </MenuItem>
-            </template>
+                <span>
+                  {{ subCat.name }}
+                </span>
+                <Icon name="carbon:chevron-left" />
+              </div>
+            </MenuItem>
           </div>
 
           <!-- products  -->
           <div
             class="overflow-auto max-h-[300px] w-[20rem] items-scroller"
-            v-if="productsData.data.length"
+            v-if="productsData.length"
           >
             <template v-if="productsPending">
               <div
@@ -266,17 +193,17 @@ function changeSubCategory(subCat) {
             </template>
             <template v-else>
               <MenuItem
-                v-for="(product, index) in productsData.data"
+                v-for="(product, index) in productsData"
                 :key="product.id + 'product' + index"
                 as="div"
               >
-                <nuxt-link
-                  :to="`/product/${product.id}`"
+                <div
+                  @click="navigateTo({ path: `/product/${product.id}` })"
                   class="whitespace-nowrap text-xl text-gray-700 font-normal mb-[1rem] py-[.75rem] flex justify-between items-center cursor-pointer"
                 >
                   {{ product.title.substring(0, 20) }}
                   {{ product.title.length > 20 ? "..." : "" }}
-                </nuxt-link>
+                </div>
               </MenuItem>
             </template>
           </div>

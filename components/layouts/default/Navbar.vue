@@ -32,17 +32,23 @@ const { removeUserData, user } = useAuth();
 const userMenu = [
   {
     image: WalletImage,
-    link: "/dashboard/wallet",
+    function: () => {
+      navigateTo("/dashboard/wallet");
+    },
     title: "المحفظة",
   },
   {
     image: OrdersImage,
-    link: "/dashboard/requests",
+    function: () => {
+      navigateTo("/dashboard/requests");
+    },
     title: "الطلبات",
   },
   {
     image: AvatarImage,
-    link: "/profile",
+    function: () => {
+      navigateTo("/profile");
+    },
     title: "اعدادات الحساب",
   },
   {
@@ -69,6 +75,10 @@ onMounted(() => {
     toast.info(payload.notification.title);
   });
 });
+
+const route = useRoute();
+
+const search = ref(route.query.title);
 </script>
 
 <template>
@@ -78,13 +88,13 @@ onMounted(() => {
         <span>عربى</span>
         <div class="flex gap-6 items-center">
           <p>حمل التطبيق الان</p>
-          <img src="assets/images/google-play.png"  class="w-[120px]"/>
-          <img src="assets/images/app-app-store.png"  class="w-[120px]"/>
+          <img src="assets/images/google-play.png" class="w-[120px]" />
+          <img src="assets/images/app-app-store.png" class="w-[120px]" />
         </div>
       </div>
       <div class="flex gap-6 items-center">
-        <span>الاسأله الشائعة</span>
-        <span>ملاحظات الشحن</span>
+        <nuxt-link to="/faq">الاسأله الشائعة</nuxt-link>
+        <nuxt-link to="/notes">ملاحظات الشحن</nuxt-link>
       </div>
     </div>
   </div>
@@ -96,18 +106,37 @@ onMounted(() => {
         <NuxtLink to="/home">
           <img src="@/assets/images/myr-logo.svg" class="w-[130px]" />
         </NuxtLink>
-        <div class="relative layout-navbar-search hidden xl:block">
+        <form
+          @submit.prevent="
+            navigateTo({
+              path: '/products',
+              query: {
+                title: search,
+              },
+            })
+          "
+          class="relative layout-navbar-search hidden xl:block"
+        >
           <shared-form-input
             placeholder="ما الذي تبحث عنه؟"
             type="text"
             class="pe-[80px] !w-[35rem]"
+            v-model="search"
           />
           <span
-            class="absolute top-0 left-0 bottom-0 rounded-tl-[11px] rounded-bl-[11px] bg-primary-100 text-primary-300 w-[75px] flex items-center justify-center border border-gray-200 border-s-0"
+            class="cursor-pointer absolute top-0 left-0 bottom-0 rounded-tl-[11px] rounded-bl-[11px] bg-primary-100 text-primary-300 w-[75px] flex items-center justify-center border border-gray-200 border-s-0"
+            @click="
+              navigateTo({
+                path: '/products',
+                query: {
+                  title: search,
+                },
+              })
+            "
           >
             <icon name="system-uicons:search" class="text-4xl" />
           </span>
-        </div>
+        </form>
       </div>
       <div
         class="flex flex-col-reverse sm:flex-row items-end sm:items-center gap-4 sm:gap-8"
@@ -158,16 +187,34 @@ onMounted(() => {
           </shared-menu>
           <nuxt-link
             to="/saved-products"
-            :class="['flex items-center gap-2 text-2xl', {'!text-primary-300': $route.path == '/saved-products'}]"
+            :class="[
+              'flex items-center gap-2 text-2xl',
+              { '!text-primary-300': $route.path == '/saved-products' },
+            ]"
           >
             <span>{{ savedProductsCount }}</span>
-            <Icon name="fluent:bookmark-20-regular"    :class="['text-gray-600', {'text-primary-300': $route.path == '/saved-products'}]" />
+            <Icon
+              name="fluent:bookmark-20-regular"
+              :class="[
+                'text-gray-600',
+                { 'text-primary-300': $route.path == '/saved-products' },
+              ]"
+            />
           </nuxt-link>
-          <nuxt-link to="/cart" :class="['flex items-center gap-2 text-2xl', {'!text-primary-300': $route.path == '/cart'}]">
+          <nuxt-link
+            to="/cart"
+            :class="[
+              'flex items-center gap-2 text-2xl',
+              { '!text-primary-300': $route.path == '/cart' },
+            ]"
+          >
             <span>{{ cartLength }}</span>
             <Icon
               name="solar:cart-large-minimalistic-linear"
-              :class="['text-gray-600', {'text-primary-300': $route.path == '/cart'}]"
+              :class="[
+                'text-gray-600',
+                { 'text-primary-300': $route.path == '/cart' },
+              ]"
             />
           </nuxt-link>
         </div>
@@ -184,30 +231,15 @@ onMounted(() => {
             <div class="flex items-center gap-[19px]">
               <Icon name="iconamoon:arrow-down-2-duotone" />
               <span class="leading-normal text-2xl text-gray-700">
-               اهلا, {{ user?.name ? user.name.substring(0, 5) : null }}
+                اهلا, {{ user?.name ? user.name.substring(0, 5) : null }}
               </span>
             </div>
           </template>
           <template #item="{ data }">
-            <nuxt-link
-              v-if="data.link"
-              :to="data.link"
-              class="flex items-center gap-6 leading-normal text-2xl text-gray-700 mb-[1.19rem]"
-            >
-              <img
-                :src="data?.image"
-                :alt="data.title"
-                class="block w-[20px] h-[20px]"
-              />
-              <span class="flex-1 whitespace-nowrap">
-                {{ data.title }}
-              </span>
-            </nuxt-link>
             <button
-              v-else
               type="button"
               @click="data.function()"
-              class="flex items-center gap-6 leading-normal text-2xl text-gray-700"
+              class="flex items-center gap-6 leading-normal text-2xl text-gray-700 mb-[1.19rem] last:mb-0"
             >
               <img
                 :src="data?.image"
@@ -225,7 +257,7 @@ onMounted(() => {
     <div class="container flex justify-between items-center">
       <nav class="hidden xl:flex items-center gap-[24px]">
         <div class="hidden xl:block">
-          <shared-category-menu/>
+          <shared-category-menu />
         </div>
         <NuxtLink
           to="/home"
@@ -254,7 +286,7 @@ onMounted(() => {
       </button>
 
       <div class="flex items-center gap-[36px]">
-        <shared-countries-menu  :inMenu="true"/>
+        <shared-countries-menu :inMenu="true" />
       </div>
     </div>
   </div>

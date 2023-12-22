@@ -3,6 +3,10 @@ import { apiGetSuggestedProductsUrl } from "@/server";
 
 import { productsStatuses, productsActives } from "@/constants";
 
+definePageMeta({
+  layout: "guest",
+});
+
 const { page, changePage } = usePagination();
 
 const { selectedCountry } = useCountries();
@@ -26,7 +30,7 @@ const { data: productData, pending } = await useRequest({
   requetOptions: {
     query: {
       page: page,
-      country_id: selectedCountry.value.id,
+      country_id: selectedCountry.value?.id,
       orderBy: orderBy,
       performance: productPerformance,
       lowest_price_for_sale: lowestPriceForSale,

@@ -1,9 +1,52 @@
 <script setup>
 import { apiPlaceOrderUrl } from "@/server";
 
-defineProps(["details", "isLoadingPlaceOrder"]);
+const props = defineProps(["details", "isLoadingPlaceOrder", "selectedGov"]);
 
 defineEmits(["placeOrder"]);
+
+const route = useRoute();
+
+const totalPrice = computed(() => {
+  return props.details.cartItems.reduce(
+    (accumulator, currentValue) =>
+      (+accumulator + +currentValue.price) * +currentValue.quantity,
+    0,
+  );
+});
+
+const totalCommission = computed(() => {
+  return props.details.cartItems.reduce(
+    (accumulator, currentValue) =>
+      (+accumulator + +currentValue.minCommission) * +currentValue.quantity,
+    0,
+  );
+});
+
+const totalPriceSeller = computed(() => {
+  return props.details.cartItems.reduce(
+    (accumulator, currentValue) =>
+      (+accumulator + +currentValue.final_price) * +currentValue.quantity,
+    0,
+  );
+});
+
+const totalWithoutShipping = computed(() => {
+  return props.details.cartItems.reduce(
+    (accumulator, currentValue) =>
+      (+accumulator + +currentValue.final_price) * +currentValue.quantity,
+    0,
+  );
+});
+
+const totalWiShipping = computed(() => {
+  return props.details.cartItems.reduce(
+    (accumulator, currentValue) =>
+      (+accumulator + +currentValue.final_price) * +currentValue.quantity +
+      +props.details.delivery_cost,
+    0,
+  );
+});
 </script>
 
 <template>
@@ -32,22 +75,17 @@ defineEmits(["placeOrder"]);
           سعر المنتجات الاساسى:
         </h5>
         <h5 class="text-2xl text-gray-500 font-normal">
-          <span>{{ details.price }} {{ details.country.currency }}</span>
+          <span
+            >{{ route.path.includes("quick") ? totalPrice : details.price }}
+            {{ details.country.currency }}</span
+          >
         </h5>
       </div>
       <div class="flex items-center justify-between">
         <h5 class="text-2xl text-gray-700 font-normal">سعر البيع:</h5>
         <h5 class="text-2xl text-gray-500 font-normal">
           <span>
-            {{
-              details?.cartItems[0]?.final_price
-                ? details.cartItems.reduce(
-                    (accumulator, currentValue) =>
-                      accumulator + currentValue.final_price,
-                    0,
-                  )
-                : details.final_price
-            }}
+            {{ totalPriceSeller }}
             {{ details.country.currency }}</span
           >
         </h5>
@@ -56,24 +94,16 @@ defineEmits(["placeOrder"]);
       <div class="flex items-center justify-between">
         <h5 class="text-2xl text-gray-700 font-normal">اجمالي الربح:</h5>
         <h5 class="text-2xl text-gray-500 font-normal">
-          <span
-            >{{
-              details?.cartItems[0]?.customer_earn
-                ? details.cartItems.reduce(
-                    (accumulator, currentValue) =>
-                      accumulator + currentValue.customer_earn,
-                    0,
-                  )
-                : details.minCommission
-            }}
-            {{ details.country.currency }}</span
-          >
+          <span>{{ totalCommission }} {{ details.country.currency }}</span>
         </h5>
       </div>
 
       <div
         class="flex items-center justify-between"
-        v-if="details.tax_percentage"
+        v-if="
+          selectedGov?.country?.taxPercentage ||
+          details?.coountry?.taxPercentage
+        "
       >
         <h5 class="text-2xl text-gray-700 font-normal">الضريبة:</h5>
         <h5 class="text-2xl text-gray-500 font-normal">
@@ -94,14 +124,25 @@ defineEmits(["placeOrder"]);
       <div class="flex items-center justify-between">
         <h5 class="text-2xl text-gray-700 font-normal">اجمالى بدون الشحن:</h5>
         <h5 class="text-2xl text-gray-500 font-normal">
-          <span>{{ details.final_price }} {{ details.country.currency }}</span>
+          <span
+            >{{
+              route.path.includes("quick")
+                ? totalWithoutShipping
+                : details.final_price
+            }}
+            {{ details.country.currency }}</span
+          >
         </h5>
       </div>
       <div class="flex items-center justify-between">
         <h5 class="text-2xl text-gray-700 font-normal">اجمالى:</h5>
         <h5 class="text-2xl text-gray-500 font-normal">
           <span
-            >{{ details.final_price + parseInt(details.delivery_cost) }}
+            >{{
+              route.path.includes("quick")
+                ? totalWiShipping
+                : details.final_price + parseInt(details.delivery_cost)
+            }}
             {{ details.country.currency }}</span
           >
         </h5>

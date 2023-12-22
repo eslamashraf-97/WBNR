@@ -12,7 +12,8 @@ definePageMeta({
     <div class="flex items-center flex flex-col justify-center">
       <img src="assets/images/website-logo.svg" />
       <h3 class="text-center leading-[2em] font-bold font-2xl">
-        منصة إلكترونية بتقدم خدمات متكاملة  من أول توفير المنتج المناسب و التخزين إلى الشحن و التحصيل من العميل بكل سهوله من منزلك
+        منصة إلكترونية بتقدم خدمات متكاملة من أول توفير المنتج المناسب و التخزين
+        إلى الشحن و التحصيل من العميل بكل سهوله من منزلك
       </h3>
     </div>
     <!-- steps  -->
@@ -22,7 +23,10 @@ definePageMeta({
     <landing-categories />
 
     <!-- features  -->
-<!--    <landing-features />-->
+    <!--    <landing-features />-->
+
+    <!-- testim  -->
+    <landing-testim />
 
     <!-- app  -->
     <landing-app />

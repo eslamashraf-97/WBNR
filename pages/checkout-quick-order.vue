@@ -47,9 +47,12 @@ const form = reactive({
 
 const delivery_cost = ref(0);
 
+const selectedGov = ref(null);
+
 function chooseGov(data) {
   form.governorate_id = data.id;
   delivery_cost.value = data.delivery_cost;
+  selectedGov.value = data;
 }
 
 const { fire: firePlaceOrder } = useApi({
@@ -85,11 +88,10 @@ const getSelectedGov = computed(() =>
           ...quickOrderState,
           cartItems: [
             {
-              product: {
-                featured_image: quickOrderState.featured_image,
-                title: quickOrderState.title,
-              },
+              ...quickOrderState,
               quantity: quickOrderState.qty,
+              product: quickOrderState,
+              final_price: quickOrderState.price,
             },
           ],
           price: quickOrderState.price,
@@ -99,6 +101,7 @@ const getSelectedGov = computed(() =>
         }"
         @placeOrder="placeOrder"
         :isLoadingPlaceOrder="isLoadingPlaceOrder"
+        :selectedGov="selectedGov"
       />
 
       <div class="flex-1">

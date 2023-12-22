@@ -5,10 +5,7 @@
     <div class="container">
       <div class="border-b border-gray-700 pb-9">
         <div class="flex flex-wrap justify-between items-center gap-6 mb-16">
-          <img
-            src="~/assets/images/myr-logo.svg"
-            class="max-w-[12rem]"
-          />
+          <img src="~/assets/images/myr-logo.svg" class="max-w-[12rem]" />
 
           <div class="flex items-center gap-8">
             <a href="#" target="_blank" class="flex-1">
@@ -29,16 +26,19 @@
 
           <div class="flex items-center gap-4 text-3xl">
             <a href="#">
-              <Icon name="teenyicons:instagram-solid" class="cursor-pointer" />
+              <Icon name="skill-icons:instagram" class="cursor-pointer" />
             </a>
             <a href="#">
-              <Icon name="formkit:whatsapp" class="cursor-pointer" />
+              <Icon name="logos:whatsapp-icon" class="cursor-pointer" />
             </a>
             <a href="#">
-              <Icon
-                name="entypo-social:facebook-with-circle"
-                class="cursor-pointer"
-              />
+              <Icon name="logos:facebook" class="cursor-pointer" />
+            </a>
+            <a href="#">
+              <Icon name="openmoji:youtube" class="cursor-pointer" />
+            </a>
+            <a href="#">
+              <Icon name="grommet-icons:tictok" class="cursor-pointer" />
             </a>
           </div>
         </div>
