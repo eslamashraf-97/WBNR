@@ -62,7 +62,7 @@ function loginWith(data) {
     <div class="flex gap-4 items-center">
       <shared-buttons-primary-button
         submit-title="استمرار"
-        class="!bg-primary-200 text-white"
+        class="!bg-primary-200 text-white hover:!bg-primary-300"
         type="submit"
         :loading="isLoading"
       />

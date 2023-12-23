@@ -84,7 +84,7 @@ const { data: products } = await useRequest({
             <img
               :src="banner.imageUrl"
               :alt="banner.alt"
-              class="h-[300px] w-full object-cover rounded-lg"
+              class="h-[450px] w-full object-cover rounded-lg"
             />
           </swiper-slide>
         </swiper>

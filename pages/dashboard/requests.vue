@@ -5,12 +5,18 @@ import { handleDate } from "@/helpers";
 
 const { selectedCountry } = useCountries();
 
+const route = useRoute();
+
 const query = reactive({
   country_id: selectedCountry.value?.id,
   name: "",
   from: "",
   to: "",
 });
+
+if (route.query.status) {
+  query.status = route.query.status;
+}
 
 const { fire } = useApi({
   url: apiGetOrdersUrl,

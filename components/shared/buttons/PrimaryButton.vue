@@ -31,7 +31,7 @@ defineProps({
 <template>
   <button
     :class="[
-      'bg-primary-300 text-white rounded-sm min-w-[12.5625rem] min-h-[4.1875rem] font-semibold text-3xl',
+      'bg-primary-300 hover:bg-primary-200 text-white rounded-sm min-w-[12.5625rem] min-h-[4.1875rem] font-semibold text-3xl transition',
       disabled ? `${disabledClass} cursor-not-allowed` : '',
     ]"
     :type="type"
