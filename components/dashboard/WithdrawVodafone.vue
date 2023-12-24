@@ -6,6 +6,7 @@ const emits = defineEmits(["next"]);
 
 const form = reactive({
   vodafone_cash_number: "",
+  vodafone_cash_name: "",
 });
 
 const { fire } = useApi({
@@ -36,6 +37,14 @@ async function createWithdraw() {
     <h6 class="text-2xl text-gray-700 leading-normal font-normal mb-[2.25rem]">
       فودافون كاش
     </h6>
+    <div class="mb-6">
+      <shared-form-input
+        class="w-full bg-transparent"
+        placeholder="اسم محفظة فودافون كاش"
+        v-model="form.vodafone_cash_name"
+        type="text"
+      />
+    </div>
     <div class="mb-6">
       <shared-form-input
         class="w-full bg-transparent"

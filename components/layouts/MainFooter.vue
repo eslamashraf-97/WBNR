@@ -5,7 +5,7 @@
     <div class="container">
       <div class="border-b border-gray-700 pb-9">
         <div class="flex flex-wrap justify-between items-center gap-6 mb-16">
-          <img src="~/assets/images/myr-logo.svg" class="max-w-[12rem]" />
+          <img src="~/assets/images/myr-logo-light.svg" class="max-w-[12rem]" />
 
           <div class="flex items-center gap-8">
             <a href="#" target="_blank" class="flex-1">

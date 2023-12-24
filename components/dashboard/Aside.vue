@@ -1,16 +1,23 @@
 <script setup>
+import statsIcon from "@/assets/images/stats-icon.svg";
+import walletIcon from "@/assets/images/wallet-icon.svg";
+import ordersIcon from "@/assets/images/orders-icon.svg";
+import storeIcon from "@/assets/images/store-icon.svg";
 const links = [
   {
     link: "/dashboard",
     title: "إحصائيات تجارتك",
+    icon: statsIcon,
   },
   {
     link: "/dashboard/wallet",
     title: "المحفظة",
+    icon: walletIcon,
   },
   {
     link: "/dashboard/requests",
     title: "الطلبات",
+    icon: ordersIcon,
   },
   // {
   //   link: "/dashboard/replace-returns",
@@ -19,6 +26,7 @@ const links = [
   {
     link: "/dashboard/link-store",
     title: "ربط متجرك",
+    icon: storeIcon,
   },
 ];
 
@@ -43,7 +51,7 @@ defineEmits(["toggleMenu"]);
       class="flex items-center gap-6 text-2xl font-bold text-gray-700 py-3 aside-link"
       @click="$emit('toggleMenu', true)"
     >
-      <img src="@/assets/images/sound.svg" alt="" class="" />
+      <img :src="link.icon" alt="" class="" />
       <span>{{ link.title }}</span>
     </nuxt-link>
   </aside>

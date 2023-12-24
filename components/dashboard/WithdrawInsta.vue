@@ -7,6 +7,7 @@ const emits = defineEmits(["next"]);
 
 const form = reactive({
   instapay_number: "",
+  instapay_name: "",
 });
 
 const { fire } = useApi({
@@ -39,6 +40,14 @@ async function createWithdraw() {
     <h6 class="text-2xl text-gray-700 leading-normal font-normal mb-[2.25rem]">
       انستا باي
     </h6>
+    <div class="mb-6">
+      <shared-form-input
+        class="w-full bg-transparent"
+        placeholder="اسم المستفيد"
+        v-model="form.instapay_name"
+        type="text"
+      />
+    </div>
     <div class="mb-6">
       <shared-form-input
         class="w-full bg-transparent"

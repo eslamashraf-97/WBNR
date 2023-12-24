@@ -1,50 +1,11 @@
 <script setup>
 import { Autoplay } from "swiper/modules";
 
-import testim1 from "@/assets/images/testim1.png";
-import testim2 from "@/assets/images/testim2.png";
-import testim3 from "@/assets/images/testim3.png";
+const { data, pending } = await useRequest({
+  url: "testimonial",
+});
 
-const users = [
-  {
-    id: 1,
-    image: testim1,
-    name: "كريم حسن",
-    title: "صاحب  متجر: بيت العطور",
-    desc: "التشكيلة المعروضة كانت رائعة، تضم مجموعة واسعة من المنتجات الفريدة والعالية الجودة. من الحرف اليدوية والتحف إلى الملابس والإكسسوارات، كل شيء يعكس الذوق الرفيع",
-  },
-  {
-    id: 2,
-    image: testim2,
-    name: "ابراهيم محمد",
-    title: "صاحب  متجر: الزهور",
-    desc: "التشكيلة المعروضة كانت رائعة، تضم مجموعة واسعة من المنتجات الفريدة والعالية الجودة. من الحرف اليدوية والتحف إلى الملابس والإكسسوارات، كل شيء يعكس الذوق الرفيع",
-  },
-  {
-    id: 3,
-    image: testim3,
-    name: "صالح محمود",
-    title: "صاحب  متجر: الاصالة",
-    desc: "التشكيلة المعروضة كانت رائعة، تضم مجموعة واسعة من المنتجات الفريدة والعالية الجودة. من الحرف اليدوية والتحف إلى الملابس والإكسسوارات، كل شيء يعكس الذوق الرفيع",
-  },
-  {
-    id: 4,
-    image: testim3,
-    name: "صالح محمود",
-    title: "صاحب  متجر: الاصالة",
-    desc: "التشكيلة المعروضة كانت رائعة، تضم مجموعة واسعة من المنتجات الفريدة والعالية الجودة. من الحرف اليدوية والتحف إلى الملابس والإكسسوارات، كل شيء يعكس الذوق الرفيع",
-  },
-
-  {
-    id: 53,
-    image: testim3,
-    name: "صالح محمود",
-    title: "صاحب  متجر: الاصالة",
-    desc: "التشكيلة المعروضة كانت رائعة، تضم مجموعة واسعة من المنتجات الفريدة والعالية الجودة. من الحرف اليدوية والتحف إلى الملابس والإكسسوارات، كل شيء يعكس الذوق الرفيع",
-  },
-];
-
-const selectedUser = ref(users[0]);
+const selectedUser = ref(data.value?.data[0]);
 </script>
 
 <template>
@@ -79,33 +40,35 @@ const selectedUser = ref(users[0]);
             }"
             class="testim-swiper lg:h-[522px]"
           >
-            <swiper-slide v-for="user in users" :key="user.name">
-              <div
-                class="px-16 py-9 rounded-2xl flex items-center gap-7 cursor-pointer"
-                :class="{ 'bg-white': selectedUser.id === user.id }"
-                @click="selectedUser = user"
-              >
-                <img
-                  :src="user.image"
-                  :alt="user.name"
-                  class="img-fluid rounded"
-                />
+            <template v-if="data?.data">
+              <swiper-slide v-for="user in data.data" :key="user.id">
+                <div
+                  class="px-16 py-9 rounded-2xl flex items-center gap-7 cursor-pointer"
+                  :class="{ 'bg-white': selectedUser.id === user.id }"
+                  @click="selectedUser = user"
+                >
+                  <img
+                    :src="user.marketer_image"
+                    :alt="user.marketer_name"
+                    class="img-fluid rounded"
+                  />
 
-                <div>
-                  <h6 class="text-3xl text-gray-700 leading-[3rem]">
-                    {{ user.name }}
-                  </h6>
-                  <p class="text-gray-300 text-[1.75rem] leading-[2.8rem]">
-                    {{ user.title }}
-                  </p>
+                  <div>
+                    <h6 class="text-3xl text-gray-700 leading-[3rem]">
+                      {{ user.marketer_name }}
+                    </h6>
+                    <p class="text-gray-300 text-[1.75rem] leading-[2.8rem]">
+                      {{ user.description }}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </swiper-slide>
+              </swiper-slide>
+            </template>
           </swiper>
         </div>
         <div class="flex-1">
           <p class="text-gray-400 text-[2.25rem] leading-normal">
-            {{ selectedUser.desc }}
+            {{ selectedUser.testimonial }}
           </p>
         </div>
       </div>

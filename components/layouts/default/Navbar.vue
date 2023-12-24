@@ -160,8 +160,14 @@ const search = ref(route.query.title);
             </template>
 
             <template #item="{ data }">
-              <NuxtLink
-                :to="`/dashboard/requests?id=${data.target_id}`"
+              <button
+                type="button"
+                @click="
+                  navigateTo({
+                    path: `/dashboard/requests`,
+                    query: { id: data.target_id },
+                  })
+                "
                 class="pb-[2.25rem] border-b border-b-gray-200 mb-2 last:border-0 last:mb-0 block"
                 v-if="data.type === 'order'"
               >
@@ -171,7 +177,7 @@ const search = ref(route.query.title);
                 <p class="text-gray-500 text-2xl mb-0 leading-normal">
                   {{ data.body }}
                 </p>
-              </NuxtLink>
+              </button>
               <div
                 class="pb-[2.25rem] border-b border-b-gray-200 mb-2 last:border-0 last:mb-0"
                 v-else

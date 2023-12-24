@@ -31,8 +31,7 @@ async function createWithdraw() {
   pending.value = true;
   await fire({
     amount: props.data.available_balance,
-    // wallet_request_method: props.selectedPayment,
-    wallet_request_method: "fdf",
+    wallet_request_method: props.selectedPayment,
     withdraw_method_details: form,
   });
   pending.value = false;

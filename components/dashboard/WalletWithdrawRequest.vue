@@ -5,12 +5,13 @@ import VodafoneIcon from "@/assets/images/vodafone-icon.svg";
 import PaypalIcon from "@/assets/images/paypal-icon.svg";
 import { banks } from "@/constants";
 
-defineProps(["data"]);
+const props = defineProps(["data"]);
+
 const emits = defineEmits(["hide", "refresh"]);
 
 const isFinal = ref(false);
 
-const selectedPayment = ref("banktransfer");
+const selectedPayment = ref(banks.banktransfer);
 
 function changePayment(payment) {
   selectedPayment.value = payment;
@@ -39,6 +40,8 @@ function next() {
   isFinal.value = true;
   emits("refresh");
 }
+
+const amount = ref(props.data.available_balance);
 </script>
 
 <template>
@@ -67,6 +70,27 @@ function next() {
             }}</span>
           </h4>
 
+          <div>
+            <label
+              for="wallet-withdraw-amount-input"
+              class="text-base text-gray-400 font-light mb-5 block"
+              >المبلغ المراد سحبه</label
+            >
+
+            <shared-form-input
+              class="w-full bg-transparent"
+              placeholder=""
+              v-model="amount"
+              type="text"
+              id="wallet-withdraw-amount-input"
+              @blur="
+                parseInt(amount) > parseInt(data.available_balance)
+                  ? (amount = data.available_balance)
+                  : null
+              "
+            />
+          </div>
+
           <button
             type="button"
             @click="$emit('hide')"
@@ -93,31 +117,31 @@ function next() {
           <dashboard-withdraw-bank
             v-if="selectedPayment === banks.banktransfer"
             :selectedPayment="selectedPayment"
-            :data="data"
+            :data="{ ...data, available_balance: amount }"
             @next="next"
           />
           <dashboard-withdraw-insta
             v-if="selectedPayment === banks.instapay"
             :selectedPayment="selectedPayment"
-            :data="data"
+            :data="{ ...data, available_balance: amount }"
             @next="next"
           />
           <dashboard-withdraw-vodafone
             v-if="selectedPayment === banks.vodafone"
             :selectedPayment="selectedPayment"
-            :data="data"
+            :data="{ ...data, available_balance: amount }"
             @next="next"
           />
           <dashboard-withdraw-paypal
             v-if="selectedPayment === banks.paypal"
             :selectedPayment="selectedPayment"
-            :data="data"
+            :data="{ ...data, available_balance: amount }"
             @next="next"
           />
           <dashboard-withdraw-final
             v-if="isFinal"
             :selectedPayment="selectedPayment"
-            :data="data"
+            :data="{ ...data, available_balance: amount }"
           />
         </div>
       </div>
