@@ -1,4 +1,6 @@
 <script setup>
+import { FreeMode, Navigation, Thumbs } from "swiper/modules";
+
 import {
   api_get_single_product,
   api_get_products,
@@ -8,6 +10,14 @@ import {
 import { productStatus } from "@/constants";
 
 import JSZip from "jszip";
+
+const modules = ref([FreeMode, Thumbs]);
+
+const thumbsSwiper = ref(null);
+
+const setThumbsSwiper = (swiper) => {
+  thumbsSwiper.value = swiper;
+};
 
 const { setCartLength, cartLength } = useCartLength();
 
@@ -141,33 +151,69 @@ const selectedImage = ref(null);
     <template v-if="productData?.data">
       <div class="flex flex-col lg:flex-row gap-16 mb-24">
         <!-- Gallery -->
-        <div class="bg-white p-9 rounded-lg">
-          <div class="gallery flex flex-wrap gap-2">
-            <img
-              :src="selectedImage || productData.data.featured_image"
-              class="w-[36rem] h-[36rem] object-cover"
-            />
+        <div
+          class="bg-white p-9 rounded-lg max-w-[50rem] h-[45rem] flex flex-col overflow-hidden"
+        >
+          <div class="flex-1 flex flex-col sm:flex-row gap-2">
+            <div class="w-full sm:w-[36rem] h-[36rem]">
+              <swiper
+                :spaceBetween="20"
+                :thumbs="{ swiper: thumbsSwiper }"
+                :modules="modules"
+                class="h-full"
+              >
+                <swiper-slide
+                  v-for="(productImage, index) in productData.data.images"
+                  :key="index"
+                >
+                  <img
+                    :alt="productImage.alt_image"
+                    :src="productImage.url"
+                    class="w-full h-full object-cover cursor-pointer rounded-[0.75rem]"
+                  />
+                </swiper-slide>
+              </swiper>
+            </div>
+
             <div
-              class="flex flex-col justify-between rounded-lg overflow-hidden"
+              class="w-full sm:w-[8.5rem] h-auto sm:h-[36rem] overflow-hidden"
             >
-              <img
-                v-for="(productImage, index) in productData.data.images"
-                :alt="productImage.alt_image"
-                :src="productImage.url"
-                class="w-32 h-32 object-cover cursor-pointer"
-                @click="selectedImage = productImage.url"
-              />
+              <swiper
+                @swiper="setThumbsSwiper"
+                :spaceBetween="20"
+                :slidesPerView="4"
+                :freeMode="true"
+                :watchSlidesProgress="true"
+                :modules="modules"
+                direction="horizontal"
+                :breakpoints="{
+                  640: {
+                    direction: 'vertical',
+                  },
+                }"
+                class="h-full"
+              >
+                <swiper-slide
+                  v-for="(productImage, index) in productData.data.images"
+                  :key="index"
+                >
+                  <img
+                    :alt="productImage.alt_image"
+                    :src="productImage.url"
+                    class="w-[8.5rem] h-[8.5rem] object-cover cursor-pointer rounded-[0.75rem]"
+                  />
+                </swiper-slide>
+              </swiper>
             </div>
           </div>
-          <p
-            class="text-primary-300 text-xl font-semibold mt-7 cursor-pointer"
-            @click="downloadImages"
-          >
-            تحميل كل صور المنتج
-            <span>
-              <Icon name="pepicons-pop:angle-left" />
+          <div class="text-primary-300 text-xl font-semibold mt-7">
+            <span @click="downloadImages" class="cursor-pointer">
+              تحميل كل صور المنتج
+              <span>
+                <Icon name="pepicons-pop:angle-left" />
+              </span>
             </span>
-          </p>
+          </div>
         </div>
 
         <!-- details -->
@@ -220,22 +266,23 @@ const selectedImage = ref(null);
           <div class="mt-10 mb-10 flex gap-16">
             <div>
               <span class="text-base text-gray-400 font-light"
-                          >الكمية المتوفرة</span
-                          >
+                >الكمية المتوفرة</span
+              >
               <h6
-                  class="mb-0 text-3xl text-gray-800 flex gap-[10px] items-center leading-[48px]"
+                class="mb-0 text-3xl text-gray-800 flex gap-[10px] items-center leading-[48px]"
               >
                 {{ productData.data.stock }} <span>قطعة</span>
               </h6>
             </div>
             <div>
               <span class="text-base text-gray-400 font-light"
-              >السعر الموصى به</span
+                >السعر الموصى به</span
               >
               <h6
-                  class="mb-0 text-3xl text-gray-800 flex gap-[10px] items-center leading-[48px]"
+                class="mb-0 text-3xl text-gray-800 flex gap-[10px] items-center leading-[48px]"
               >
-                {{ productData.data.recommended_price }} <span> {{ productData.data.country.currency }} </span>
+                {{ productData.data.recommended_price }}
+                <span> {{ productData.data.country.currency }} </span>
               </h6>
             </div>
           </div>
