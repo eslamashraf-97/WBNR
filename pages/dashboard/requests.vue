@@ -226,7 +226,7 @@ function isReachable(myStatus, data) {
                   @click="toggleRow(key)"
                 >
                   <span
-                    class="bg-primary-100 text-primary-300 px-2 py-1 rounded-sm"
+                    class="bg-primary-100 text-primary-300 px-2 py-1 rounded-sm whitespace-nowrap"
                     >تفاصيل الطلب</span
                   >
                 </td>
@@ -298,11 +298,7 @@ function isReachable(myStatus, data) {
                             )?.reason || 'لا يوجد تعليق'
                         "
                       >
-                        {{
-                          order.statusHistories
-                            .find((data) => data.status === "delivered")
-                            ?.reason.substring(0, 16) || "لا يوجد تعليق"
-                        }}
+                        {{order.statusHistories.find((data) => data.status === "delivered")?.reason?.substring(0, 16) || "لا يوجد تعليق" }}
                       </p>
                     </div>
                     <div class="bg-white z-30">
