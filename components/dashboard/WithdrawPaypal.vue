@@ -12,7 +12,7 @@ const form = reactive({
 const { fire } = useApi({
   url: () => apiCreateWithdrawUrl + "/" + props.data.id,
   requestOptions: {
-    method: "pst",
+    method: "post",
     onResponse: () => {
       emits("next");
     },
