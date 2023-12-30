@@ -247,7 +247,7 @@ function isReachable(myStatus, data) {
                   {{ order.client.name.substring(0, 5) + "..." }}
                 </td>
                 <td class="text-xl text-gray-700 font-normal leading-normal">
-                  {{ order.price }}
+                  {{ order.final_price }}
                 </td>
                 <td class="text-xl text-gray-700 font-normal leading-normal">
                   <shared-status class="!text-xl" :status="order.status" />
@@ -668,7 +668,7 @@ function isReachable(myStatus, data) {
                       <div class="mb-6 flex justify-between items-center">
                         <p class="m-0 text-gray-700 text-2xl">سعر المنتجات:</p>
                         <p class="m-0 text-gray-500 text-xl">
-                          {{ order.price }} {{ order.country.currency }}
+                          {{ order.final_price }} {{ order.country.currency }}
                         </p>
                       </div>
                       <div class="mb-6 flex justify-between items-center">
