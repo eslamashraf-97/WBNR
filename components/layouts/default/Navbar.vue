@@ -168,7 +168,7 @@ const search = ref(route.query.title);
                     query: { id: data.target_id },
                   })
                 "
-                class="pb-[2.25rem] border-b border-b-gray-200 mb-2 last:border-0 last:mb-0 block"
+                class="pb-[2.25rem] border-b border-b-gray-200 mb-2 last:border-0 last:mb-0 block w-full text-justify"
                 v-if="data.type === 'order'"
               >
                 <h5 class="text-gray-700 font-bold text-2xl leading-normal">

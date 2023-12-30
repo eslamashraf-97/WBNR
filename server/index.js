@@ -92,7 +92,7 @@ export const apiGetMyWalletsUrl = "customer/wallet/my-wallets";
 
 export const apiGetWithdrawUrl = "customer/wallet/request/withdraw";
 
-export const apiCreateWithdrawUrl = "customer/wallet/request/withdraw"; // id
+export const apiCreateWithdrawUrl = "customer/floos/request/withdraw"; // id
 
 export const apiPlaceQuickOrderUrl = "customer/orders/quick-order";
 

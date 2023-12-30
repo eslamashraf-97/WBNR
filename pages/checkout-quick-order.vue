@@ -105,6 +105,7 @@ const detailsComputed = computed(() => {
         quantity: quickOrderState.value.qty,
         product: quickOrderState.value,
         final_price: quickOrderState.value.price,
+        minCommission: quickOrderState.value.minCommission,
       },
     ],
     price: quickOrderState.value.price,

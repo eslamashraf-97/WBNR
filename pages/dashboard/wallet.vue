@@ -61,7 +61,7 @@ function refreshData() {
         <div class="flex justify-center">
           <shared-buttons-secondary-button
             submitTitle="سحب الارباح"
-            class="w-full min-w-[256px] mt-4"
+            class="w-full mt-4"
             @click="makeWithDrawRequest(wallet)"
           />
         </div>

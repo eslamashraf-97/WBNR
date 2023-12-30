@@ -11,6 +11,7 @@ import { productStatus } from "@/constants";
 
 import JSZip from "jszip";
 
+const { selectedCountry } = useCountries();
 const modules = ref([FreeMode, Thumbs]);
 
 const thumbsSwiper = ref(null);
@@ -27,6 +28,7 @@ const { data: productData } = await api_get_single_product(route.params.id);
 
 const { data: productDataByCategory } = await api_get_products({
   category_id: productData.data.category_id,
+  country_id: selectedCountry.value?.id,
 });
 
 const productForm = reactive({

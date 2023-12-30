@@ -24,6 +24,15 @@ const { fire } = useApi({
     query,
   },
 });
+
+const orderId = ref(0)
+
+const { fire: reqCancelOrder } = useApi({
+  url: () => `customer/orders/${orderId.value}/cancel`,
+  requestOptions: {
+    method: "POST",
+  },
+});
 const divs = ref([]);
 
 const { data, pending, refresh } = await fire();
@@ -43,6 +52,9 @@ const moreDetailsData = ref(null);
 const selected = ref(null);
 const comment = ref(null);
 
+const orderHistoryObj = ref();
+const isShowOrderHistory = ref(false);
+const showCloseOrder = ref(false);
 function showMoreDetails(details) {
   moreDetails.value = true;
   moreDetailsData.value = details;
@@ -56,6 +68,17 @@ function hideMoreDetails() {
 const selectedOrder = ref(null);
 
 const isShowReturnModal = ref(false);
+const reasonCancel = ref('');
+async function cancelOrder () {
+  const { status } = await reqCancelOrder({
+    reason : reasonCancel.value
+  });
+  if (status.value === "success") {
+    showCloseOrder.value = false
+    reasonCancel.value = ''
+    await fire()
+  }
+}
 
 function showReturnModal(order) {
   isShowReturnModal.value = true;
@@ -78,6 +101,17 @@ function getDate(order, status) {
 function hideReturnModal() {
   isShowReturnModal.value = false;
   selectedOrder.value = null;
+}
+
+function openPopupToShowComment (orderHistory) {
+  isShowOrderHistory.value = true;
+  orderHistoryObj.value = orderHistory
+  console.log('orderHistory => ', orderHistory);
+}
+
+function  openPopupToShowCloseOrder (order) {
+  orderId.value = order
+  showCloseOrder.value = true
 }
 
 function calculateWidthOfDone(status) {
@@ -119,7 +153,7 @@ function isReachable(myStatus, data) {
     thisStatusIndex,
   });
 
-  return thisStatusIndex > currentStatusIndex;
+  return thisStatusIndex >= currentStatusIndex;
 }
 </script>
 
@@ -230,9 +264,10 @@ function isReachable(myStatus, data) {
                     >تفاصيل الطلب</span
                   >
                 </td>
-
                 <!--Order Details-->
                 <td class="expanded-row-content hide-row px-4">
+
+
                   <div class="timeline flex justify-between relative">
                     <div class="bg-white z-30">
                       <svg
@@ -252,7 +287,7 @@ function isReachable(myStatus, data) {
                           :class="
                             isReachable('delivered', order)
                               ? 'fill-primary-100'
-                              : 'fill-primary-100'
+                              : 'fill-red-100'
                           "
                         />
                         <rect
@@ -277,7 +312,7 @@ function isReachable(myStatus, data) {
                           d="M42.9492 49.8651L46.4072 53.3231L55.052 44.6782"
                           :class="
                             isReachable('delivered', order)
-                              ? 'fill-primary'
+                              ? 'stroke-primary-300'
                               : 'stroke-red-500'
                           "
                           stroke-width="2.8"
@@ -285,21 +320,22 @@ function isReachable(myStatus, data) {
                           stroke-linejoin="round"
                         />
                       </svg>
+
                       <h5 class="text-xl text-gray-700 my-1">تم التوصيل</h5>
                       <p class="text-gray-200">
                         {{ getDate(order.statusHistories, "delivered") }}
                       </p>
-                      <p
-                        class="text-error-400 text-xl font-semibold cursor-pointer"
-                        @click="
-                          comment =
-                            order.statusHistories.find(
-                              (data) => data.status === 'delivered',
-                            )?.reason || 'لا يوجد تعليق'
-                        "
-                      >
-                        {{order.statusHistories.find((data) => data.status === "delivered")?.reason?.substring(0, 16) || "لا يوجد تعليق" }}
-                      </p>
+<!--                      <p-->
+<!--                        class="text-error-400 text-xl font-semibold cursor-pointer"-->
+<!--                        @click="-->
+<!--                          comment =-->
+<!--                            order.statusHistories.find(-->
+<!--                              (data) => data.status === 'delivered',-->
+<!--                            )?.reason || 'لا يوجد تعليق'-->
+<!--                        "-->
+<!--                      >-->
+<!--                        {{order.statusHistories.find((data) => data.status === "delivered")?.reason?.substring(0, 16) || "لا يوجد تعليق" }}-->
+<!--                      </p>-->
                     </div>
                     <div class="bg-white z-30">
                       <svg
@@ -365,25 +401,25 @@ function isReachable(myStatus, data) {
                           "
                         />
                       </svg>
-                      <h5 class="text-xl text-gray-700 my-1">خارج للتوصيل</h5>
+                      <h5 class="text-xl text-gray-700 my-1">جارى للتوصيل</h5>
                       <p class="text-gray-200">
                         {{ getDate(order.statusHistories, "shipping") }}
                       </p>
-                      <p
-                        class="text-error-400 text-xl font-semibold cursor-pointer"
-                        @click="
-                          comment =
-                            order.statusHistories.find(
-                              (data) => data.status === 'shipping',
-                            )?.reason || 'لا يوجد تعليق'
-                        "
-                      >
-                        {{
-                          order.statusHistories.find(
-                            (data) => data.status === "shipping",
-                          )?.reason || "لا يوجد تعليق"
-                        }}
-                      </p>
+<!--                      <p-->
+<!--                        class="text-error-400 text-xl font-semibold cursor-pointer"-->
+<!--                        @click="-->
+<!--                          comment =-->
+<!--                            order.statusHistories.find(-->
+<!--                              (data) => data.status === 'shipping',-->
+<!--                            )?.reason || 'لا يوجد تعليق'-->
+<!--                        "-->
+<!--                      >-->
+<!--                        {{-->
+<!--                          order.statusHistories.find(-->
+<!--                            (data) => data.status === "shipping",-->
+<!--                          )?.reason || "لا يوجد تعليق"-->
+<!--                        }}-->
+<!--                      </p>-->
                     </div>
                     <div class="bg-white z-30">
                       <svg
@@ -439,21 +475,21 @@ function isReachable(myStatus, data) {
                       <p class="text-gray-200">
                         {{ getDate(order.statusHistories, "processing") }}
                       </p>
-                      <p
-                        class="text-error-400 text-xl font-semibold cursor-pointer"
-                        @click="
-                          comment =
-                            order.statusHistories.find(
-                              (data) => data.status === 'processing',
-                            )?.reason || 'لا يوجد تعليق'
-                        "
-                      >
-                        {{
-                          order.statusHistories.find(
-                            (data) => data.status === "processing",
-                          )?.reason || "لا يوجد تعليق"
-                        }}
-                      </p>
+<!--                      <p-->
+<!--                        class="text-error-400 text-xl font-semibold cursor-pointer"-->
+<!--                        @click="-->
+<!--                          comment =-->
+<!--                            order.statusHistories.find(-->
+<!--                              (data) => data.status === 'processing',-->
+<!--                            )?.reason || 'لا يوجد تعليق'-->
+<!--                        "-->
+<!--                      >-->
+<!--                        {{-->
+<!--                          order.statusHistories.find(-->
+<!--                            (data) => data.status === "processing",-->
+<!--                          )?.reason || "لا يوجد تعليق"-->
+<!--                        }}-->
+<!--                      </p>-->
                     </div>
                     <div class="bg-white z-30">
                       <svg
@@ -518,21 +554,21 @@ function isReachable(myStatus, data) {
                       <p class="text-gray-200">
                         {{ getDate(order.statusHistories, "confirmed") }}
                       </p>
-                      <p
-                        class="text-error-400 text-xl font-semibold cursor-pointer"
-                        @click="
-                          comment =
-                            order.statusHistories.find(
-                              (data) => data.status === 'confirmed',
-                            )?.reason || 'لا يوجد تعليق'
-                        "
-                      >
-                        {{
-                          order.statusHistories.find(
-                            (data) => data.status === "confirmed",
-                          )?.reason || "لا يوجد تعليق"
-                        }}
-                      </p>
+<!--                      <p-->
+<!--                        class="text-error-400 text-xl font-semibold cursor-pointer"-->
+<!--                        @click="-->
+<!--                          comment =-->
+<!--                            order.statusHistories.find(-->
+<!--                              (data) => data.status === 'confirmed',-->
+<!--                            )?.reason || 'لا يوجد تعليق'-->
+<!--                        "-->
+<!--                      >-->
+<!--                        {{-->
+<!--                          order.statusHistories.find(-->
+<!--                            (data) => data.status === "confirmed",-->
+<!--                          )?.reason || "لا يوجد تعليق"-->
+<!--                        }}-->
+<!--                      </p>-->
                     </div>
                     <!-- Lines -->
                     <div
@@ -655,6 +691,14 @@ function isReachable(myStatus, data) {
                       </div>
                     </div>
                   </div>
+                  <div class="flex gap-4 justify-between">
+                    <div  v-if="order.statusHistories.length" @click="openPopupToShowComment(order.statusHistories)" class="bg-primary-100 p-3 text-center flex-1 rounded cursor-pointer text-primary-300  font-semibold text-lg inline-block">
+                      متابعة الطلب و اظهار الملاحظات
+                    </div>
+                    <div v-if="!order.statusHistories.length" @click="openPopupToShowCloseOrder(order.id)" class="bg-red-100 p-3 text-center flex-1 rounded cursor-pointer text-red-300 font-semibold  text-lg inline-block">
+                      الغاء هذا الطلب
+                    </div>
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -676,7 +720,6 @@ function isReachable(myStatus, data) {
   <teleport to="body">
     <Transition v-if="comment">
       <div class="fixed inset-0 z-50">
-        <div class="fixed inset-0 bg-black/20" @click="comment = null">X</div>
         <div class="w-full h-full flex items-center px-4 overflow-auto">
           <div
             class="relative z-10 bg-white rounded-lg shadow-main p-8 xl:p-16 w-full max-w-[50rem] my-12 mx-auto flex flex-col gap-9"
@@ -771,6 +814,104 @@ function isReachable(myStatus, data) {
                 >
               </h5>
             </div>
+          </div>
+        </div>
+      </div>
+    </Transition>
+  </teleport>
+  <teleport to="body">
+    <Transition v-if="isShowOrderHistory">
+      <div class="fixed inset-0 z-50">
+        <div class="fixed inset-0 bg-black/20" @click="isShowOrderHistory = false"></div>
+        <div class="w-full h-full px-4 overflow-auto">
+          <div
+            class="relative z-10 bg-white rounded-lg shadow-main p-6 xl:p-8 w-full max-w-[45rem] my-12 mx-auto"
+          >
+            <div class="relative">
+              <button
+                type="button"
+                @click="isShowOrderHistory = false"
+                class="absolute top-0 end-0 text-[1.6rem] text-gray-500"
+              >
+                <Icon name="clarity:times-line" />
+              </button>
+            </div>
+            <div v-for="(item , key) in orderHistoryObj">
+              <div class="flex items-center gap-2 mb-4">
+                <div class="bg-primary-100 inline-block p-4 rounded-md">
+                  <svg v-if="item.status == 'delivered'" xmlns="http://www.w3.org/2000/svg" width="38" height="30" viewBox="0 0 38 30" fill="none">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M13.0939 23.8137C13.1057 25.4656 12.1445 26.9614 10.6599 27.6021C9.17525 28.2426 7.46052 27.9012 6.31745 26.7373C5.17441 25.5736 4.82891 23.8174 5.44252 22.2901C6.05613 20.7626 7.50761 19.7659 9.11824 19.7659C10.1688 19.762 11.1778 20.1861 11.9234 20.9452C12.669 21.7043 13.09 22.7362 13.0939 23.8137Z" stroke="#05BD6E" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M32.0373 23.8137C32.049 25.4656 31.0879 26.9614 29.6032 27.6021C28.1187 28.2426 26.4039 27.9012 25.2608 26.7373C24.1178 25.5736 23.7722 23.8174 24.3859 22.2901C24.9994 20.7626 26.451 19.7659 28.0615 19.7659C29.1122 19.762 30.1212 20.1861 30.8667 20.9452C31.6124 21.7043 32.0334 22.7362 32.0373 23.8137Z" stroke="#05BD6E" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M23.6182 25.2103C24.3894 25.2103 25.0146 24.5853 25.0146 23.8139C25.0146 23.0427 24.3894 22.4174 23.6182 22.4174V25.2103ZM13.0891 22.4174C12.3178 22.4174 12.4999 23.0408 12.4999 23.812C12.4999 24.5834 12.3178 25.2103 13.0891 25.2103V22.4174ZM22.2217 23.8139C22.2217 24.5853 22.847 25.2103 23.6182 25.2103C24.3894 25.2103 25.0146 24.5853 25.0146 23.8139H22.2217ZM25.0146 14.0072C25.0146 13.236 24.3894 12.6107 23.6182 12.6107C22.847 12.6107 22.2217 13.236 22.2217 14.0072H25.0146ZM23.6182 22.4174C22.847 22.4174 22.2217 23.0427 22.2217 23.8139C22.2217 24.5853 22.847 25.2103 23.6182 25.2103V22.4174ZM24.0829 25.2103C24.8541 25.2103 24.4999 24.5853 24.4999 23.8139C24.4999 23.0427 24.8541 22.4174 24.0829 22.4174V25.2103ZM32.0281 22.4176C31.2569 22.421 31.4965 23.0408 31.4999 23.812C31.5032 24.5832 31.2691 25.2138 32.0404 25.2103L32.0281 22.4176ZM36.2459 19.4551L37.6423 19.4488C37.6419 19.3684 37.6347 19.2883 37.6205 19.2092L36.2459 19.4551ZM36.6456 13.7612C36.5097 13.0021 35.7843 12.4968 35.025 12.6327C34.2659 12.7684 33.7606 13.494 33.8965 14.2533L36.6456 13.7612ZM23.6163 3.89334C22.8451 3.89334 22.2199 4.51854 22.2199 5.28978C22.2199 6.061 22.8451 6.68621 23.6163 6.68621V3.89334ZM30.2807 5.28978V6.68621C30.29 6.68621 30.2995 6.68612 30.309 6.68592L30.2807 5.28978ZM34.4904 9.64852L33.0946 9.60875C33.0918 9.70436 33.0989 9.79998 33.1158 9.89412L34.4904 9.64852ZM33.8944 14.2529C34.0302 15.012 34.7556 15.5175 35.5149 15.382C36.274 15.2463 36.7812 14.5205 36.6456 13.7612L33.8944 14.2529ZM25.0109 5.28978C25.0109 4.51854 24.3877 3.89334 23.6163 3.89334C22.8451 3.89334 22.2199 4.51854 22.2199 5.28978H25.0109ZM22.218 14.0072C22.218 14.7786 22.8432 15.4036 23.6145 15.4036C24.3858 15.4036 25.0109 14.7786 25.0109 14.0072H22.218ZM22.2199 5.28978C22.2199 6.061 22.8451 6.68621 23.6163 6.68621C24.3877 6.68621 25.0109 6.061 25.0109 5.28978H22.2199ZM23.6145 3.80025H25.0111L25.0109 3.79023L23.6145 3.80025ZM21.6321 1.79497V3.19142L21.6414 3.19136L21.6321 1.79497ZM3.74173 1.79497L3.72847 3.1914H3.74173V1.79497ZM1.75391 3.79652L0.357478 3.78403V3.79652H1.75391ZM1.75391 21.8104H0.357422L0.357534 21.8231L1.75391 21.8104ZM3.74173 23.812V22.4156L3.72847 22.4157L3.74173 23.812ZM5.14321 25.2084C5.91443 25.2084 5.49988 24.5829 5.49988 23.8115C5.49988 23.0403 5.91443 22.4156 5.14321 22.4156V25.2084ZM23.6182 12.6107C22.847 12.6107 22.2217 13.236 22.2217 14.0072C22.2217 14.7786 22.847 15.4036 23.6182 15.4036V12.6107ZM35.2728 15.4036C36.044 15.4036 36.6693 14.7786 36.6693 14.0072C36.6693 13.236 36.044 12.6107 35.2728 12.6107V15.4036ZM23.6182 22.4174H13.0891V25.2103H23.6182V22.4174ZM25.0146 23.8139V14.0072H22.2217V23.8139H25.0146ZM23.6182 25.2103H24.0829V22.4174H23.6182V25.2103ZM32.0404 25.2103C33.5446 25.2038 34.977 24.5841 36.0247 23.4998L34.0162 21.5591C33.4841 22.1098 32.7682 22.4143 32.0281 22.4176L32.0404 25.2103ZM36.0247 23.4998C37.0712 22.4167 37.6492 20.9588 37.6423 19.4488L34.8494 19.4616C34.8531 20.2533 34.5495 21.0072 34.0162 21.5591L36.0247 23.4998ZM37.6205 19.2092L36.6456 13.7612L33.8965 14.2533L34.8712 19.7013L37.6205 19.2092ZM23.6163 6.68621H30.2807V3.89334H23.6163V6.68621ZM30.309 6.68592C31.0448 6.671 31.7622 6.96559 32.2919 7.51389L34.3007 5.57364C33.2392 4.47458 31.7767 3.86271 30.2522 3.89362L30.309 6.68592ZM32.2919 7.51389C32.8227 8.06354 33.1169 8.82015 33.0946 9.60875L35.8863 9.68827C35.9299 8.15904 35.3609 6.67135 34.3007 5.57364L32.2919 7.51389ZM33.1158 9.89412L33.8944 14.2529L36.6456 13.7612L35.8651 9.40289L33.1158 9.89412ZM22.2199 5.28978L22.218 14.0072H25.0109V5.28978H22.2199ZM25.0109 5.28978L25.0111 3.80025H22.218L22.2199 5.28978H25.0109ZM25.0109 3.79023C24.9977 1.93781 23.5141 0.385982 21.6229 0.39855L21.6414 3.19136C21.9246 3.18948 22.2154 3.43267 22.2182 3.81025L25.0109 3.79023ZM21.6321 0.398531H3.74173V3.1914L21.6321 3.19142V0.398531ZM3.755 0.398587C2.85065 0.390004 1.98721 0.750656 1.3528 1.38944L3.33445 3.35748C3.44565 3.24553 3.58803 3.19008 3.72847 3.1914L3.755 0.398587ZM1.3528 1.38944C0.719601 2.02702 0.365484 2.8891 0.357478 3.78403L3.15029 3.809C3.15187 3.63234 3.22207 3.47065 3.33445 3.35748L1.3528 1.38944ZM0.357478 3.79652L0.357422 21.8104H3.15035V3.79652H0.357478ZM0.357534 21.8231C0.36554 22.7179 0.719601 23.58 1.3528 24.2175L3.33445 22.2495C3.22207 22.1365 3.15187 21.9747 3.15029 21.798L0.357534 21.8231ZM1.3528 24.2175C1.98721 24.8563 2.85065 25.217 3.755 25.2084L3.72847 22.4157C3.58803 22.4171 3.44565 22.3616 3.33445 22.2495L1.3528 24.2175ZM3.74173 25.2084H5.14321V22.4156H3.74173V25.2084ZM23.6182 15.4036H35.2728V12.6107H23.6182V15.4036Z" fill="#05BD6E"/>
+                  </svg>
+                  <svg v-else-if="item.status == 'processing'" xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none">
+                    <path d="M23.6999 4.42871L26.8865 6.10097C30.3148 7.90004 32.0289 8.79957 32.9807 10.416C33.9326 12.0324 33.9326 14.0439 33.9326 18.0667V18.2531C33.9326 22.2759 33.9326 24.2874 32.9807 25.9039C32.0289 27.5203 30.3148 28.4197 26.8865 30.2189L23.6999 31.891C20.9027 33.359 19.5041 34.093 17.9995 34.093C16.4949 34.093 15.0963 33.359 12.2991 31.891L9.11248 30.2189C5.68422 28.4197 3.97008 27.5203 3.01825 25.9039C2.06641 24.2874 2.06641 22.2759 2.06641 18.2531V18.0667C2.06641 14.0439 2.06641 12.0324 3.01825 10.416C3.97008 8.79957 5.68422 7.90004 9.11248 6.10097L12.2991 4.42871C15.0963 2.96078 16.4949 2.22681 17.9995 2.22681C19.5041 2.22681 20.9027 2.96078 23.6999 4.42871Z" stroke="#05BD6E" stroke-width="2.8" stroke-linecap="round"/>
+                    <path d="M32.3397 10.99L17.9999 18.1599M17.9999 18.1599L3.66016 10.99M17.9999 18.1599V33.2963" stroke="#05BD6E" stroke-width="2.8" stroke-linecap="round"/>
+                  </svg>
+                  <svg v-else-if="item.status == 'confirmed'"
+                    width="36"
+                    height="36"
+                    viewBox="0 0 80 80"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <rect
+                      x="6.5"
+                      y="6.5"
+                      width="36"
+                      height="36"
+                      rx="42.5"
+                      fill="05BD6E"
+                    />
+                    <path
+                      d="M45.1644 34.9793C46.1394 34.1485 46.6267 33.7331 47.1365 33.4895C48.3153 32.926 49.6857 32.926 50.8645 33.4895C51.3742 33.7331 51.8616 34.1485 52.8365 34.9793C53.2245 35.31 53.4185 35.4753 53.6258 35.6142C54.1008 35.9325 54.6341 36.1535 55.195 36.2642C55.4399 36.3125 55.6938 36.3328 56.2022 36.3734C57.479 36.4753 58.1173 36.5262 58.65 36.7143C59.8819 37.1495 60.851 38.1185 61.2862 39.3504C61.4743 39.8831 61.5251 40.5215 61.6272 41.7984C61.6676 42.3066 61.6878 42.5606 61.7363 42.8054C61.8469 43.3663 62.0679 43.8997 62.3864 44.3747C62.5252 44.5819 62.6905 44.7759 63.0212 45.1639C63.852 46.1388 64.2675 46.6264 64.5111 47.1359C65.0744 48.3148 65.0744 49.6851 64.5111 50.864C64.2675 51.3737 63.852 51.8611 63.0212 52.836C62.6905 53.224 62.5252 53.418 62.3864 53.6253C62.0679 54.1002 61.8469 54.6336 61.7363 55.1947C61.6878 55.4393 61.6676 55.6935 61.6272 56.2016C61.5251 57.4785 61.4743 58.1168 61.2862 58.6495C60.851 59.8814 59.8819 60.8505 58.65 61.2857C58.1173 61.4738 57.479 61.5246 56.2022 61.6266C55.6938 61.6671 55.4399 61.6875 55.195 61.7357C54.6341 61.8466 54.1008 62.0674 53.6258 62.3858C53.4185 62.5247 53.2245 62.69 52.8365 63.0207C51.8616 63.8515 51.3742 64.267 50.8645 64.5106C49.6857 65.0739 48.3153 65.0739 47.1365 64.5106C46.6267 64.267 46.1394 63.8515 45.1644 63.0207C44.7764 62.69 44.5824 62.5247 44.3752 62.3858C43.9002 62.0674 43.3668 61.8466 42.8059 61.7357C42.5611 61.6875 42.307 61.6671 41.7988 61.6266C40.522 61.5246 39.8836 61.4738 39.3509 61.2857C38.119 60.8505 37.15 59.8814 36.7148 58.6495C36.5267 58.1168 36.4757 57.4785 36.3739 56.2016C36.3333 55.6935 36.313 55.4393 36.2647 55.1947C36.154 54.6336 35.933 54.1002 35.6147 53.6253C35.4758 53.418 35.3105 53.224 34.9798 52.836C34.149 51.8611 33.7336 51.3737 33.4899 50.864C32.9265 49.6851 32.9265 48.3148 33.4899 47.1359C33.7336 46.6262 34.149 46.1388 34.9798 45.1639C35.3105 44.7759 35.4758 44.5819 35.6147 44.3747C35.933 43.8997 36.154 43.3663 36.2647 42.8054C36.313 42.5606 36.3333 42.3066 36.3739 41.7984C36.4757 40.5215 36.5267 39.8831 36.7148 39.3504C37.15 38.1185 38.119 37.1495 39.3509 36.7143C39.8836 36.5262 40.522 36.4753 41.7988 36.3734C42.307 36.3328 42.5611 36.3125 42.8059 36.2642C43.3668 36.1535 43.9002 35.9325 44.3752 35.6142C44.5824 35.4753 44.7764 35.31 45.1644 34.9793Z"
+                      :class="'stroke-primary-300'"
+                      stroke-width="2.8"
+                    />
+                    <path
+                      d="M42.9492 49.8651L46.4072 53.3231L55.052 44.6782"
+                      :class="'stroke-primary-300'"
+                      stroke-width="2.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  <svg  v-else-if="item.status == 'shipping'" xmlns="http://www.w3.org/2000/svg" width="38" height="30" viewBox="0 0 38 30" fill="none">
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M13.0939 23.8137C13.1057 25.4656 12.1445 26.9614 10.6599 27.6021C9.17525 28.2426 7.46052 27.9012 6.31745 26.7373C5.17441 25.5736 4.82891 23.8174 5.44252 22.2901C6.05613 20.7626 7.50761 19.7659 9.11824 19.7659C10.1688 19.762 11.1778 20.1861 11.9234 20.9452C12.669 21.7043 13.09 22.7362 13.0939 23.8137Z" stroke="#05BD6E" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M32.0373 23.8137C32.049 25.4656 31.0879 26.9614 29.6032 27.6021C28.1187 28.2426 26.4039 27.9012 25.2608 26.7373C24.1178 25.5736 23.7722 23.8174 24.3859 22.2901C24.9994 20.7626 26.451 19.7659 28.0615 19.7659C29.1122 19.762 30.1212 20.1861 30.8667 20.9452C31.6124 21.7043 32.0334 22.7362 32.0373 23.8137Z" stroke="#05BD6E" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M23.6182 25.2103C24.3894 25.2103 25.0146 24.5853 25.0146 23.8139C25.0146 23.0427 24.3894 22.4174 23.6182 22.4174V25.2103ZM13.0891 22.4174C12.3178 22.4174 12.4999 23.0408 12.4999 23.812C12.4999 24.5834 12.3178 25.2103 13.0891 25.2103V22.4174ZM22.2217 23.8139C22.2217 24.5853 22.847 25.2103 23.6182 25.2103C24.3894 25.2103 25.0146 24.5853 25.0146 23.8139H22.2217ZM25.0146 14.0072C25.0146 13.236 24.3894 12.6107 23.6182 12.6107C22.847 12.6107 22.2217 13.236 22.2217 14.0072H25.0146ZM23.6182 22.4174C22.847 22.4174 22.2217 23.0427 22.2217 23.8139C22.2217 24.5853 22.847 25.2103 23.6182 25.2103V22.4174ZM24.0829 25.2103C24.8541 25.2103 24.4999 24.5853 24.4999 23.8139C24.4999 23.0427 24.8541 22.4174 24.0829 22.4174V25.2103ZM32.0281 22.4176C31.2569 22.421 31.4965 23.0408 31.4999 23.812C31.5032 24.5832 31.2691 25.2138 32.0404 25.2103L32.0281 22.4176ZM36.2459 19.4551L37.6423 19.4488C37.6419 19.3684 37.6347 19.2883 37.6205 19.2092L36.2459 19.4551ZM36.6456 13.7612C36.5097 13.0021 35.7843 12.4968 35.025 12.6327C34.2659 12.7684 33.7606 13.494 33.8965 14.2533L36.6456 13.7612ZM23.6163 3.89334C22.8451 3.89334 22.2199 4.51854 22.2199 5.28978C22.2199 6.061 22.8451 6.68621 23.6163 6.68621V3.89334ZM30.2807 5.28978V6.68621C30.29 6.68621 30.2995 6.68612 30.309 6.68592L30.2807 5.28978ZM34.4904 9.64852L33.0946 9.60875C33.0918 9.70436 33.0989 9.79998 33.1158 9.89412L34.4904 9.64852ZM33.8944 14.2529C34.0302 15.012 34.7556 15.5175 35.5149 15.382C36.274 15.2463 36.7812 14.5205 36.6456 13.7612L33.8944 14.2529ZM25.0109 5.28978C25.0109 4.51854 24.3877 3.89334 23.6163 3.89334C22.8451 3.89334 22.2199 4.51854 22.2199 5.28978H25.0109ZM22.218 14.0072C22.218 14.7786 22.8432 15.4036 23.6145 15.4036C24.3858 15.4036 25.0109 14.7786 25.0109 14.0072H22.218ZM22.2199 5.28978C22.2199 6.061 22.8451 6.68621 23.6163 6.68621C24.3877 6.68621 25.0109 6.061 25.0109 5.28978H22.2199ZM23.6145 3.80025H25.0111L25.0109 3.79023L23.6145 3.80025ZM21.6321 1.79497V3.19142L21.6414 3.19136L21.6321 1.79497ZM3.74173 1.79497L3.72847 3.1914H3.74173V1.79497ZM1.75391 3.79652L0.357478 3.78403V3.79652H1.75391ZM1.75391 21.8104H0.357422L0.357534 21.8231L1.75391 21.8104ZM3.74173 23.812V22.4156L3.72847 22.4157L3.74173 23.812ZM5.14321 25.2084C5.91443 25.2084 5.49988 24.5829 5.49988 23.8115C5.49988 23.0403 5.91443 22.4156 5.14321 22.4156V25.2084ZM23.6182 12.6107C22.847 12.6107 22.2217 13.236 22.2217 14.0072C22.2217 14.7786 22.847 15.4036 23.6182 15.4036V12.6107ZM35.2728 15.4036C36.044 15.4036 36.6693 14.7786 36.6693 14.0072C36.6693 13.236 36.044 12.6107 35.2728 12.6107V15.4036ZM23.6182 22.4174H13.0891V25.2103H23.6182V22.4174ZM25.0146 23.8139V14.0072H22.2217V23.8139H25.0146ZM23.6182 25.2103H24.0829V22.4174H23.6182V25.2103ZM32.0404 25.2103C33.5446 25.2038 34.977 24.5841 36.0247 23.4998L34.0162 21.5591C33.4841 22.1098 32.7682 22.4143 32.0281 22.4176L32.0404 25.2103ZM36.0247 23.4998C37.0712 22.4167 37.6492 20.9588 37.6423 19.4488L34.8494 19.4616C34.8531 20.2533 34.5495 21.0072 34.0162 21.5591L36.0247 23.4998ZM37.6205 19.2092L36.6456 13.7612L33.8965 14.2533L34.8712 19.7013L37.6205 19.2092ZM23.6163 6.68621H30.2807V3.89334H23.6163V6.68621ZM30.309 6.68592C31.0448 6.671 31.7622 6.96559 32.2919 7.51389L34.3007 5.57364C33.2392 4.47458 31.7767 3.86271 30.2522 3.89362L30.309 6.68592ZM32.2919 7.51389C32.8227 8.06354 33.1169 8.82015 33.0946 9.60875L35.8863 9.68827C35.9299 8.15904 35.3609 6.67135 34.3007 5.57364L32.2919 7.51389ZM33.1158 9.89412L33.8944 14.2529L36.6456 13.7612L35.8651 9.40289L33.1158 9.89412ZM22.2199 5.28978L22.218 14.0072H25.0109V5.28978H22.2199ZM25.0109 5.28978L25.0111 3.80025H22.218L22.2199 5.28978H25.0109ZM25.0109 3.79023C24.9977 1.93781 23.5141 0.385982 21.6229 0.39855L21.6414 3.19136C21.9246 3.18948 22.2154 3.43267 22.2182 3.81025L25.0109 3.79023ZM21.6321 0.398531H3.74173V3.1914L21.6321 3.19142V0.398531ZM3.755 0.398587C2.85065 0.390004 1.98721 0.750656 1.3528 1.38944L3.33445 3.35748C3.44565 3.24553 3.58803 3.19008 3.72847 3.1914L3.755 0.398587ZM1.3528 1.38944C0.719601 2.02702 0.365484 2.8891 0.357478 3.78403L3.15029 3.809C3.15187 3.63234 3.22207 3.47065 3.33445 3.35748L1.3528 1.38944ZM0.357478 3.79652L0.357422 21.8104H3.15035V3.79652H0.357478ZM0.357534 21.8231C0.36554 22.7179 0.719601 23.58 1.3528 24.2175L3.33445 22.2495C3.22207 22.1365 3.15187 21.9747 3.15029 21.798L0.357534 21.8231ZM1.3528 24.2175C1.98721 24.8563 2.85065 25.217 3.755 25.2084L3.72847 22.4157C3.58803 22.4171 3.44565 22.3616 3.33445 22.2495L1.3528 24.2175ZM3.74173 25.2084H5.14321V22.4156H3.74173V25.2084ZM23.6182 15.4036H35.2728V12.6107H23.6182V15.4036Z" fill="#05BD6E"/>
+                    </svg>
+                </div>
+                <p class="text-black text-xl">{{item.reason ? item.reason : 'لا يوجد'}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Transition>
+  </teleport>
+  <teleport to="body">
+    <Transition v-if="showCloseOrder">
+      <div class="fixed inset-0 z-50">
+        <div class="fixed inset-0 bg-black/20" @click="showCloseOrder = false"></div>
+        <div class="w-full h-full px-4 overflow-auto">
+          <div
+            class="relative z-10 bg-white rounded-lg shadow-main p-6 xl:p-8 w-full max-w-[45rem] my-12 mx-auto"
+          >
+            <div class="relative">
+              <button
+                type="button"
+                @click="showCloseOrder = false"
+                class="absolute top-0 end-0 text-[1.6rem] text-gray-500"
+              >
+                <Icon name="clarity:times-line" />
+              </button>
+            </div>
+            <textarea class="w-full mt-12  border p-2 rounded h-40" placeholder="سبب الالغاء" v-model="reasonCancel"></textarea>
+            <span
+              @click="cancelOrder()"
+              class="bg-red-100 text-red-300 px-4 mt-5 inline-block py-4 rounded-sm whitespace-nowrap font-bold cursor-pointer"
+            >الغاء الطلب</span>
           </div>
         </div>
       </div>
