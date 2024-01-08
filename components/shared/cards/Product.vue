@@ -204,10 +204,10 @@ function requestNow() {
       <!--        />-->
       <!--        <Icon name="icomoon-free:spinner2" class="loading-spinner" v-else />-->
       <!--      </div>-->
-      <span
-        class="w-[1.5rem] h-[.25rem] rounded-[3rem] block mb-2"
-        :style="{ background: productStatuses }"
-      ></span>
+<!--      <span-->
+<!--        class="w-[1.5rem] h-[.25rem] rounded-[3rem] block mb-2"-->
+<!--        :style="{ background: productStatuses }"-->
+<!--      ></span>-->
       <h1 class="text-[28px] leading-10">
         {{ details.title.substring(0, 15) }}
         {{ details.title.length > 15 ? "..." : "" }}

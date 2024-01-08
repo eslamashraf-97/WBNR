@@ -25,6 +25,8 @@ const requestWithdraw = ref(false);
 
 const requestWithdrawData = ref(null);
 
+const showImage = ref(null)
+
 function makeWithDrawRequest(wallet) {
   requestWithdraw.value = true;
   requestWithdrawData.value = wallet;
@@ -38,6 +40,7 @@ function hideWithDrawRequest() {
 function refreshData() {
   refresh();
   withDrawRefresh();
+  requestWithdraw.value = false
 }
 </script>
 
@@ -67,7 +70,6 @@ function refreshData() {
         </div>
       </div>
     </div>
-
     <h4 class="my-16 text-gray-700 font-normal">طلبات السحب السابقة</h4>
     <div class="w-full overflow-auto">
       <div class="table w-full" v-if="!withDrawPending && withdrawData.data">
@@ -82,6 +84,12 @@ function refreshData() {
               </th>
               <th class="text-2xl text-gray-800 font-normal leading-normal">
                 العملة
+              </th>
+              <th class="text-2xl text-gray-800 font-normal leading-normal whitespace-nowrap">
+                صورة الوصل
+              </th>
+              <th class="text-2xl text-gray-800 font-normal leading-normal">
+                التعليق
               </th>
               <th class="text-2xl text-gray-800 font-normal leading-normal">
                 الحالة
@@ -107,6 +115,17 @@ function refreshData() {
                   class="m-auto"
                 />
               </td>
+              <td>
+                <img
+                  @click="showImage = withdraw.invoice_path"
+                  v-if="withdraw.invoice_path"
+                  :src="withdraw.invoice_path"
+                  class="m-auto w-[100px] rounded-sm cursor-pointer"
+                />
+              </td>
+              <td>
+                {{ withdraw.reason }}
+              </td>
               <td class="text-2xl font-normal leading-normal">
                 <shared-status
                   :status="withdraw.status"
@@ -128,6 +147,22 @@ function refreshData() {
         @hide="hideWithDrawRequest"
         @refresh="refreshData"
       />
+    </Transition>
+  </teleport>
+  <teleport to="body">
+    <Transition>
+      <div class="fixed inset-0 z-50 bg-[rgba(0,0,0,0.6)]" @click="showImage = null" v-if="showImage">
+        <div class="w-full h-full px-4 overflow-auto">
+          <div
+            class="relative z-10 bg-white rounded-lg shadow-main p-6 xl:p-8 w-full max-w-[45rem] my-12 mx-auto"
+          >
+            <div>
+              <img :src="showImage">
+            </div>
+          </div>
+        </div>
+      </div>
+
     </Transition>
   </teleport>
 </template>

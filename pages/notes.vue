@@ -11,12 +11,12 @@ const { data } = await useRequest({
 </script>
 
 <template>
-  <div class="mx-auto max-w-7xl px-6 lg:px-8">
-    <div class="mx-auto max-w-4xl divide-y divide-gray-900/10">
+  <div class="mx-auto px-2 ">
+    <div class="mx-auto divide-y divide-gray-900/10">
       <shared-title title="ملاحظات الشحن" />
-
-      <div v-if="data.data">
-        <img v-for="note in data.data" :key="note.id" :src="not.image_src" />
+      <div v-if="data.data" v-for="note in data.data" :key="note.id" class="py-2">
+        <h5 class="mb-3">{{note.delivery_notes}}</h5>
+        <img  :src="note.image_src" class="mb-4 w-[200px] rounded-lg" />
       </div>
 
       <div v-if="!data?.data.length">

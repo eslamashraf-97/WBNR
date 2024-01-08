@@ -222,16 +222,20 @@ const selectedImage = ref(null);
         <div class="details flex-1">
           <!-- main info -->
           <div class="main-info">
-            <p class="text-gray-700 text-2xl font-normal flex items-end gap-4">
-              اداء المنتج:
+<!--            <p :style="{ background: 'rgb(83 238 173)'}" class="p-2 px-4 rounded inline-block" v-if="productData.data.stock > 10"> متوفر </p>-->
+            <!--            <p class="text-gray-700 text-2xl font-normal flex items-end gap-4">-->
+<!--              اداء المنتج:-->
 
-              <span
-                class="w-[1.5rem] h-[.25rem] rounded-[3rem] block mb-2"
-                :style="{ background: productStatuses }"
-              ></span>
-            </p>
+<!--              <span-->
+<!--                class="w-[1.5rem] h-[.25rem] rounded-[3rem] block mb-2"-->
+<!--                :style="{ background: productStatuses }"-->
+<!--              ></span>-->
+<!--            </p>-->
             <h1 class="text-gray-800 text-5xl my-4">
               {{ productData.data.title }}
+              <p :style="{ background: '#34d77d'}" class="p-2 text-sm text-white px-4 rounded inline-block" v-if="productData.data.stock > 10"> متوفر </p>
+              <p :style="{ background: '#ea2020' }" class="p-2 px-4 rounded inline-block" v-else> على وشك الانتهاء </p>
+
             </h1>
             <p class="text-gray-400 text-2xl flex gap-3 items-center">
               <span>كود المنتج:</span>
