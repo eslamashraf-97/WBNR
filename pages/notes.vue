@@ -1,8 +1,8 @@
 <script setup>
 import { apiGetNotesUrl } from "@/server";
+import { handleDate } from "@/helpers";
 
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
-
 const { selectedCountry } = useCountries();
 
 const { data } = await useRequest({
@@ -28,18 +28,22 @@ const { data } = await useRequest({
           <div>
             <h6 v-html="note.delivery_notes" class="text-2xl mb-2 mt-2"></h6>
             <span class="text-gray-500 text-lg">{{
-              handleDate(note.updated_at)
-            }}</span>
+                handleDate(note.updated_at)
+              }}</span>
           </div>
         </div>
-      </div>
+<!--        <div v-if="data.data" v-for="note in data.data" :key="note.id" class="py-2">-->
+<!--          <h5 class="mb-3">{{note.delivery_notes}}</h5>-->
+<!--          <img  :src="note.image_src" class="mb-4 w-[200px] rounded-lg" />-->
+<!--        </div>-->
 
-      <div v-if="!data?.data.length">
-        <h4
-          class="mt-8 border border-primary-300 bg-primary-100 p-4 rounded-xs"
-        >
-          لا توجد ملاحظات
-        </h4>
+        <div v-if="!data?.data.length">
+          <h4
+            class="mt-8 border border-primary-300 bg-primary-100 p-4 rounded-xs"
+          >
+            لا توجد ملاحظات
+          </h4>
+        </div>
       </div>
     </div>
   </div>
