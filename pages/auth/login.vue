@@ -46,7 +46,7 @@ function loginWith(data) {
         <shared-form-input
           class="w-full bg-transparent"
           placeholder="البريد الالكترونى"
-          type="email"
+          type="text"
           v-model="form.user"
         />
       </div>

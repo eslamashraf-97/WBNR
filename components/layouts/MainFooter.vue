@@ -1,4 +1,10 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { apiGetSocialsUrl } from "@/server";
+
+const { data } = await useRequest({
+  url: () => apiGetSocialsUrl,
+});
+</script>
 
 <template>
   <div class="bg-gray-800 text-white pt-16 pb-9">
@@ -24,21 +30,14 @@
             <li>الشروط والأحكام</li>
           </ul>
 
-          <div class="flex items-center gap-4 text-3xl">
-            <a href="#">
-              <Icon name="skill-icons:instagram" class="cursor-pointer" />
-            </a>
-            <a href="#">
-              <Icon name="logos:whatsapp-icon" class="cursor-pointer" />
-            </a>
-            <a href="#">
-              <Icon name="logos:facebook" class="cursor-pointer" />
-            </a>
-            <a href="#">
-              <Icon name="openmoji:youtube" class="cursor-pointer" />
-            </a>
-            <a href="#">
-              <Icon name="grommet-icons:tictok" class="cursor-pointer" />
+          <div v-if="data?.data" class="flex items-center gap-4">
+            <a
+              :href="social.url"
+              v-for="social in data.data"
+              :key="social.id"
+              class="text-lg"
+            >
+              {{ social.name }}
             </a>
           </div>
         </div>

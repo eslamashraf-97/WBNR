@@ -96,6 +96,16 @@ const getSelectedGov = computed(() =>
   govData.value?.data.find((item) => item.id === form.governorate_id),
 );
 
+// const commission = computed(
+//   () =>
+//     (productForm.price -
+//       productData.data.price +
+//       productData.data.minCommission) *
+//     productForm.quantity,
+// );
+
+const priceForm = ref(quickOrderState.value?.price);
+
 const detailsComputed = computed(() => {
   return {
     ...quickOrderState.value,
@@ -104,12 +114,16 @@ const detailsComputed = computed(() => {
         ...quickOrderState.value,
         quantity: quickOrderState.value.qty,
         product: quickOrderState.value,
-        final_price: quickOrderState.value.price,
-        minCommission: quickOrderState.value.minCommission,
+        final_price: priceForm.value,
+        price: priceForm.value,
+        minCommission:
+          priceForm.value -
+          quickOrderState.value.price +
+          quickOrderState.value.minCommission,
       },
     ],
-    price: quickOrderState.value.price,
-    final_price: quickOrderState.value.price,
+    price: priceForm.value,
+    final_price: priceForm.value,
     tax_percentage: quickOrderState.value.minCommission,
     delivery_cost: delivery_cost.value,
   };
@@ -170,7 +184,7 @@ const detailsComputed = computed(() => {
               <shared-form-input
                 type="text"
                 class="!w-[200px] h-[53px] bg-transparent text-xl"
-                v-model="quickOrderState.price"
+                v-model="priceForm"
               />
               <div
                 class="absolute top-[1px] left-[1px] bottom-[1px] flex flex-col bg-white rounded-[11px]"
